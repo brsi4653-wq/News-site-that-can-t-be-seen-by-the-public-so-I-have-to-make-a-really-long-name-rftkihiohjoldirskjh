@@ -42,6 +42,9 @@ body {
 
 main { flex: 1; }
 
+/* Highlighted text uses the brand pink, with black text so it stays readable */
+::selection { background: var(--riot-pink); color: var(--blackout); }
+
 a { color: inherit; }
 a:hover { color: var(--riot-pink-text); }
 :focus-visible { outline: 3px solid var(--riot-pink); outline-offset: 2px; }

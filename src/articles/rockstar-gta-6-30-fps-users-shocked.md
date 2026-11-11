@@ -6,7 +6,6 @@ author: "Simon of Global Mayhem"
 date: 2026-11-11T17:52:00-04:00
 quote: "Grand Theft Auto VI has been fully developed from the ground up to provide the best possible experience for the current generation of consoles, targeting 30 frames per second while pushing both platforms to their absolute limits to bring the vast and rich world of Leonida to life."
 quoteSpeaker: "Rockstar Games, Newswire post, November 10, 2026"
-xPost: https://x.com/GermanStrands/status/2120165838024057250
 image: /assets/images/gta-6-vault.webp
 imageAlt: "Two Grand Theft Auto VI characters in body armour holding rifles inside a bank vault as cash falls around them"
 imageCredit: "Rockstar Games"
