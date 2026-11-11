@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 // Settings shared by every article in this folder.
 // The address of an article is /section/file-name/
 const sectionSlugs = ["tech", "ai", "gaming", "canada", "culture"];
@@ -41,7 +42,10 @@ export default {
       data.breaking && data.page && data.page.date
         ? new Date(new Date(data.page.date).getTime() + 24 * HOUR)
         : null,
-    ogImage: (data) => `/og/${data.page.fileSlug}.png`,
+    // The address carries a short code made from the headline. When the
+    // headline changes the address changes, so X and others fetch the new card.
+    ogImage: (data) =>
+      `/og/${data.page.fileSlug}.png?v=${createHash("sha1").update(`${data.title || ""}|${data.breaking ? 1 : 0}`).digest("hex").slice(0, 8)}`,
     // NewsArticle structured data for Google
     schema: (data) => {
       const site = data.site;
