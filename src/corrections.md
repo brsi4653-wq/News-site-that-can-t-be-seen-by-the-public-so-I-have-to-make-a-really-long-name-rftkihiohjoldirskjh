@@ -28,3 +28,5 @@ We do not delete stories because they are embarrassing or inconvenient. A story 
 ## Tell us
 
 If you spot a mistake, tell us on X. Tag us in a post or send us a message, and include a link to the story. We read them.
+
+You can also email us at [simon@globalmayhem.org](mailto:simon@globalmayhem.org).
