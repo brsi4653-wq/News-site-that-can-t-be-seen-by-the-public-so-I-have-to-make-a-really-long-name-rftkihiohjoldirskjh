@@ -87,7 +87,7 @@ Then open the address it prints, usually `http://localhost:8080`.
 - `src/assets/`: styles, logo files and pictures.
 - `src/_data/site.js`: site-wide settings.
 - `lib/og-card.js`: draws the share images.
-- `.github/workflows/deploy.yml`: the instructions GitHub follows to build and publish.
+- `.github/workflows/publish.yml`: the instructions GitHub follows to build and publish.
 
 ## Section pages
 

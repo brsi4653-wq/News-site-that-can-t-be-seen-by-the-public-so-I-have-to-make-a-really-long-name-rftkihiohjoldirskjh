@@ -2,7 +2,7 @@
 # Runs when something is pushed to main, once a day, or by hand from the Actions tab.
 # The daily run keeps the Google News sitemap (last two days only) and the
 # Breaking bar (24 hours only) up to date even on days with no new story.
-name: Build and deploy
+name: Publish site
 
 on:
   push:
@@ -17,7 +17,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: publish-site
   cancel-in-progress: false
 
 jobs:
