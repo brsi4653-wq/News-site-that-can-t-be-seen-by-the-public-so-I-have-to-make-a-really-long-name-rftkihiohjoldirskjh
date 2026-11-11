@@ -37,6 +37,7 @@ More of the story.
 | `date` | Yes | When it was published. See the note on times below. |
 | `author` | No | The byline. If left out it says "Global Mayhem Staff". |
 | `updated` | No | When the story was last changed. Shows an "Updated" time. |
+| `titleNote` | No | A small label under the headline on the story page, for example "Updated title". |
 | `image` | No | A picture, for example `/assets/images/my-photo.jpg`. Put the file in `src/assets/images/`. |
 | `xPost` | No | A link to a post on X, for example a video. The post is shown at the top of the story with a credit to the account. If you also give an `image`, the story page shows the X post and the image is used as the picture on the homepage. |
 | `imageAlt` | No | A short description of the picture for people who cannot see it. |

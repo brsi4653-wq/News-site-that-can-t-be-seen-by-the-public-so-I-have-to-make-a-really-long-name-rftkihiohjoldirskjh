@@ -1,5 +1,6 @@
 ---
-title: "Nvidia plummets after recent events"
+title: "Nvidia board reportedly preparing to remove CEO Jensen Huang"
+titleNote: "Updated title"
 summary: "Nvidia shares have plunged around 30% from their October highs as the board investigates CEO Jensen Huang and worries grow about AI spending."
 section: ai
 author: "Simon of Global Mayhem"

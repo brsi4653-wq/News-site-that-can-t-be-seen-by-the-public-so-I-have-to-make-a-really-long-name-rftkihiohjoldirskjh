@@ -10,6 +10,9 @@ layout: layouts/base.njk
   <header class="article__header">
     {% set tagSection = section %}{% include "section-tag.njk" %}
     <h1 class="article__headline">{{ title }}</h1>
+    {%- if titleNote %}
+    <p class="article__titlenote">{{ titleNote }}</p>
+    {%- endif %}
     {%- if summary %}
     <p class="article__summary">{{ summary }}</p>
     {%- endif %}
