@@ -5,18 +5,17 @@ pagination:
   size: 1
   alias: sec
   addAllPagesToCollections: true
-permalink: "/{{ sec.slug }}/"
 eleventyComputed:
   title: "{{ sec.name }}"
   description: "{{ sec.description }}"
 ---
 {%- set stories = collections.articles | inSection(sec.slug) %}
-<div class="feed">
+<div class="wrap feed">
   <h1 class="section-title">{{ sec.name }}</h1>
   {%- if stories.length == 0 %}
   <p class="empty">No {{ sec.name }} stories yet. Check back soon.</p>
   {%- else %}
-  <ol class="rows">
+  <ol class="rows rows--grid">
     {%- set showSection = false %}
     {%- for story in stories %}
     {% include "story-row.njk" %}

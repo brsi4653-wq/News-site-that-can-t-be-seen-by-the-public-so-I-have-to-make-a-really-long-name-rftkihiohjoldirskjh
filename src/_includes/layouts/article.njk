@@ -2,13 +2,13 @@
 layout: layouts/base.njk
 ---
 {%- if live %}
-<div class="bar bar--live"><div class="bar__inner"><span class="dot"></span>Live / ongoing coverage</div></div>
+<div class="bar bar--live"><div class="wrap bar__inner"><span class="dot"></span>Live / ongoing coverage</div></div>
 {%- elif breaking %}
-<div class="bar bar--breaking"><div class="bar__inner">Breaking</div></div>
+<div class="bar bar--breaking"><div class="wrap bar__inner">Breaking</div></div>
 {%- endif %}
-<article class="article">
+<article class="wrap article">
   <header class="article__header">
-    <a class="tag" href="{{ ('/' + section + '/') | url }}">{{ section | sectionName }}</a>
+    {% set tagSection = section %}{% include "section-tag.njk" %}
     <h1 class="article__headline">{{ title }}</h1>
     {%- if summary %}
     <p class="article__summary">{{ summary }}</p>
@@ -22,26 +22,44 @@ layout: layouts/base.njk
     </div>
   </header>
 
-  {%- if image %}
-  <figure class="article__figure">
-    <img src="{{ image | url }}" alt="{{ imageAlt or '' }}" width="1200" height="675">
-    {%- if imageCredit %}<figcaption>{{ imageCredit }}</figcaption>{% endif %}
-  </figure>
-  {%- endif %}
+  <div class="article__cols">
+    <div class="article__main">
+      {%- if image %}
+      <figure class="article__figure">
+        <img src="{{ image | url }}" alt="{{ imageAlt or '' }}" width="1200" height="675">
+        {%- if imageCredit %}<figcaption>{{ imageCredit }}</figcaption>{% endif %}
+      </figure>
+      {%- endif %}
 
-  {%- if quote %}
-  <figure class="pullquote">
-    {% set markClass = "mark--pinktext" %}{% include "mark.njk" %}
-    <blockquote>{{ quote }}</blockquote>
-    {%- if quoteSpeaker %}<figcaption>{{ quoteSpeaker }}</figcaption>{% endif %}
-  </figure>
-  {%- endif %}
+      {%- if quote %}
+      <figure class="pullquote">
+        {% set markClass = "mark--pinktext" %}{% include "mark.njk" %}
+        <blockquote>{{ quote }}</blockquote>
+        {%- if quoteSpeaker %}<figcaption>{{ quoteSpeaker }}</figcaption>{% endif %}
+      </figure>
+      {%- endif %}
 
-  <div class="article__body">
+      <div class="article__body">
 {{ content | safe }}
-  </div>
+      </div>
 
-  <footer class="article__footer">
-    <a href="{{ '/corrections/' | url }}">Spotted a mistake? Read our corrections policy.</a>
-  </footer>
+      <footer class="article__footer">
+        <a href="{{ '/corrections/' | url }}">Spotted a mistake? Read our corrections policy.</a>
+      </footer>
+    </div>
+
+    <aside class="article__aside">
+      {%- set more = collections.articles | others(page.url, 5) %}
+      {%- if more.length %}
+      <h2 class="label">Latest</h2>
+      <ol class="rows rows--stacked">
+        {%- set showSection = true %}
+        {%- for story in more %}
+        {% include "story-row.njk" %}
+        {%- endfor %}
+      </ol>
+      {%- endif %}
+      {% include "brand-panel.njk" %}
+    </aside>
+  </div>
 </article>

@@ -64,6 +64,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("inSection", (items, slug) =>
     (items || []).filter((a) => a.data.section === slug)
   );
+  // Other stories to suggest next to an article
+  eleventyConfig.addFilter("others", (items, url, count) =>
+    (items || []).filter((a) => a.url !== url).slice(0, count)
+  );
   eleventyConfig.addFilter("sectionName", (slug) => {
     const s = site.sections.find((x) => x.slug === slug);
     return s ? s.name : slug;

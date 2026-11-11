@@ -1,11 +1,18 @@
 ---
 layout: layouts/base.njk
 ---
-<article class="article">
+<article class="wrap article">
   <header class="article__header">
     <h1 class="article__headline">{{ title }}</h1>
   </header>
-  <div class="article__body">
+  <div class="article__cols">
+    <div class="article__main">
+      <div class="article__body">
 {{ content | safe }}
+      </div>
+    </div>
+    <aside class="article__aside">
+      {% include "brand-panel.njk" %}
+    </aside>
   </div>
 </article>

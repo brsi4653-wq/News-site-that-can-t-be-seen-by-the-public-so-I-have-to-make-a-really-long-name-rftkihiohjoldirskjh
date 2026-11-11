@@ -58,7 +58,7 @@ Pink means Breaking: a one-off big story. Red means Live: ongoing coverage. Do n
 
 - One page per story with its own title, description, share card tags and `NewsArticle` data for Google.
 - A branded share image per story (`/og/file-name.png`), plus a default one.
-- The homepage feed and a page for each section.
+- The homepage, which shows the top story, the latest stories beside it and the rest in a grid on a computer, and one simple column on a phone.
 - `sitemap.xml`, `news-sitemap.xml` (stories from the last two days, for Google News), `robots.txt` and `feed.xml` (RSS).
 - A ping to IndexNow after each publish, so Bing and others hear about new stories right away.
 
@@ -89,6 +89,6 @@ Then open the address it prints, usually `http://localhost:8080`.
 - `lib/og-card.js`: draws the share images.
 - `.github/workflows/deploy.yml`: the instructions GitHub follows to build and publish.
 
-## Sample content
+## Section pages
 
-Every story marked `[Sample]` is a placeholder. Delete those files from `src/articles/` once real stories exist.
+Every story still needs a `section`, because it is part of the web address. The section menu and the section pages themselves are switched off for now. To bring them back, change `showSections` to `true` in `src/_data/site.js`.

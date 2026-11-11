@@ -56,16 +56,20 @@
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="masthead">
-  <div class="masthead__inner">
+  <div class="wrap masthead__inner{% if site.showSections %} masthead__inner--nav{% endif %}">
     <a class="lockup" href="{{ '/' | url }}" aria-label="{{ site.displayName }} home">
       {% set markClass = "mark--pink" %}{% include "mark.njk" %}
       <span class="lockup__word">{{ site.displayName }}</span>
     </a>
+    {%- if site.showSections %}
     <nav class="nav" aria-label="Sections">
       {%- for s in site.sections %}
       <a href="{{ ('/' + s.slug + '/') | url }}"{% if page.url == '/' + s.slug + '/' or (isArticle and section == s.slug) %} aria-current="true"{% endif %}>{{ s.name }}</a>
       {%- endfor %}
     </nav>
+    {%- else %}
+    <span class="masthead__tagline">{{ site.tagline }}</span>
+    {%- endif %}
   </div>
 </header>
 
@@ -74,7 +78,7 @@
 </main>
 
 <footer class="footer">
-  <div class="footer__inner">
+  <div class="wrap footer__inner">
     <div class="footer__brand">
       {% set markClass = "mark--pink" %}{% include "mark.njk" %}
       <span class="footer__tagline">{{ site.tagline }}</span>

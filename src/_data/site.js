@@ -9,6 +9,9 @@ export default {
   language: "en-CA",
   timezone: "America/Halifax", // Atlantic time, shown as AST or ADT
   defaultAuthor: "Global Mayhem Staff",
+  // Section pages and the section menu are switched off for now.
+  // Change this to true to bring them back.
+  showSections: false,
   xHandle: "", // for example "@globalmayhem". Leave empty until the account exists.
   sections: [
     { slug: "tech", name: "Tech", description: "Tech news from Global Mayhem." },
