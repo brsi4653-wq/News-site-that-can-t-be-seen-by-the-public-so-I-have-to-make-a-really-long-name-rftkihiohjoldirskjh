@@ -73,6 +73,17 @@ export default function (eleventyConfig) {
   );
   // "@name" becomes "name", for building x.com links
   eleventyConfig.addFilter("xUser", (handle) => String(handle || "").replace(/^@/, ""));
+  // X post links: the embed needs the twitter.com form of the address,
+  // without tracking extras on the end.
+  eleventyConfig.addFilter("xEmbedUrl", (link) => {
+    const m = String(link || "").match(/(?:x|twitter)\.com\/([A-Za-z0-9_]+)\/status\/(\d+)/);
+    return m ? `https://twitter.com/${m[1]}/status/${m[2]}` : "";
+  });
+  // The account that posted it, for the credit line
+  eleventyConfig.addFilter("xPostUser", (link) => {
+    const m = String(link || "").match(/(?:x|twitter)\.com\/([A-Za-z0-9_]+)\/status\//);
+    return m ? m[1] : "";
+  });
   eleventyConfig.addFilter("sectionName", (slug) => {
     const s = site.sections.find((x) => x.slug === slug);
     return s ? s.name : slug;

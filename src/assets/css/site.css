@@ -245,6 +245,17 @@ img { max-width: 100%; height: auto; display: block; }
 .article__figure img { width: 100%; }
 .article__figure figcaption { font-size: 13px; color: var(--muted); padding: 8px var(--gutter) 0; }
 
+.article__embed { margin: 0 0 28px; max-width: 550px; }
+.article__embed .twitter-tweet { margin: 0 !important; }
+.article__embed blockquote.twitter-tweet { border-left: 5px solid var(--riot-pink); padding: 14px 18px; background: #e9e5da; font-family: var(--font-ui); font-weight: 600; }
+.article__embed blockquote.twitter-tweet a { color: var(--riot-pink-text); }
+.article__embed figcaption { font-size: 13px; color: var(--muted); padding-top: 8px; }
+.article__embed figcaption a { color: inherit; }
+.row__video {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  border: 1.5px solid currentColor; padding: 1px 6px; margin-left: 4px; vertical-align: middle; white-space: nowrap;
+}
+
 .pullquote { margin: 0 0 28px; display: flex; flex-direction: column; gap: 14px; }
 .pullquote .mark { width: 56px; height: 39px; }
 .pullquote blockquote { margin: 0; font-family: var(--font-body); font-style: italic; font-weight: 600; font-size: clamp(26px, 3.2vw, 44px); line-height: 1.18; }

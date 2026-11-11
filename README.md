@@ -38,6 +38,7 @@ More of the story.
 | `author` | No | The byline. If left out it says "Global Mayhem Staff". |
 | `updated` | No | When the story was last changed. Shows an "Updated" time. |
 | `image` | No | A picture, for example `/assets/images/my-photo.jpg`. Put the file in `src/assets/images/`. |
+| `xPost` | No | A link to a post on X, for example a video. The post is shown at the top of the story with a credit to the account. Use this instead of `image`. |
 | `imageAlt` | No | A short description of the picture for people who cannot see it. |
 | `imageCredit` | No | Who took the picture. |
 | `quote` | No | The strongest quote in the story. The story then leads with it. |

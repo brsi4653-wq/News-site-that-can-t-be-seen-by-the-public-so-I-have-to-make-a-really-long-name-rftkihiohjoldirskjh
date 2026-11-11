@@ -24,7 +24,15 @@ layout: layouts/base.njk
 
   <div class="article__cols">
     <div class="article__main">
-      {%- if image %}
+      {%- if xPost and (xPost | xEmbedUrl) %}
+      <figure class="article__embed">
+        <blockquote class="twitter-tweet" data-dnt="true" data-conversation="none">
+          <a href="{{ xPost | xEmbedUrl }}">Watch the video from @{{ xPost | xPostUser }} on X</a>
+        </blockquote>
+        <figcaption>Video: <a href="https://x.com/{{ xPost | xPostUser }}" rel="noopener">@{{ xPost | xPostUser }}</a> on X</figcaption>
+      </figure>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      {%- elif image %}
       <figure class="article__figure">
         <img src="{{ image | url }}" alt="{{ imageAlt or '' }}" width="1200" height="675">
         {%- if imageCredit %}<figcaption>{{ imageCredit }}</figcaption>{% endif %}
