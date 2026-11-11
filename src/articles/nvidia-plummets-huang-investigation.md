@@ -6,6 +6,11 @@ author: "Simon of Global Mayhem"
 date: 2026-11-11T18:22:00-04:00
 live: true
 liveHours: 24
+quote: "The stock is being penalized for Jensen Huang's personal transgression, which has invited a great deal of uncertainty into the mix, but the market isn't caught up in the notion that this situation is going to have a systemic domino effect."
+quoteSpeaker: "Patrick O'Hare"
+image: /assets/images/jensen-huang-ap.webp
+imageAlt: "Nvidia CEO Jensen Huang listens during an event at the U.S. Institute of Peace in Washington on October 8, 2026"
+imageCredit: "Nvidia CEO Jensen Huang listens as President Donald Trump speaks during an event at the U.S. Institute of Peace, Oct. 8, 2026, in Washington. Photo: Julia Demaree Nikhinson/AP"
 ---
 Leading chipmaker Nvidia is facing its worst period in over a year, with shares currently down around 30% from October highs. Its share price fell to $168.89 on November 10, near its low for the past year.
 
