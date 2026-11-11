@@ -22,7 +22,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber + 1
   <h1 class="visually-hidden">{{ site.name }}: latest news</h1>
 
   {%- if first and breakingStory %}
-  <a class="bar bar--breaking bar--link" href="{{ breakingStory.url | url }}">Breaking / {{ breakingStory.data.title }}</a>
+  <a class="bar bar--breaking bar--link" data-until="{{ breakingStory.data.breakingUntil | iso }}" href="{{ breakingStory.url | url }}">Breaking / {{ breakingStory.data.title }}</a>
   {%- endif %}
 
   {%- set rest = stories %}
@@ -38,7 +38,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber + 1
         {%- endif %}
         <div class="top__text">
           {%- if not top.data.image %}{% set markClass = "mark--pink" %}{% include "mark.njk" %}{% endif %}
-          <span class="top__tag">{% if top.data.live %}<span class="live live--dark"><span class="dot"></span>Live</span> / {% endif %}{{ top.data.section | sectionName }} / {{ top.date | shortDate }}, {{ top.date | time }}</span>
+          <span class="top__tag">{% if top.data.isLive %}<span class="live-wrap" data-until="{{ top.data.liveUntil | iso }}"><span class="live live--dark"><span class="dot"></span>Live</span> / </span>{% endif %}{{ top.data.section | sectionName }} / {{ top.date | shortDate }}, {{ top.date | time }}</span>
           <h2 class="top__headline">{{ top.data.title }}</h2>
           {%- if top.data.summary %}<p class="top__summary">{{ top.data.summary }}</p>{% endif %}
         </div>

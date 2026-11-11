@@ -43,7 +43,8 @@ More of the story.
 | `quote` | No | The strongest quote in the story. The story then leads with it. |
 | `quoteSpeaker` | No | Who said it, for example `"Jane Doe, mayor"`. |
 | `breaking` | No | `true` puts the story in the pink Breaking bar for 24 hours and makes its share card pink. |
-| `live` | No | `true` adds the red Live label. Remove it when coverage ends. |
+| `live` | No | `true` adds the red Live label. It switches itself off when its clock runs out. |
+| `liveHours` | No | How long the Live label stays on, in hours. If left out it is 24. The clock starts at `date`, or at `updated` if the story has one. |
 | `sample` | No | `true` marks placeholder content. It is hidden from Google, the sitemaps and RSS. |
 
 ### Times

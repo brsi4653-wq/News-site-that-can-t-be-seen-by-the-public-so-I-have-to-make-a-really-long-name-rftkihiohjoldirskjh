@@ -4,7 +4,7 @@
   </div>
   <div class="row__main">
     <div class="row__tags">
-      {%- if story.data.live %}<span class="live"><span class="dot"></span>Live</span>{% endif %}
+      {%- if story.data.isLive %}<span class="live" data-until="{{ story.data.liveUntil | iso }}"><span class="dot"></span>Live</span>{% endif %}
       {%- if showSection %}<span class="tag">{{ story.data.section | sectionName }}</span>{% endif %}
     </div>
     {%- if story.data.quote %}

@@ -94,5 +94,12 @@
     <p class="footer__legal">&copy; {{ buildTime | year }} {{ site.name }}. Made in Canada.</p>
   </div>
 </footer>
+<script>
+// Live labels and the Breaking bar carry an end time. Once it has passed,
+// remove them, so they switch off on their own without a new publish.
+document.querySelectorAll("[data-until]").forEach(function (el) {
+  if (Date.now() > Date.parse(el.getAttribute("data-until"))) el.remove();
+});
+</script>
 </body>
 </html>

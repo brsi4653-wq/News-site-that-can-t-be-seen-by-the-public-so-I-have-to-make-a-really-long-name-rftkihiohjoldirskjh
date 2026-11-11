@@ -2,6 +2,18 @@
 // The address of an article is /section/file-name/
 const sectionSlugs = ["tech", "ai", "gaming", "canada", "culture"];
 
+const HOUR = 60 * 60 * 1000;
+
+// When the red Live label should switch itself off. The clock starts at the
+// published time, or at the updated time if the story has one.
+// liveHours sets the length. With no liveHours it is 24 hours.
+const liveUntil = (data) => {
+  if (!data.live || !data.page || !data.page.date) return null;
+  const hours = Number(data.liveHours) > 0 ? Number(data.liveHours) : 24;
+  const start = new Date(data.updated || data.page.date).getTime();
+  return new Date(start + hours * HOUR);
+};
+
 const urlFor = (data) => `/${data.section}/${data.page.fileSlug}/`;
 
 export default {
@@ -18,6 +30,17 @@ export default {
     },
     description: (data) => data.summary,
     noindex: (data) => Boolean(data.sample),
+    liveUntil: (data) => liveUntil(data),
+    // True only while the Live clock is still running
+    isLive: (data) => {
+      const until = liveUntil(data);
+      return Boolean(until && (data.buildTime || new Date()) < until);
+    },
+    // The Breaking bar and pink share card last 24 hours
+    breakingUntil: (data) =>
+      data.breaking && data.page && data.page.date
+        ? new Date(new Date(data.page.date).getTime() + 24 * HOUR)
+        : null,
     ogImage: (data) => `/og/${data.page.fileSlug}.png`,
     // NewsArticle structured data for Google
     schema: (data) => {

@@ -1,8 +1,8 @@
 ---
 layout: layouts/base.njk
 ---
-{%- if live %}
-<div class="bar bar--live"><div class="wrap bar__inner"><span class="dot"></span>Live / ongoing coverage</div></div>
+{%- if isLive %}
+<div class="bar bar--live" data-until="{{ liveUntil | iso }}"><div class="wrap bar__inner"><span class="dot"></span>Live / ongoing coverage</div></div>
 {%- elif breaking %}
 <div class="bar bar--breaking"><div class="wrap bar__inner">Breaking</div></div>
 {%- endif %}
