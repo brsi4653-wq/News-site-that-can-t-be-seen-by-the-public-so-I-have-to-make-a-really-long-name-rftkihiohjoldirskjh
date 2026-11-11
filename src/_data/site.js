@@ -14,7 +14,7 @@ export default {
   showSections: false,
   // The X account readers should contact, for example "@globalmayhem".
   // While this is empty, the X buttons and links are hidden.
-  xHandle: process.env.X_HANDLE || "",
+  xHandle: process.env.X_HANDLE || "@GlobalMayhemCA",
   sections: [
     { slug: "tech", name: "Tech", description: "Tech news from Global Mayhem." },
     { slug: "ai", name: "AI", description: "AI news from Global Mayhem." },
