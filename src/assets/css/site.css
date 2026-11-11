@@ -285,6 +285,14 @@ img { max-width: 100%; height: auto; display: block; }
 .article__body hr { border: 0; border-top: 1px solid var(--rule); margin: 2em 0; }
 .article__body code { font-family: var(--font-mono); font-size: 0.85em; background: #e9e5da; padding: 2px 5px; }
 
+/* Tips box: a quiet invitation to send story tips, shown beside the stories */
+.tips { border: 1px solid var(--rule); border-left: 5px solid var(--riot-pink); padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+.tips__title { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: 24px; line-height: 1.1; margin: 0; }
+.tips__text { font-family: var(--font-body); font-size: 16px; margin: 0; overflow-wrap: anywhere; }
+.tips__text a { color: var(--riot-pink-text); text-underline-offset: 3px; }
+.tips__note { font-size: 13px; color: var(--muted); margin: 0; }
+.latest .tips { margin-top: 24px; }
+
 .article__footer {
   margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule);
   font-size: 14px; color: var(--muted); max-width: var(--read);

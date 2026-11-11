@@ -53,6 +53,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber + 1
         {% include "story-row.njk" %}
         {%- endfor %}
       </ol>
+      {% include "tips-box.njk" %}
     </section>
     {%- endif %}
   </div>

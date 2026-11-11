@@ -15,6 +15,12 @@ export default {
   // The X account readers should contact, for example "@globalmayhem".
   // While this is empty, the X buttons and links are hidden.
   xHandle: process.env.X_HANDLE || "@GlobalMayhemCA",
+  // Public email addresses shown on the site.
+  emails: {
+    contact: "contact@globalmayhem.org",
+    tips: "tips@globalmayhem.org",
+    corrections: "corrections@globalmayhem.org",
+  },
   sections: [
     { slug: "tech", name: "Tech", description: "Tech news from Global Mayhem." },
     { slug: "ai", name: "AI", description: "AI news from Global Mayhem." },

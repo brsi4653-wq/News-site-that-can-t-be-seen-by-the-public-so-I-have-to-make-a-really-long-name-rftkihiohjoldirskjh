@@ -53,7 +53,7 @@ layout: layouts/base.njk
 
       <footer class="article__footer">
         {%- if site.xHandle %}
-        Spotted a mistake? <a href="https://x.com/{{ site.xHandle | xUser }}" rel="noopener">Tell us on X at @{{ site.xHandle | xUser }}</a>. Here is <a href="{{ '/corrections/' | url }}">how we handle corrections</a>.
+        Spotted a mistake? <a href="https://x.com/{{ site.xHandle | xUser }}" rel="noopener">Tell us on X at @{{ site.xHandle | xUser }}</a> or email <a href="mailto:{{ site.emails.corrections }}">{{ site.emails.corrections }}</a>. Here is <a href="{{ '/corrections/' | url }}">how we handle corrections</a>.
         {%- else %}
         <a href="{{ '/corrections/' | url }}">Spotted a mistake? Read our corrections policy.</a>
         {%- endif %}
@@ -71,6 +71,7 @@ layout: layouts/base.njk
         {%- endfor %}
       </ol>
       {%- endif %}
+      {% include "tips-box.njk" %}
       {% include "brand-panel.njk" %}
     </aside>
   </div>
