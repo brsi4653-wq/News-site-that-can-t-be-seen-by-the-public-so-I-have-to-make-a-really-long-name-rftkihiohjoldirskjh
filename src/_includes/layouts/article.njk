@@ -44,7 +44,11 @@ layout: layouts/base.njk
       </div>
 
       <footer class="article__footer">
+        {%- if site.xHandle %}
+        Spotted a mistake? <a href="https://x.com/{{ site.xHandle | xUser }}" rel="noopener">Tell us on X at @{{ site.xHandle | xUser }}</a>. Here is <a href="{{ '/corrections/' | url }}">how we handle corrections</a>.
+        {%- else %}
         <a href="{{ '/corrections/' | url }}">Spotted a mistake? Read our corrections policy.</a>
+        {%- endif %}
       </footer>
     </div>
 

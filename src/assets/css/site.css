@@ -204,6 +204,22 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .panel__link:hover { color: var(--bone); }
 
+/* Big "find us on X" link */
+.xlink {
+  display: flex; align-items: center; gap: 18px; margin-top: 32px; padding: 22px 24px; max-width: var(--read);
+  background: var(--blackout); color: var(--bone); text-decoration: none;
+  border-left: 8px solid var(--riot-pink); transition: background 0.15s, color 0.15s;
+}
+.xlink .mark { width: 52px; height: 36px; fill: var(--riot-pink); transition: fill 0.15s; }
+.xlink__text { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1; }
+.xlink__label { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-on-dark); }
+.xlink__handle { font-family: var(--font-display); font-size: clamp(28px, 6vw, 44px); line-height: 1; overflow-wrap: anywhere; }
+.xlink__arrow { font-family: var(--font-display); font-size: 36px; line-height: 1; color: var(--riot-pink); transition: transform 0.15s, color 0.15s; }
+.xlink:hover { background: var(--riot-pink); color: var(--blackout); border-left-color: var(--blackout); }
+.xlink:hover .mark { fill: var(--blackout); }
+.xlink:hover .xlink__label, .xlink:hover .xlink__arrow { color: var(--blackout); }
+.xlink:hover .xlink__arrow { transform: translateX(6px); }
+
 /* Article pages: loud headline, calm reading */
 .article { padding-top: 28px; padding-bottom: 64px; }
 .article__header { display: flex; flex-direction: column; gap: 14px; }

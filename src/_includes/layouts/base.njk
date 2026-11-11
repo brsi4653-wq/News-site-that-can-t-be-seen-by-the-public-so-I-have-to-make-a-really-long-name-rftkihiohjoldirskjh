@@ -87,6 +87,9 @@
       <a href="{{ '/about/' | url }}">About</a>
       <a href="{{ '/corrections/' | url }}">Corrections</a>
       <a href="{{ '/feed.xml' | url }}">RSS</a>
+      {%- if site.xHandle %}
+      <a href="https://x.com/{{ site.xHandle | xUser }}" rel="noopener">X</a>
+      {%- endif %}
     </nav>
     <p class="footer__legal">&copy; {{ buildTime | year }} {{ site.name }}. Made in Canada.</p>
   </div>

@@ -1,0 +1,10 @@
+{%- if site.xHandle %}
+<a class="xlink" href="https://x.com/{{ site.xHandle | xUser }}" rel="noopener">
+  {% set markClass = "" %}{% include "mark.njk" %}
+  <span class="xlink__text">
+    <span class="xlink__label">Talk to us on X</span>
+    <span class="xlink__handle">@{{ site.xHandle | xUser }}</span>
+  </span>
+  <span class="xlink__arrow" aria-hidden="true">&rarr;</span>
+</a>
+{%- endif %}

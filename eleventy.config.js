@@ -68,6 +68,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("others", (items, url, count) =>
     (items || []).filter((a) => a.url !== url).slice(0, count)
   );
+  // "@name" becomes "name", for building x.com links
+  eleventyConfig.addFilter("xUser", (handle) => String(handle || "").replace(/^@/, ""));
   eleventyConfig.addFilter("sectionName", (slug) => {
     const s = site.sections.find((x) => x.slug === slug);
     return s ? s.name : slug;

@@ -3,6 +3,7 @@ layout: layouts/page.njk
 title: Corrections policy
 description: How Global Mayhem handles mistakes, corrections and updates to its stories.
 permalink: /corrections/
+showContact: true
 ---
 Global Mayhem's job is to explain the chaos, not add to it. That only works if you can trust what you read here, so when we get something wrong, we fix it and we say so.
 
@@ -26,4 +27,4 @@ We do not delete stories because they are embarrassing or inconvenient. A story 
 
 ## Tell us
 
-If you spot a mistake, please let us know. Contact details will be listed on the [About](/about/) page.
+If you spot a mistake, tell us on X. Tag us in a post or send us a message, and include a link to the story. We read them.

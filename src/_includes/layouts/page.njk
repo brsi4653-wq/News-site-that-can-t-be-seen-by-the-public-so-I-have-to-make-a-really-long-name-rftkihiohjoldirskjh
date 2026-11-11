@@ -10,6 +10,7 @@ layout: layouts/base.njk
       <div class="article__body">
 {{ content | safe }}
       </div>
+      {%- if showContact %}{% include "x-link.njk" %}{% endif %}
     </div>
     <aside class="article__aside">
       {% include "brand-panel.njk" %}

@@ -3,6 +3,7 @@ layout: layouts/page.njk
 title: About
 description: Global Mayhem is free Canadian news about tech, AI, gaming and Canada, written for readers anywhere.
 permalink: /about/
+showContact: true
 ---
 Global Mayhem is a Canadian news site. We cover tech, AI, gaming and Canada.
 
@@ -20,6 +21,6 @@ We're not asking you to take our word over anyone else's. Read our side, read th
 
 The news is chaotic enough. We're not here to add to it. We're here to explain it.
 
-## When we get it wrong
+## Talk to us
 
-We fix it and we say so. Our [corrections policy](/corrections/) explains how.
+We're on X. Tag us or send us a message there. That's the fastest way to reach us, whether it's a tip, a question or a mistake you've spotted.

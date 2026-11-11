@@ -12,7 +12,9 @@ export default {
   // Section pages and the section menu are switched off for now.
   // Change this to true to bring them back.
   showSections: false,
-  xHandle: "", // for example "@globalmayhem". Leave empty until the account exists.
+  // The X account readers should contact, for example "@globalmayhem".
+  // While this is empty, the X buttons and links are hidden.
+  xHandle: process.env.X_HANDLE || "",
   sections: [
     { slug: "tech", name: "Tech", description: "Tech news from Global Mayhem." },
     { slug: "ai", name: "AI", description: "AI news from Global Mayhem." },
