@@ -25,4 +25,4 @@ The news is chaotic enough. We're not here to add to it. We're here to explain i
 
 We're on X. Tag us or send us a message there. That's the fastest way to reach us, whether it's a tip, a question or a mistake you've spotted.
 
-You can also email us at [simon@globalmayhem.org](mailto:simon@globalmayhem.org).
+You can also email us. For general questions, write to [contact@globalmayhem.org](mailto:contact@globalmayhem.org). To send us a tip, write to [tips@globalmayhem.org](mailto:tips@globalmayhem.org).
