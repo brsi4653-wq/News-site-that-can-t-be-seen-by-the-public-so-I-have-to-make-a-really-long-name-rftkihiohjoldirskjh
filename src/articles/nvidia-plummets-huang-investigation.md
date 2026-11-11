@@ -4,6 +4,7 @@ summary: "Nvidia shares have plunged around 30% from their October highs as the 
 section: ai
 author: "Simon of Global Mayhem"
 date: 2026-11-11T18:22:00-04:00
+updated: 2026-11-11T19:15:00-04:00
 live: true
 liveHours: 24
 quote: "The stock is being penalized for Jensen Huang's personal transgression, which has invited a great deal of uncertainty into the mix, but the market isn't caught up in the notion that this situation is going to have a systemic domino effect."
@@ -37,3 +38,15 @@ The price began to decline on November 5 during a broad sell-off in AI chip stoc
 ## What happens next
 
 Nvidia is expected to release its quarterly earnings on November 17. The main question is whether Jensen will stay as CEO.
+
+## Update: Huang could be removed as CEO
+
+*Added November 11 at 7:15 PM AST.*
+
+The Wall Street Journal reported on Wednesday November 11 that Nvidia's board is preparing to remove Jensen Huang as CEO. According to the report, [as carried by The Korea Times](https://www.koreatimes.co.kr/world/20261112/nvidia-is-preparing-to-oust-ceo-jensen-huang-wsj-reports), the board could meet as soon as Wednesday to decide his future.
+
+The New York Times separately reported that Huang had a second affair, with an Nvidia executive who reports to him.
+
+Nvidia shares fell about 8% in after-hours trading following the Journal's report.
+
+No change in leadership has been announced.
