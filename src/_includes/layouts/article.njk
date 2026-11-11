@@ -23,6 +23,7 @@ layout: layouts/base.njk
       <span>Updated <time datetime="{{ updated | iso }}">{{ updated | fullDate }}</time></span>
       {%- endif %}
     </div>
+    {% include "share.njk" %}
   </header>
 
   <div class="article__cols">
@@ -54,6 +55,8 @@ layout: layouts/base.njk
 {{ content | safe }}
       </div>
 
+      {% include "share.njk" %}
+
       <footer class="article__footer">
         {%- if site.xHandle %}
         Spotted a mistake? <a href="https://x.com/{{ site.xHandle | xUser }}" rel="noopener">Tell us on X at @{{ site.xHandle | xUser }}</a> or email <a href="mailto:{{ site.emails.corrections }}">{{ site.emails.corrections }}</a>. Here is <a href="{{ '/corrections/' | url }}">how we handle corrections</a>.
@@ -79,3 +82,31 @@ layout: layouts/base.njk
     </aside>
   </div>
 </article>
+<script>
+// Share buttons. Copy link puts the story address on the clipboard.
+// The More button opens the phone's own share menu, and only shows
+// on devices that have one.
+document.querySelectorAll(".share").forEach(function (box) {
+  var url = box.getAttribute("data-share-url");
+  var title = box.getAttribute("data-share-title");
+  var copy = box.querySelector("[data-share-copy]");
+  var more = box.querySelector("[data-share-native]");
+  copy.addEventListener("click", function () {
+    var done = function () {
+      copy.textContent = "Link copied";
+      setTimeout(function () { copy.textContent = "Copy link"; }, 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done, function () { window.prompt("Copy this link:", url); });
+    } else {
+      window.prompt("Copy this link:", url);
+    }
+  });
+  if (navigator.share) {
+    more.hidden = false;
+    more.addEventListener("click", function () {
+      navigator.share({ title: title, url: url }).catch(function () {});
+    });
+  }
+});
+</script>

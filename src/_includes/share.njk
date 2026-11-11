@@ -1,0 +1,7 @@
+{%- set shareUrl = page.url | absolute %}
+<div class="share" data-share-url="{{ shareUrl }}" data-share-title="{{ title }}">
+  <span class="share__label">Share</span>
+  <a class="share__btn" href="https://x.com/intent/post?text={{ title | urlencode }}&amp;url={{ shareUrl | urlencode }}{% if site.xHandle %}&amp;via={{ site.xHandle | xUser }}{% endif %}" target="_blank" rel="noopener">Share on X</a>
+  <button class="share__btn" type="button" data-share-copy>Copy link</button>
+  <button class="share__btn" type="button" data-share-native hidden>More</button>
+</div>
