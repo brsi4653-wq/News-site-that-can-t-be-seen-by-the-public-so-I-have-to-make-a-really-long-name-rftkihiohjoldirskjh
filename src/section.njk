@@ -1,0 +1,26 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: site.sections
+  size: 1
+  alias: sec
+  addAllPagesToCollections: true
+permalink: "/{{ sec.slug }}/"
+eleventyComputed:
+  title: "{{ sec.name }}"
+  description: "{{ sec.description }}"
+---
+{%- set stories = collections.articles | inSection(sec.slug) %}
+<div class="feed">
+  <h1 class="section-title">{{ sec.name }}</h1>
+  {%- if stories.length == 0 %}
+  <p class="empty">No {{ sec.name }} stories yet. Check back soon.</p>
+  {%- else %}
+  <ol class="rows">
+    {%- set showSection = false %}
+    {%- for story in stories %}
+    {% include "story-row.njk" %}
+    {%- endfor %}
+  </ol>
+  {%- endif %}
+</div>

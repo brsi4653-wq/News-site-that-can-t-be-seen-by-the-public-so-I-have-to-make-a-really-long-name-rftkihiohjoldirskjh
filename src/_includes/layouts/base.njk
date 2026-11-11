@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="{{ site.language }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{%- set pageTitle %}{% if title %}{{ title }} | {{ site.name }}{% else %}{{ site.name }}: {{ site.tagline }}{% endif %}{% endset %}
+{%- set pageDescription = description or site.description %}
+{%- set canonical = page.url | absolute %}
+{%- set shareImage = (ogImage or "/og/default.png") | absolute %}
+<title>{{ pageTitle | safe }}</title>
+<meta name="description" content="{{ pageDescription }}">
+<link rel="canonical" href="{{ canonical }}">
+{%- if noindex %}
+<meta name="robots" content="noindex">
+{%- else %}
+<meta name="robots" content="max-image-preview:large">
+{%- endif %}
+
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:locale" content="en_CA">
+<meta property="og:type" content="{% if isArticle %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{{ title or site.name }}">
+<meta property="og:description" content="{{ pageDescription }}">
+<meta property="og:url" content="{{ canonical }}">
+<meta property="og:image" content="{{ shareImage }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+{%- if isArticle %}
+<meta property="article:published_time" content="{{ page.date | iso }}">
+<meta property="article:modified_time" content="{{ (updated or page.date) | iso }}">
+<meta property="article:section" content="{{ section | sectionName }}">
+{%- endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ title or site.name }}">
+<meta name="twitter:description" content="{{ pageDescription }}">
+<meta name="twitter:image" content="{{ shareImage }}">
+{%- if site.xHandle %}
+<meta name="twitter:site" content="{{ site.xHandle }}">
+{%- endif %}
+
+<link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ '/feed.xml' | absolute }}">
+<link rel="icon" href="{{ '/assets/logo/mayhem-favicon.svg' | url }}" type="image/svg+xml">
+<link rel="icon" href="{{ '/assets/logo/mayhem-favicon-32.png' | url }}" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="{{ '/assets/logo/mayhem-favicon-180.png' | url }}">
+<meta name="theme-color" content="#111111">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="{{ '/assets/css/site.css' | url }}">
+{%- if schema %}
+<script type="application/ld+json">{{ schema | jsonld | safe }}</script>
+{%- endif %}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="masthead__inner">
+    <a class="lockup" href="{{ '/' | url }}" aria-label="{{ site.displayName }} home">
+      {% set markClass = "mark--pink" %}{% include "mark.njk" %}
+      <span class="lockup__word">{{ site.displayName }}</span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      {%- for s in site.sections %}
+      <a href="{{ ('/' + s.slug + '/') | url }}"{% if page.url == '/' + s.slug + '/' or (isArticle and section == s.slug) %} aria-current="true"{% endif %}>{{ s.name }}</a>
+      {%- endfor %}
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+{{ content | safe }}
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      {% set markClass = "mark--pink" %}{% include "mark.njk" %}
+      <span class="footer__tagline">{{ site.tagline }}</span>
+    </div>
+    <nav class="footer__nav" aria-label="Site">
+      <a href="{{ '/about/' | url }}">About</a>
+      <a href="{{ '/corrections/' | url }}">Corrections</a>
+      <a href="{{ '/feed.xml' | url }}">RSS</a>
+    </nav>
+    <p class="footer__legal">&copy; {{ buildTime | year }} {{ site.name }}. Made in Canada.</p>
+  </div>
+</footer>
+</body>
+</html>

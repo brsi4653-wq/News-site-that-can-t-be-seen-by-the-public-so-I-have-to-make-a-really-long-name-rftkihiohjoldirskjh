@@ -1,0 +1,58 @@
+# Builds the site and publishes it to GitHub Pages.
+# Runs when something is pushed to main, once a day, or by hand from the Actions tab.
+# The daily run keeps the Google News sitemap (last two days only) and the
+# Breaking bar (24 hours only) up to date even on days with no new story.
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - id: pages
+        uses: actions/configure-pages@v6
+      - run: npm ci
+      # base_path is empty once the custom domain is connected. Before that it is
+      # the repository name, so the site also works at the github.io address.
+      - run: npx @11ty/eleventy --pathprefix="${{ steps.pages.outputs.base_path }}/"
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+      # Tell Bing and other IndexNow search engines about new stories right away.
+      # Google does not use IndexNow. It reads the sitemaps instead.
+      - uses: actions/checkout@v7
+        if: github.event_name != 'schedule'
+      - name: Ping IndexNow
+        if: github.event_name != 'schedule'
+        continue-on-error: true
+        run: node scripts/indexnow.mjs

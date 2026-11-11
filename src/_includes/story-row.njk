@@ -1,0 +1,23 @@
+<li class="row">
+  <div class="row__time">
+    <time datetime="{{ story.date | iso }}"><span>{{ story.date | shortDate }}</span> <span>{{ story.date | time }}</span></time>
+  </div>
+  <div class="row__main">
+    <div class="row__tags">
+      {%- if story.data.live %}<span class="live"><span class="dot"></span>Live</span>{% endif %}
+      {%- if showSection %}<span class="tag">{{ story.data.section | sectionName }}</span>{% endif %}
+    </div>
+    {%- if story.data.quote %}
+    <a class="row__link row__link--quote" href="{{ story.url | url }}">
+      <span class="row__quote">{% set markClass = "mark--pink" %}{% include "mark.njk" %}<span>{{ story.data.quote }}</span></span>
+      {%- if story.data.quoteSpeaker %}<span class="row__speaker">{{ story.data.quoteSpeaker }}</span>{% endif %}
+      <span class="row__under">{{ story.data.title }}</span>
+    </a>
+    {%- else %}
+    <a class="row__link{% if story.data.image %} row__link--thumb{% endif %}" href="{{ story.url | url }}">
+      {%- if story.data.image %}<img class="row__thumb" src="{{ story.data.image | url }}" alt="" width="140" height="94" loading="lazy">{% endif %}
+      <span class="row__headline">{{ story.data.title }}</span>
+    </a>
+    {%- endif %}
+  </div>
+</li>

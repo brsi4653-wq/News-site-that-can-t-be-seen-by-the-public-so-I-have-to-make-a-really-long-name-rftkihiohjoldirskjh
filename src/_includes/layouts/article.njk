@@ -1,0 +1,47 @@
+---
+layout: layouts/base.njk
+---
+{%- if live %}
+<div class="bar bar--live"><div class="bar__inner"><span class="dot"></span>Live / ongoing coverage</div></div>
+{%- elif breaking %}
+<div class="bar bar--breaking"><div class="bar__inner">Breaking</div></div>
+{%- endif %}
+<article class="article">
+  <header class="article__header">
+    <a class="tag" href="{{ ('/' + section + '/') | url }}">{{ section | sectionName }}</a>
+    <h1 class="article__headline">{{ title }}</h1>
+    {%- if summary %}
+    <p class="article__summary">{{ summary }}</p>
+    {%- endif %}
+    <div class="article__meta">
+      <span class="article__byline">By {{ author or site.defaultAuthor }}</span>
+      <span>Published <time datetime="{{ page.date | iso }}">{{ page.date | fullDate }}</time></span>
+      {%- if updated %}
+      <span>Updated <time datetime="{{ updated | iso }}">{{ updated | fullDate }}</time></span>
+      {%- endif %}
+    </div>
+  </header>
+
+  {%- if image %}
+  <figure class="article__figure">
+    <img src="{{ image | url }}" alt="{{ imageAlt or '' }}" width="1200" height="675">
+    {%- if imageCredit %}<figcaption>{{ imageCredit }}</figcaption>{% endif %}
+  </figure>
+  {%- endif %}
+
+  {%- if quote %}
+  <figure class="pullquote">
+    {% set markClass = "mark--pinktext" %}{% include "mark.njk" %}
+    <blockquote>{{ quote }}</blockquote>
+    {%- if quoteSpeaker %}<figcaption>{{ quoteSpeaker }}</figcaption>{% endif %}
+  </figure>
+  {%- endif %}
+
+  <div class="article__body">
+{{ content | safe }}
+  </div>
+
+  <footer class="article__footer">
+    <a href="{{ '/corrections/' | url }}">Spotted a mistake? Read our corrections policy.</a>
+  </footer>
+</article>

@@ -1,0 +1,55 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.articles
+  size: 30
+  alias: stories
+permalink: "{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber + 1 }}/{% else %}/{% endif %}"
+---
+{%- set first = pagination.pageNumber == 0 %}
+{%- set breakingStory = collections.breaking | first %}
+<div class="feed">
+  <h1 class="visually-hidden">{{ site.name }}: latest news</h1>
+
+  {%- if first and breakingStory %}
+  <a class="bar bar--breaking bar--link" href="{{ breakingStory.url | url }}">Breaking / {{ breakingStory.data.title }}</a>
+  {%- endif %}
+
+  {%- if stories.length == 0 %}
+  <p class="empty">No stories yet. Check back soon.</p>
+  {%- endif %}
+
+  {%- set rest = stories %}
+  {%- if first and stories.length %}
+  {%- set top = stories[0] %}
+  {%- set rest = stories.slice(1) %}
+  <article class="top">
+    <a class="top__link" href="{{ top.url | url }}">
+      {%- if top.data.image %}
+      <img class="top__image" src="{{ top.data.image | url }}" alt="{{ top.data.imageAlt or '' }}" width="1200" height="675">
+      {%- endif %}
+      <div class="top__text">
+        <span class="top__tag">{% if top.data.live %}<span class="live live--dark"><span class="dot"></span>Live</span> / {% endif %}{{ top.data.section | sectionName }} / {{ top.date | shortDate }}, {{ top.date | time }}</span>
+        <h2 class="top__headline">{{ top.data.title }}</h2>
+        {%- if top.data.summary %}<p class="top__summary">{{ top.data.summary }}</p>{% endif %}
+      </div>
+    </a>
+  </article>
+  {%- endif %}
+
+  {%- if rest.length %}
+  <ol class="rows">
+    {%- set showSection = true %}
+    {%- for story in rest %}
+    {% include "story-row.njk" %}
+    {%- endfor %}
+  </ol>
+  {%- endif %}
+
+  {%- if pagination.href.previous or pagination.href.next %}
+  <nav class="pager" aria-label="More stories">
+    {%- if pagination.href.previous %}<a class="button" href="{{ pagination.href.previous | url }}">Newer stories</a>{% endif %}
+    {%- if pagination.href.next %}<a class="button" href="{{ pagination.href.next | url }}">Older stories</a>{% endif %}
+  </nav>
+  {%- endif %}
+</div>

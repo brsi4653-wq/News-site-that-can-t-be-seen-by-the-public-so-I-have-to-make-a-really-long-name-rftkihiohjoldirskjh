@@ -1,0 +1,18 @@
+{
+  "name": "global-mayhem",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Global Mayhem news site. Built with Eleventy, hosted on GitHub Pages.",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.8",
+    "@fontsource/anton": "^5.0.0",
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "satori": "^0.63.2"
+  }
+}

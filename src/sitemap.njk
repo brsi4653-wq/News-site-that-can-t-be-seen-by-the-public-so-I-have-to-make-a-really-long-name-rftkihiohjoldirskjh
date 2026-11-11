@@ -1,0 +1,21 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- set newest = collections.published | first %}
+{%- for item in collections.all %}
+{%- set u = item.url %}
+{%- if u and u.slice(-1) == "/" and not item.data.noindex and not item.data.sample and u.indexOf("/page/") != 0 %}
+  <url>
+    <loc>{{ u | absolute }}</loc>
+    {%- if item.data.isArticle %}
+    <lastmod>{{ (item.data.updated or item.date) | iso }}</lastmod>
+    {%- elif newest and (u == "/" or item.data.sec) %}
+    <lastmod>{{ (newest.data.updated or newest.date) | iso }}</lastmod>
+    {%- endif %}
+  </url>
+{%- endif %}
+{%- endfor %}
+</urlset>

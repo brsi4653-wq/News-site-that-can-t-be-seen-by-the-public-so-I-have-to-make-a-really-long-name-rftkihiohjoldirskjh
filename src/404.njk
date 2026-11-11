@@ -1,0 +1,12 @@
+---
+layout: layouts/base.njk
+title: Page not found
+permalink: /404.html
+noindex: true
+---
+<div class="notfound">
+  {% set markClass = "mark--pinktext" %}{% include "mark.njk" %}
+  <h1>Nothing here</h1>
+  <p>That page does not exist, or it has moved.</p>
+  <a class="button" href="{{ '/' | url }}">Back to the latest news</a>
+</div>
