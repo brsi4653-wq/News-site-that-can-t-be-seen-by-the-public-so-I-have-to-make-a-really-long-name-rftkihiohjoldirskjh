@@ -59,6 +59,9 @@ export default function (eleventyConfig) {
   });
   eleventyConfig.addFilter("iso", (d) => new Date(d).toISOString());
   eleventyConfig.addFilter("rfc822", (d) => new Date(d).toUTCString());
+  // A number that changes on every build. Added to the style file's address
+  // so browsers fetch the new styles instead of using an old saved copy.
+  eleventyConfig.addFilter("version", (d) => String(new Date(d).getTime()));
   eleventyConfig.addFilter("year", (d) => new Date(d).getFullYear());
   eleventyConfig.addFilter("absolute", (path) => site.url + path);
   eleventyConfig.addFilter("inSection", (items, slug) =>
