@@ -1,0 +1,127 @@
+---
+layout: layouts/base.njk
+title: Review comments
+permalink: /admin/comments/
+noindex: true
+eleventyExcludeFromCollections: true
+---
+<div class="wrap article review">
+  <header class="article__header">
+    <h1 class="article__headline">Review comments</h1>
+  </header>
+
+  <form class="comments__form" data-login>
+    <label class="comments__field">
+      <span>Admin password</span>
+      <input type="password" name="password" autocomplete="current-password" required>
+    </label>
+    <button class="button" type="submit">Open</button>
+  </form>
+
+  <div data-panel hidden>
+    <div class="share review__tabs">
+      <button class="share__btn" type="button" data-tab="pending">Waiting for review</button>
+      <button class="share__btn" type="button" data-tab="approved">Published</button>
+      <button class="share__btn" type="button" data-logout>Lock</button>
+    </div>
+    <ol class="comments__list" data-list></ol>
+  </div>
+  <p class="comments__message" data-message role="status"></p>
+</div>
+<script>
+(function () {
+  var login = document.querySelector("[data-login]");
+  var panel = document.querySelector("[data-panel]");
+  var list = document.querySelector("[data-list]");
+  var message = document.querySelector("[data-message]");
+  var password = "";
+  var tab = "pending";
+  var when = new Intl.DateTimeFormat("en-CA", { dateStyle: "medium", timeStyle: "short" });
+
+  // The password is kept only for this browser tab and is forgotten when it closes
+  try { password = sessionStorage.getItem("mayhem-admin") || ""; } catch (e) {}
+
+  function call(method, path, body) {
+    return fetch(path, {
+      method: method,
+      headers: { authorization: "Bearer " + password, "content-type": "application/json" },
+      body: body ? JSON.stringify(body) : undefined,
+    }).then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); });
+  }
+
+  function lock(text) {
+    password = "";
+    try { sessionStorage.removeItem("mayhem-admin"); } catch (e) {}
+    panel.hidden = true;
+    login.hidden = false;
+    message.textContent = text || "";
+  }
+
+  function act(id, action) {
+    call("POST", "/api/admin/comments", { id: id, action: action }).then(load);
+  }
+
+  function load() {
+    message.textContent = "Loading.";
+    call("GET", "/api/admin/comments?status=" + tab).then(function (res) {
+      if (res.status !== 200) return lock(res.data.error || "Could not open.");
+      try { sessionStorage.setItem("mayhem-admin", password); } catch (e) {}
+      login.hidden = true;
+      panel.hidden = false;
+      list.textContent = "";
+      var comments = res.data.comments || [];
+      message.textContent = comments.length ? "" : (tab === "pending" ? "Nothing is waiting for review." : "No published comments.");
+      comments.forEach(function (c) {
+        var item = document.createElement("li");
+        item.className = "comment";
+        var head = document.createElement("p");
+        head.className = "comment__head";
+        var name = document.createElement("span");
+        name.className = "comment__name";
+        name.textContent = c.name;
+        var time = document.createElement("time");
+        time.textContent = when.format(new Date(c.created_at));
+        var story = document.createElement("a");
+        story.href = c.story;
+        story.textContent = c.story;
+        head.append(name, time, story);
+        var body = document.createElement("p");
+        body.className = "comment__body";
+        body.textContent = c.body;
+        var actions = document.createElement("div");
+        actions.className = "share";
+        if (c.status === "pending") {
+          var yes = document.createElement("button");
+          yes.className = "share__btn";
+          yes.type = "button";
+          yes.textContent = "Approve";
+          yes.addEventListener("click", function () { act(c.id, "approve"); });
+          actions.append(yes);
+        }
+        var no = document.createElement("button");
+        no.className = "share__btn";
+        no.type = "button";
+        no.textContent = "Delete";
+        no.addEventListener("click", function () {
+          if (window.confirm("Delete this comment for good?")) act(c.id, "delete");
+        });
+        actions.append(no);
+        item.append(head, body, actions);
+        list.append(item);
+      });
+    }).catch(function () { message.textContent = "Could not reach the site. Try again."; });
+  }
+
+  login.addEventListener("submit", function (event) {
+    event.preventDefault();
+    password = login.elements.password.value;
+    login.elements.password.value = "";
+    load();
+  });
+  document.querySelectorAll("[data-tab]").forEach(function (b) {
+    b.addEventListener("click", function () { tab = b.getAttribute("data-tab"); load(); });
+  });
+  document.querySelector("[data-logout]").addEventListener("click", function () { lock("Locked."); });
+  if (password) load();
+})();
+</script>

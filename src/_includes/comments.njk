@@ -1,0 +1,120 @@
+{%- if site.comments.turnstileSiteKey %}
+<section class="comments" id="comments" data-story="{{ page.url }}" data-sitekey="{{ site.comments.turnstileSiteKey }}">
+  <h2 class="label">Comments</h2>
+  <p class="comments__empty" data-comments-status>Loading comments.</p>
+  <ol class="comments__list" data-comments-list></ol>
+
+  <form class="comments__form" data-comments-form novalidate>
+    <h3 class="comments__title">Leave a comment</h3>
+    <label class="comments__field">
+      <span>Name</span>
+      <input type="text" name="name" maxlength="40" autocomplete="nickname" required>
+    </label>
+    <label class="comments__field">
+      <span>Comment</span>
+      <textarea name="body" rows="5" maxlength="2000" required></textarea>
+    </label>
+    <label class="comments__trap" aria-hidden="true">
+      <span>Leave this box empty</span>
+      <input type="text" name="website" tabindex="-1" autocomplete="off">
+    </label>
+    <div class="comments__check" data-comments-check></div>
+    <button class="button" type="submit">Send comment</button>
+    <p class="comments__note">Comments are read by a person before they appear. Be respectful. We do not publish personal attacks, spam or claims about people that we cannot check.</p>
+    <p class="comments__message" data-comments-message role="status"></p>
+  </form>
+</section>
+<script>
+(function () {
+  var box = document.getElementById("comments");
+  if (!box) return;
+  var story = box.getAttribute("data-story");
+  var list = box.querySelector("[data-comments-list]");
+  var status = box.querySelector("[data-comments-status]");
+  var form = box.querySelector("[data-comments-form]");
+  var message = box.querySelector("[data-comments-message]");
+  var check = box.querySelector("[data-comments-check]");
+  var button = form.querySelector("button");
+  var widget = null;
+
+  var when = new Intl.DateTimeFormat("en-CA", { dateStyle: "medium", timeStyle: "short" });
+
+  // Comments are added as plain text, never as HTML, so nothing a reader
+  // types can run as code on the page.
+  function show(comments) {
+    list.textContent = "";
+    comments.forEach(function (c) {
+      var item = document.createElement("li");
+      item.className = "comment";
+      var head = document.createElement("p");
+      head.className = "comment__head";
+      var name = document.createElement("span");
+      name.className = "comment__name";
+      name.textContent = c.name;
+      var time = document.createElement("time");
+      time.dateTime = c.created_at;
+      time.textContent = when.format(new Date(c.created_at));
+      head.append(name, time);
+      var body = document.createElement("p");
+      body.className = "comment__body";
+      body.textContent = c.body;
+      item.append(head, body);
+      list.append(item);
+    });
+    status.textContent = comments.length ? "" : "No comments yet. Be the first.";
+    status.hidden = comments.length > 0;
+  }
+
+  fetch("/api/comments?story=" + encodeURIComponent(story))
+    .then(function (r) { return r.json(); })
+    .then(function (d) { show(d.comments || []); })
+    .catch(function () { status.textContent = "Comments could not be loaded."; });
+
+  // The spam check is only loaded once someone starts to write a comment,
+  // so it never slows the page for readers who do not comment.
+  function loadCheck() {
+    if (loadCheck.done) return;
+    loadCheck.done = true;
+    window.__commentsCheckReady = function () {
+      widget = turnstile.render(check, { sitekey: box.getAttribute("data-sitekey") });
+    };
+    var s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__commentsCheckReady";
+    s.async = true;
+    document.head.append(s);
+  }
+  form.addEventListener("focusin", loadCheck);
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    loadCheck();
+    var name = form.elements.name.value.trim();
+    var body = form.elements.body.value.trim();
+    if (!name || !body) { message.textContent = "Please enter your name and a comment."; return; }
+    var token = widget !== null && window.turnstile ? turnstile.getResponse(widget) : "";
+    if (!token) { message.textContent = "Please wait for the spam check below the comment box, then send again."; return; }
+    button.disabled = true;
+    message.textContent = "Sending.";
+    fetch("/api/comments", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ story: story, name: name, body: body, website: form.elements.website.value, token: token }),
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+      .then(function (res) {
+        if (res.ok) {
+          form.elements.body.value = "";
+          message.textContent = "Thank you. Your comment has been sent and will appear once it has been reviewed.";
+        } else {
+          message.textContent = res.data.error || "Something went wrong. Please try again.";
+        }
+      })
+      .catch(function () { message.textContent = "Something went wrong. Please try again."; })
+      .then(function () {
+        button.disabled = false;
+        if (window.turnstile && widget !== null) turnstile.reset(widget);
+      });
+  });
+})();
+</script>
+{%- endif %}

@@ -49,6 +49,9 @@ a { color: inherit; }
 a:hover { color: var(--riot-pink-text); }
 :focus-visible { outline: 3px solid var(--riot-pink); outline-offset: 2px; }
 
+/* Anything marked hidden stays hidden, whatever other styles say */
+[hidden] { display: none !important; }
+
 img { max-width: 100%; height: auto; display: block; }
 
 .visually-hidden {
@@ -297,6 +300,35 @@ img { max-width: 100%; height: auto; display: block; }
 .share__btn:hover { background: var(--blackout); color: var(--bone); }
 .share__btn[hidden] { display: none; }
 .article__main > .share { margin-top: 36px; max-width: var(--read); }
+
+/* Comments under stories, and the private review page */
+.comments { margin-top: 56px; max-width: var(--read); }
+.comments__empty { font-family: var(--font-body); font-size: 17px; color: var(--muted); margin: 16px 0 0; }
+.comments__list { list-style: none; margin: 0; padding: 0; }
+.comment { padding: 18px 0; border-bottom: 1px solid var(--rule); }
+.comment__head { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; margin: 0 0 6px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.comment__name { font-weight: 700; color: var(--blackout); }
+.comment__body { font-family: var(--font-body); font-size: 17px; line-height: 1.55; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.comment .share { margin-top: 12px; }
+.comments__form { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; margin-top: 32px; max-width: var(--read); }
+.comments__title { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: 26px; line-height: 1.1; margin: 0; }
+.comments__field { display: flex; flex-direction: column; gap: 6px; width: 100%; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.comments__field input, .comments__field textarea {
+  width: 100%; border: 2px solid var(--blackout); background: var(--white); color: var(--blackout); padding: 10px 12px; border-radius: 0;
+  font-family: var(--font-body); font-size: 17px; line-height: 1.5; letter-spacing: 0; text-transform: none; font-weight: 400;
+}
+.comments__field input { max-width: 340px; }
+.comments__field textarea { resize: vertical; }
+.comments__trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.comments__form .button { background: transparent; cursor: pointer; border-radius: 0; }
+.comments__form .button:hover { background: var(--blackout); }
+.comments__form .button:disabled { opacity: 0.5; cursor: default; }
+.comments__note { font-size: 13px; color: var(--muted); margin: 0; }
+.comments__message { font-family: var(--font-ui); font-weight: 600; font-size: 15px; margin: 0; }
+.comments__message:empty { display: none; }
+.review { padding-bottom: 64px; }
+.review__tabs { margin: 28px 0 8px; }
+.review .comments__list, .review > .comments__message { max-width: var(--read); margin-top: 16px; }
 
 /* Tips box: a quiet invitation to send story tips, shown beside the stories */
 .tips { border: 1px solid var(--rule); border-left: 5px solid var(--riot-pink); padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; }

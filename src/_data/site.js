@@ -21,6 +21,11 @@ export default {
     tips: "tips@globalmayhem.org",
     corrections: "corrections@globalmayhem.org",
   },
+  // Reader comments. They only appear on stories once the public
+  // Turnstile site key (the spam check) is filled in here.
+  comments: {
+    turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || "0x4AAAAAAF9e08NmikhIxWmt",
+  },
   sections: [
     { slug: "tech", name: "Tech", description: "Tech news from Global Mayhem." },
     { slug: "ai", name: "AI", description: "AI news from Global Mayhem." },

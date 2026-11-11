@@ -95,3 +95,25 @@ Then open the address it prints, usually `http://localhost:8080`.
 ## Section pages
 
 Every story still needs a `section`, because it is part of the web address. The section menu and the section pages themselves are switched off for now. To bring them back, change `showSections` to `true` in `src/_data/site.js`.
+
+## Comments
+
+Readers can comment under every story. Comments are stored on Cloudflare and are hidden until they are approved.
+
+- `functions/api/comments.js`: lists approved comments and accepts new ones. New comments pass a Cloudflare Turnstile spam check and are saved as "pending".
+- `functions/api/admin/comments.js`: approve and delete, protected by the admin password.
+- `src/_includes/comments.njk`: the comment box shown under stories.
+- `src/admin-comments.njk`: the private review page at `/admin/comments/`.
+- `db/schema.sql`: the layout of the database.
+
+Settings that live on the Cloudflare Pages project `globalmayhem`, not in this repo:
+
+- `DB`: the D1 database `globalmayhem-comments`.
+- `TURNSTILE_SECRET`: the secret half of the spam check.
+- `ADMIN_PASSWORD`: the password for the review page. At least 12 characters. Set it in the Cloudflare dashboard, then publish again so it takes effect.
+
+To switch comments off, empty `comments.turnstileSiteKey` in `src/_data/site.js` and publish.
+
+## Publishing
+
+`scripts/deploy.sh` builds the site and uploads it, together with the `functions` folder, to Cloudflare Pages. It needs `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` set in the shell. Never save the token in this repo.
