@@ -11,3 +11,7 @@ CREATE TABLE IF NOT EXISTS comments (
 );
 CREATE INDEX IF NOT EXISTS comments_story ON comments (story, status, created_at);
 CREATE INDEX IF NOT EXISTS comments_sender ON comments (sender, created_at);
+
+-- Times of recent wrong admin passwords, used to lock the review page
+-- when someone is guessing.
+CREATE TABLE IF NOT EXISTS admin_attempts (at TEXT NOT NULL);

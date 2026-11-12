@@ -110,7 +110,7 @@ Settings that live on the Cloudflare Pages project `globalmayhem`, not in this r
 
 - `DB`: the D1 database `globalmayhem-comments`.
 - `TURNSTILE_SECRET`: the secret half of the spam check.
-- `ADMIN_PASSWORD`: the password for the review page. At least 12 characters. Set it in the Cloudflare dashboard, then publish again so it takes effect.
+- `ADMIN_PASSWORD`: the password for the review page. At least 7 characters. After 8 wrong tries the review page locks for 15 minutes. Set it in the Cloudflare dashboard, then publish again so it takes effect.
 
 To switch comments off, empty `comments.turnstileSiteKey` in `src/_data/site.js` and publish.
 
