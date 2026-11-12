@@ -9,7 +9,7 @@ layout: layouts/base.njk
 <article class="wrap article">
   <header class="article__header">
     {% set tagSection = section %}{% include "section-tag.njk" %}
-    <h1 class="article__headline">{{ title }}</h1>
+    <h1 class="article__headline" style="--vt: s-{{ page.fileSlug }}">{{ title }}</h1>
     {%- if titleNote %}
     <p class="article__titlenote">{{ titleNote }}</p>
     {%- endif %}
@@ -38,7 +38,7 @@ layout: layouts/base.njk
       <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       {%- elif image %}
       <figure class="article__figure">
-        <img src="{{ image | url }}" alt="{{ imageAlt or '' }}" width="1200" height="675">
+        <img style="--vt: i-{{ page.fileSlug }}" src="{{ image | url }}" alt="{{ imageAlt or '' }}" width="1200" height="675">
         {%- if imageCredit %}<figcaption>{{ imageCredit }}</figcaption>{% endif %}
       </figure>
       {%- endif %}

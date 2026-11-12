@@ -11,12 +11,12 @@
     <a class="row__link row__link--quote" href="{{ story.url | url }}">
       <span class="row__quote">{% set markClass = "mark--pink" %}{% include "mark.njk" %}<span>{{ story.data.quote }}</span></span>
       {%- if story.data.quoteSpeaker %}<span class="row__speaker">{{ story.data.quoteSpeaker }}</span>{% endif %}
-      <span class="row__under">{{ story.data.title }}</span>
+      <span class="row__under" style="--vt: s-{{ story.fileSlug }}">{{ story.data.title }}</span>
     </a>
     {%- else %}
     <a class="row__link{% if story.data.image %} row__link--thumb{% endif %}" href="{{ story.url | url }}">
       {%- if story.data.image %}<img class="row__thumb" src="{{ story.data.image | url }}" alt="" width="140" height="94" loading="lazy">{% endif %}
-      <span class="row__headline">{{ story.data.title }}{% if story.data.xPost %} <span class="row__video">Video</span>{% endif %}</span>
+      <span class="row__headline" style="--vt: s-{{ story.fileSlug }}">{{ story.data.title }}{% if story.data.xPost %} <span class="row__video">Video</span>{% endif %}</span>
     </a>
     {%- endif %}
   </div>

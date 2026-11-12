@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ site.language }}">
+<html lang="{{ site.language }}"{% if site.effects.length and not site.preview %} class="{% for fx in site.effects %}fx-{{ fx }} {% endfor %}"{% endif %}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <title>{{ pageTitle | safe }}</title>
 <meta name="description" content="{{ pageDescription }}">
 <link rel="canonical" href="{{ canonical }}">
-{%- if noindex %}
+{%- if noindex or site.preview %}
 <meta name="robots" content="noindex">
 {%- else %}
 <meta name="robots" content="max-image-preview:large">
@@ -51,6 +51,30 @@
 {%- if schema %}
 <script type="application/ld+json">{{ schema | jsonld | safe }}</script>
 {%- endif %}
+{%- if site.preview %}
+<script>
+// Preview only: switch effects on from the choices saved by the panel
+(function () {
+  var all = {{ site.allEffects | dump | safe }};
+  var on = all;
+  try { var saved = JSON.parse(localStorage.getItem("mayhem-fx")); if (Array.isArray(saved)) on = saved; } catch (e) {}
+  on.forEach(function (n) { document.documentElement.classList.add("fx-" + n); });
+  if (on.indexOf("transitions") > -1) document.write("<style>@view-transition { navigation: auto; }</style>");
+})();
+</script>
+{%- elif "transitions" in site.effects %}
+<style>@view-transition { navigation: auto; }</style>
+{%- endif %}
+{%- if site.preview or site.effects.length %}
+<script>
+// Note when a page arrives through a page-to-page transition, so the
+// headline entrance does not play on top of it
+addEventListener("pagereveal", function (e) {
+  if (e.viewTransition) document.documentElement.classList.add("fx-arrived");
+});
+</script>
+<script defer src="{{ '/assets/js/fx.js' | url }}?v={{ buildTime | version }}"></script>
+{%- endif %}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -68,10 +92,31 @@
       {%- endfor %}
     </nav>
     {%- else %}
-    <span class="masthead__tagline">{{ site.tagline }}</span>
+    <span class="masthead__tagline" data-scramble>{{ site.tagline }}</span>
     {%- endif %}
   </div>
 </header>
+
+{%- if (site.preview or "ticker" in site.effects) and collections.published.length %}
+{%- set wireStories = collections.published.slice(0, 8) %}
+{%- set wireReps = (8 / wireStories.length) | round(0, "ceil") %}
+<div class="wire" style="--wire-time: {{ wireStories.length * wireReps * 9 }}s">
+  <span class="wire__label">Latest</span>
+  <div class="wire__window">
+    <div class="wire__track">
+      {%- for half in range(0, 2) %}
+      <div class="wire__half"{% if half == 1 %} aria-hidden="true"{% endif %}>
+        {%- for rep in range(0, wireReps) %}
+        {%- for story in wireStories %}
+        <a class="wire__item" href="{{ story.url | url }}"{% if half == 1 or rep > 0 %} tabindex="-1"{% endif %}>{% set markClass = "mark--pink" %}{% include "mark.njk" %}<span>{{ story.data.title }}</span></a>
+        {%- endfor %}
+        {%- endfor %}
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</div>
+{%- endif %}
 
 <main id="main">
 {{ content | safe }}
@@ -101,5 +146,6 @@ document.querySelectorAll("[data-until]").forEach(function (el) {
   if (Date.now() > Date.parse(el.getAttribute("data-until"))) el.remove();
 });
 </script>
+{%- if site.preview %}{% include "fx-panel.njk" %}{% endif %}
 </body>
 </html>

@@ -26,6 +26,12 @@ export default {
   comments: {
     turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || "0x4AAAAAAF9e08NmikhIxWmt",
   },
+  // Motion and visual effects. Each name here switches one effect on.
+  // Choices: ticker, scramble, wipe, reveal, hover, progress, transitions, live, grain
+  effects: [],
+  allEffects: ["ticker", "scramble", "wipe", "reveal", "hover", "progress", "transitions", "live", "grain"],
+  // Preview builds show every effect with an on/off panel. Never used on the real site.
+  preview: process.env.PREVIEW_FX === "1",
   sections: [
     { slug: "tech", name: "Tech", description: "Tech news from Global Mayhem." },
     { slug: "ai", name: "AI", description: "AI news from Global Mayhem." },

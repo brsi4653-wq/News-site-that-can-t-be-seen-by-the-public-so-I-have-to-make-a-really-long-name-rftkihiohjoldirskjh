@@ -1,0 +1,45 @@
+<div class="fxpanel" data-fxpanel>
+  <button class="fxpanel__toggle" type="button" data-fxpanel-toggle>Effects</button>
+  <div class="fxpanel__body" data-fxpanel-body>
+    <p class="fxpanel__title">Preview: effects</p>
+    <label><input type="checkbox" value="ticker"> 1. Headline ticker</label>
+    <label><input type="checkbox" value="scramble"> 2. Scrambled tagline</label>
+    <label><input type="checkbox" value="wipe"> 3. Headline entrance</label>
+    <label><input type="checkbox" value="reveal"> 4. Reveal on scroll</label>
+    <label><input type="checkbox" value="hover"> 5. Hover energy</label>
+    <label><input type="checkbox" value="progress"> 6. Reading progress bar</label>
+    <label><input type="checkbox" value="transitions"> 7. Page transitions</label>
+    <label><input type="checkbox" value="live"> 8. Live pulse</label>
+    <label><input type="checkbox" value="grain"> 9. Paper grain</label>
+    <div class="fxpanel__row">
+      <button type="button" data-fxpanel-all>All on</button>
+      <button type="button" data-fxpanel-none>All off</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var panel = document.querySelector("[data-fxpanel]");
+  var boxes = [].slice.call(panel.querySelectorAll("input"));
+  var body = panel.querySelector("[data-fxpanel-body]");
+  boxes.forEach(function (b) { b.checked = document.documentElement.classList.contains("fx-" + b.value); });
+  function save(list) {
+    try { localStorage.setItem("mayhem-fx", JSON.stringify(list)); } catch (e) {}
+    location.reload();
+  }
+  boxes.forEach(function (b) {
+    b.addEventListener("change", function () {
+      save(boxes.filter(function (x) { return x.checked; }).map(function (x) { return x.value; }));
+    });
+  });
+  panel.querySelector("[data-fxpanel-all]").addEventListener("click", function () { save(boxes.map(function (x) { return x.value; })); });
+  panel.querySelector("[data-fxpanel-none]").addEventListener("click", function () { save([]); });
+  var closed = window.innerWidth < 700; // starts folded away on phones
+  try { var was = sessionStorage.getItem("mayhem-fx-closed"); if (was) closed = was === "1"; } catch (e) {}
+  body.hidden = closed;
+  panel.querySelector("[data-fxpanel-toggle]").addEventListener("click", function () {
+    body.hidden = !body.hidden;
+    try { sessionStorage.setItem("mayhem-fx-closed", body.hidden ? "1" : "0"); } catch (e) {}
+  });
+})();
+</script>

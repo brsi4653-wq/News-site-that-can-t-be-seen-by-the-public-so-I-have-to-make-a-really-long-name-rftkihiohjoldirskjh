@@ -34,12 +34,12 @@ permalink: "{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber + 1
     <article class="top{% if not top.data.image %} top--noimage{% endif %}">
       <a class="top__link" href="{{ top.url | url }}">
         {%- if top.data.image %}
-        <img class="top__image" src="{{ top.data.image | url }}" alt="{{ top.data.imageAlt or '' }}" width="1200" height="675">
+        <img class="top__image" style="--vt: i-{{ top.fileSlug }}" src="{{ top.data.image | url }}" alt="{{ top.data.imageAlt or '' }}" width="1200" height="675">
         {%- endif %}
         <div class="top__text">
           {%- if not top.data.image %}{% set markClass = "mark--pink" %}{% include "mark.njk" %}{% endif %}
           <span class="top__tag">{% if top.data.isLive %}<span class="live-wrap" data-until="{{ top.data.liveUntil | iso }}"><span class="live live--dark"><span class="dot"></span>Live</span> / </span>{% endif %}{{ top.data.section | sectionName }} / {{ top.date | shortDate }}, {{ top.date | time }}</span>
-          <h2 class="top__headline">{{ top.data.title }}</h2>
+          <h2 class="top__headline" style="--vt: s-{{ top.fileSlug }}">{{ top.data.title }}</h2>
           {%- if top.data.summary %}<p class="top__summary">{{ top.data.summary }}</p>{% endif %}
         </div>
       </a>

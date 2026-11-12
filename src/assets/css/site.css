@@ -430,3 +430,103 @@ img { max-width: 100%; height: auto; display: block; }
 @media (min-width: 1400px) {
   .rows--grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+
+/* ==========================================================================
+   Effects. Each block only applies when its switch is on. The switch is a
+   class on the page such as "fx-ticker", set from the effects list in
+   src/_data/site.js.
+   ========================================================================== */
+
+/* 1. Headline ticker: latest headlines moving under the masthead */
+.wire { display: none; }
+html.fx-ticker .wire {
+  display: flex; align-items: stretch; background: var(--blackout); color: var(--bone);
+  border-top: 1px solid #2c2c2c; font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; view-transition-name: wire;
+}
+.wire__label { background: var(--riot-pink); color: var(--blackout); padding: 9px 14px; flex-shrink: 0; z-index: 1; }
+.wire__window { overflow: hidden; flex: 1; min-width: 0; }
+.wire__track { display: flex; width: max-content; animation: fx-wire var(--wire-time, 60s) linear infinite; }
+.wire:hover .wire__track, .wire:focus-within .wire__track { animation-play-state: paused; }
+.wire__half { display: flex; flex-shrink: 0; }
+.wire__item { display: flex; align-items: center; gap: 10px; padding: 9px 22px; white-space: nowrap; text-decoration: none; color: var(--bone); }
+.wire__item:hover { color: var(--riot-pink); }
+.wire__item .mark { width: 16px; height: 11px; }
+@keyframes fx-wire { to { transform: translateX(-50%); } }
+
+/* 3. Headline entrance: a pink curtain pulls away from the main headline */
+html.fx-wipe:not(.fx-arrived) .top__headline,
+html.fx-wipe:not(.fx-arrived) .article__headline { position: relative; animation: fx-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+html.fx-wipe:not(.fx-arrived) .top__headline::after,
+html.fx-wipe:not(.fx-arrived) .article__headline::after {
+  content: ""; position: absolute; inset: -4px; background: var(--riot-pink);
+  transform-origin: right center; animation: fx-curtain 0.75s cubic-bezier(0.7, 0, 0.2, 1) 0.1s both;
+}
+@keyframes fx-rise { from { transform: translateY(18px); } to { transform: none; } }
+@keyframes fx-curtain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+/* 4. Reveal on scroll */
+html.fx-reveal .fx-wait { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+html.fx-reveal .fx-wait.fx-in { opacity: 1; transform: none; }
+
+/* 5. Hover energy: marker highlight on headlines, a pink shadow on the top
+   story, buttons that pop, and a logo that hops */
+html.fx-hover .row__headline, html.fx-hover .row__under {
+  background: linear-gradient(var(--riot-pink), var(--riot-pink)) no-repeat 0 100% / 0% 100%;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s;
+}
+html.fx-hover .row__link:hover .row__headline, html.fx-hover .row__link:hover .row__under { background-size: 100% 100%; color: var(--blackout); }
+html.fx-hover .top__headline { transition: text-shadow 0.2s, transform 0.2s; }
+html.fx-hover .top__link:hover .top__headline { color: var(--bone); text-shadow: 4px 4px 0 var(--riot-pink); transform: translate(-2px, -2px); }
+html.fx-hover .button, html.fx-hover .share__btn { transition: transform 0.15s, box-shadow 0.15s, background 0.15s, color 0.15s; }
+html.fx-hover .button:hover, html.fx-hover .share__btn:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--riot-pink); }
+html.fx-hover .button:active, html.fx-hover .share__btn:active { transform: none; box-shadow: none; }
+html.fx-hover .lockup:hover .mark polygon { animation: fx-hop 0.45s cubic-bezier(0.3, 0, 0.2, 1); }
+html.fx-hover .lockup:hover .mark polygon:last-child { animation-delay: 0.08s; }
+html.fx-hover .tips { transition: transform 0.2s, box-shadow 0.2s; }
+html.fx-hover .tips:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--blackout); }
+@keyframes fx-hop { 0%, 100% { transform: none; } 40% { transform: translateY(-9px) rotate(-6deg); } }
+
+/* 6. Reading progress bar */
+.readbar { position: fixed; top: 0; left: 0; right: 0; height: 5px; background: var(--riot-pink); transform: scaleX(0); transform-origin: left center; z-index: 30; pointer-events: none; }
+
+/* 7. Page transitions: the headline and photo you click travel to their
+   place on the next page */
+html.fx-transitions [style*="--vt"] { view-transition-name: var(--vt); }
+html.fx-transitions .masthead { view-transition-name: masthead; }
+::view-transition-group(*) { animation-duration: 0.4s; animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1); }
+
+/* 8. Live pulse: the Live dot beats and the red bar carries moving stripes */
+html.fx-live .live .dot, html.fx-live .bar--live .dot { animation: fx-pulse 1.4s ease-out infinite; }
+html.fx-live .bar--live {
+  background-image: repeating-linear-gradient(-45deg, transparent 0 18px, rgba(0, 0, 0, 0.14) 18px 36px);
+  background-size: 51px 51px; animation: fx-stripes 1.6s linear infinite;
+}
+@keyframes fx-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 70%, transparent); }
+  100% { box-shadow: 0 0 0 9px transparent; }
+}
+@keyframes fx-stripes { to { background-position: 51px 0; } }
+
+/* 9. Paper grain: a faint printed texture over the whole page */
+html.fx-grain body::after {
+  content: ""; position: fixed; inset: 0; z-index: 20; pointer-events: none; opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Readers who ask their device for less motion get none of the movement */
+@media (prefers-reduced-motion: reduce) {
+  .wire__track, html[class*="fx-"] * , html[class*="fx-"] *::after { animation: none !important; transition: none !important; }
+  html.fx-wipe .top__headline::after, html.fx-wipe .article__headline::after { display: none; }
+  html.fx-reveal .fx-wait { opacity: 1; transform: none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
+
+/* Preview panel. Only present in preview builds, never on the real site. */
+.fxpanel { position: fixed; right: 12px; bottom: 12px; z-index: 50; font-family: var(--font-ui); font-size: 14px; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; view-transition-name: fxpanel; }
+.fxpanel__toggle { order: 2; background: var(--riot-pink); color: var(--blackout); border: 2px solid var(--blackout); padding: 8px 14px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; }
+.fxpanel__body { background: var(--white); color: var(--blackout); border: 2px solid var(--blackout); box-shadow: 6px 6px 0 var(--blackout); padding: 14px 16px; display: flex; flex-direction: column; gap: 7px; }
+.fxpanel__title { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 4px; }
+.fxpanel label { display: flex; gap: 8px; align-items: center; cursor: pointer; font-weight: 600; }
+.fxpanel__row { display: flex; gap: 8px; margin-top: 6px; }
+.fxpanel__row button { flex: 1; border: 2px solid var(--blackout); background: transparent; padding: 6px 8px; font: inherit; font-weight: 700; cursor: pointer; }
