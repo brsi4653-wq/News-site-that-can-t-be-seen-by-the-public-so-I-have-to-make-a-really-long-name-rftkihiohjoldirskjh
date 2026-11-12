@@ -5,7 +5,7 @@ summary: "Nvidia shares have plunged around 30% from their October highs as the 
 section: ai
 author: "Simon of Global Mayhem"
 date: 2026-11-11T18:22:00-04:00
-updated: 2026-11-11T19:15:00-04:00
+updated: 2026-11-11T20:50:00-04:00
 live: true
 liveHours: 24
 quote: "The stock is being penalized for Jensen Huang's personal transgression, which has invited a great deal of uncertainty into the mix, but the market isn't caught up in the notion that this situation is going to have a systemic domino effect."
@@ -51,3 +51,11 @@ The New York Times separately reported that Huang had a second affair, with an N
 Nvidia shares fell about 8% in after-hours trading following the Journal's report.
 
 No change in leadership has been announced.
+
+## Update: executive named in second report
+
+*Added November 11 at 8:50 PM AST.*
+
+The New York Times report names the executive as Kimberly Powell, Nvidia's vice president of health care, who reports to Huang. The Times cited five people who worked at the company, according to coverage of the report by [CNBC](https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-affair-employee.html) and the New York Post.
+
+The allegation has not been confirmed by Nvidia, Huang or Powell.
