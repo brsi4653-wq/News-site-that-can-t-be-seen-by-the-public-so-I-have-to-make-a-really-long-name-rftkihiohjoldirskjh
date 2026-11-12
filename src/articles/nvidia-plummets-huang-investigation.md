@@ -1,11 +1,11 @@
 ---
-title: "Nvidia board reportedly preparing to remove CEO Jensen Huang"
+title: "Jensen Huang resigns as Nvidia CEO"
 titleNote: "Updated title"
 summary: "Nvidia shares have plunged around 30% from their October highs as the board investigates CEO Jensen Huang and worries grow about AI spending."
 section: ai
 author: "Simon of Global Mayhem"
 date: 2026-11-11T18:22:00-04:00
-updated: 2026-11-11T20:50:00-04:00
+updated: 2026-11-12T13:55:00-04:00
 live: true
 liveHours: 24
 quote: "The stock is being penalized for Jensen Huang's personal transgression, which has invited a great deal of uncertainty into the mix, but the market isn't caught up in the notion that this situation is going to have a systemic domino effect."
@@ -59,3 +59,17 @@ No change in leadership has been announced.
 The New York Times report names the executive as Kimberly Powell, Nvidia's vice president of health care, who reports to Huang. The Times cited five people who worked at the company, according to coverage of the report by [CNBC](https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-affair-employee.html) and the New York Post.
 
 The allegation has not been confirmed by Nvidia, Huang or Powell.
+
+## Update: Huang resigns
+
+*Added November 12 at 1:55 PM AST.*
+
+Nvidia announced on Thursday November 12 that Jensen Huang has resigned as CEO, effective immediately. The board accepted his resignation, according to [CNN](https://www.cnn.com/2026/11/12/tech/jensen-huang-nvidia-resigns) and [TechCrunch](https://techcrunch.com/2026/11/12/nvidias-jensen-huang-resigns-chipmaker-names-cfo-colette-kress-as-interim-ceo/).
+
+Chief financial officer Colette Kress has been named interim CEO and will keep her role as CFO. The board is considering candidates from inside and outside the company for a permanent replacement.
+
+Harvey Jones has been named chair of the board.
+
+Nvidia shares fell more than 13% in early trading before recovering some of those losses.
+
+Huang co-founded Nvidia and led it for 33 years.
