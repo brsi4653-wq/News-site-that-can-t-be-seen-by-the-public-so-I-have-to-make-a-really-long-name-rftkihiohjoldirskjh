@@ -28,7 +28,7 @@ export default {
   },
   // Motion and visual effects. Each name here switches one effect on.
   // Choices: ticker, scramble, wipe, reveal, hover, progress, transitions, live, grain
-  effects: [],
+  effects: ["ticker", "scramble", "reveal", "progress", "live", "grain"],
   allEffects: ["ticker", "scramble", "wipe", "reveal", "hover", "progress", "transitions", "live", "grain"],
   // Preview builds show every effect with an on/off panel. Never used on the real site.
   preview: process.env.PREVIEW_FX === "1",
