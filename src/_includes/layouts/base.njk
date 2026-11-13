@@ -28,7 +28,7 @@
 {%- if isArticle %}
 <meta property="article:published_time" content="{{ page.date | iso }}">
 <meta property="article:modified_time" content="{{ (updated or page.date) | iso }}">
-<meta property="article:section" content="{{ section | sectionName }}">
+{% if section %}<meta property="article:section" content="{{ section | sectionName }}">{% endif %}
 {%- endif %}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ title or site.name }}">
@@ -80,28 +80,24 @@ addEventListener("pagereveal", function (e) {
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="masthead">
-  <div class="wrap masthead__inner{% if site.showSections %} masthead__inner--nav{% endif %}">
+  <div class="wrap masthead__inner masthead__inner--nav">
     <a class="lockup" href="{{ '/' | url }}" aria-label="{{ site.displayName }} home">
       {% set markClass = "mark--pink" %}{% include "mark.njk" %}
       <span class="lockup__word">{{ site.displayName }}</span>
     </a>
-    {%- if site.showSections %}
-    <nav class="nav" aria-label="Sections">
-      {%- for s in site.sections %}
-      <a href="{{ ('/' + s.slug + '/') | url }}"{% if page.url == '/' + s.slug + '/' or (isArticle and section == s.slug) %} aria-current="true"{% endif %}>{{ s.name }}</a>
+    <nav class="nav" aria-label="Main">
+      {%- for item in site.nav %}
+      <a href="{{ item.url | url }}"{% if page.url and page.url.indexOf(item.url) == 0 %} aria-current="true"{% endif %}>{{ item.name }}</a>
       {%- endfor %}
     </nav>
-    {%- else %}
-    <span class="masthead__tagline" data-scramble>{{ site.tagline }}</span>
-    {%- endif %}
   </div>
 </header>
 
-{%- if (site.preview or "ticker" in site.effects) and collections.published.length %}
-{%- set wireStories = collections.published.slice(0, 8) %}
+{%- if (site.preview or "ticker" in site.effects) and collections.posts.length %}
+{%- set wireStories = collections.posts.slice(0, 8) %}
 {%- set wireReps = (8 / wireStories.length) | round(0, "ceil") %}
 <div class="wire" style="--wire-time: {{ wireStories.length * wireReps * 9 }}s">
-  <span class="wire__label">Latest</span>
+  <span class="wire__label">Process</span>
   <div class="wire__window">
     <div class="wire__track">
       {%- for half in range(0, 2) %}
@@ -129,8 +125,10 @@ addEventListener("pagereveal", function (e) {
       <span class="footer__tagline">{{ site.tagline }}</span>
     </div>
     <nav class="footer__nav" aria-label="Site">
+      <a href="{{ '/films/' | url }}">Films</a>
+      <a href="{{ '/process/' | url }}">Process</a>
       <a href="{{ '/about/' | url }}">About</a>
-      <a href="{{ '/corrections/' | url }}">Corrections</a>
+      <a href="{{ '/archive/' | url }}">News archive</a>
       <a href="{{ '/feed.xml' | url }}">RSS</a>
       {%- if site.xHandle %}
       <a href="https://x.com/{{ site.xHandle | xUser }}" rel="noopener">X</a>

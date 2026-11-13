@@ -6,6 +6,7 @@ layout: layouts/base.njk
 {%- elif breaking %}
 <div class="bar bar--breaking"><div class="wrap bar__inner">Breaking</div></div>
 {%- endif %}
+<div class="bar bar--archive"><div class="wrap bar__inner">News archive / {{ site.name }} is now a film studio. This story is no longer updated.</div></div>
 <article class="wrap article">
   <header class="article__header">
     {% set tagSection = section %}{% include "section-tag.njk" %}
@@ -71,7 +72,7 @@ layout: layouts/base.njk
     <aside class="article__aside">
       {%- set more = collections.articles | others(page.url, 5) %}
       {%- if more.length %}
-      <h2 class="label">Latest</h2>
+      <h2 class="label">Also in the archive</h2>
       <ol class="rows rows--stacked">
         {%- set showSection = true %}
         {%- for story in more %}
@@ -79,36 +80,8 @@ layout: layouts/base.njk
         {%- endfor %}
       </ol>
       {%- endif %}
-      {% include "tips-box.njk" %}
       {% include "brand-panel.njk" %}
     </aside>
   </div>
 </article>
-<script>
-// Share buttons. Copy link puts the story address on the clipboard.
-// The More button opens the phone's own share menu, and only shows
-// on devices that have one.
-document.querySelectorAll(".share").forEach(function (box) {
-  var url = box.getAttribute("data-share-url");
-  var title = box.getAttribute("data-share-title");
-  var copy = box.querySelector("[data-share-copy]");
-  var more = box.querySelector("[data-share-native]");
-  copy.addEventListener("click", function () {
-    var done = function () {
-      copy.textContent = "Link copied";
-      setTimeout(function () { copy.textContent = "Copy link"; }, 2000);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(done, function () { window.prompt("Copy this link:", url); });
-    } else {
-      window.prompt("Copy this link:", url);
-    }
-  });
-  if (navigator.share) {
-    more.hidden = false;
-    more.addEventListener("click", function () {
-      navigator.share({ title: title, url: url }).catch(function () {});
-    });
-  }
-});
-</script>
+{% include "share-script.njk" %}

@@ -9,7 +9,7 @@ export default class {
   async render(data) {
     return ogCard({
       headline: data.site.tagline,
-      label: "News",
+      label: "Studio",
       footer: data.site.url.replace(/^https?:\/\//, ""),
     });
   }

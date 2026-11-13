@@ -51,6 +51,33 @@ export default function (eleventyConfig) {
       .sort((a, b) => b.date - a.date)
   );
 
+  // Films, in the order set by "order" in each file (lowest first)
+  eleventyConfig.addCollection("films", (api) =>
+    api
+      .getFilteredByGlob("src/films/*.md")
+      .sort((a, b) => (a.data.order || 0) - (b.data.order || 0) || b.date - a.date)
+  );
+
+  // Process posts, newest first
+  eleventyConfig.addCollection("posts", (api) =>
+    api.getFilteredByGlob("src/posts/*.md").sort((a, b) => b.date - a.date)
+  );
+
+  // Posts that belong to one film
+  eleventyConfig.addFilter("forFilm", (items, slug) =>
+    (items || []).filter((p) => p.data.film === slug)
+  );
+  eleventyConfig.addFilter("filmTitle", function (slug) {
+    const films = this.ctx?.collections?.films || [];
+    const f = films.find((x) => x.fileSlug === slug);
+    return f ? f.data.title : "";
+  });
+  // A YouTube link becomes the address of its player
+  eleventyConfig.addFilter("youtubeEmbed", (link) => {
+    const m = String(link || "").match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/)([A-Za-z0-9_-]{11})/);
+    return m ? `https://www.youtube-nocookie.com/embed/${m[1]}` : "";
+  });
+
   eleventyConfig.addFilter("time", (d) => timeFmt.format(new Date(d)));
   eleventyConfig.addFilter("shortDate", (d) => shortDateFmt.format(new Date(d)));
   eleventyConfig.addFilter("fullDate", (d) => {

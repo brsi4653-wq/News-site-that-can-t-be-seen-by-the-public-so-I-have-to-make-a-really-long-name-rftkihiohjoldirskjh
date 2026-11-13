@@ -4,12 +4,18 @@ export default {
   displayName: "MAYHEM", // the name shown in the header and logo lockups
   tagline: "The chaos, explained.",
   description:
-    "Global Mayhem is a Canadian news site covering tech, AI, gaming, Canada and culture. The chaos, explained.",
+    "Global Mayhem is a Canadian film and content studio. Short films, and the making of them, in public. The chaos, explained.",
   url: (process.env.SITE_URL || "https://globalmayhem.org").replace(/\/$/, ""),
   language: "en-CA",
   timezone: "America/Halifax", // Atlantic time, shown as AST or ADT
   defaultAuthor: "Global Mayhem Staff",
-  // Section pages and the section menu are switched off for now.
+  // The menu in the header.
+  nav: [
+    { name: "Films", url: "/films/" },
+    { name: "Process", url: "/process/" },
+    { name: "About", url: "/about/" },
+  ],
+  // News section pages (from when this was a news site) are switched off for now.
   // Change this to true to bring them back.
   showSections: false,
   // The X account readers should contact, for example "@globalmayhem".

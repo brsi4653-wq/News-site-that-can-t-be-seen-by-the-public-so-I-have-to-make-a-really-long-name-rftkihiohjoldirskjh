@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+---
+<article class="wrap article">
+  <header class="article__header">
+    <span class="tag">Process{% if film and (film | filmTitle) %} / <a href="{{ ('/films/' + film + '/') | url }}">{{ film | filmTitle }}</a>{% endif %}</span>
+    <h1 class="article__headline">{{ title }}</h1>
+    {%- if summary %}<p class="article__summary">{{ summary }}</p>{% endif %}
+    <div class="article__meta">
+      <span>Posted <time datetime="{{ page.date | iso }}">{{ page.date | fullDate }}</time></span>
+    </div>
+  </header>
+  <div class="article__cols">
+    <div class="article__main">
+      {% include "video.njk" %}
+      {%- if not video and image %}
+      <figure class="article__figure"><img src="{{ image | url }}" alt="{{ imageAlt or '' }}" width="1200" height="675"></figure>
+      {%- endif %}
+      <div class="article__body">
+{{ content | safe }}
+      </div>
+      {% include "share.njk" %}
+    </div>
+    <aside class="article__aside">
+      {%- set more = collections.posts | others(page.url, 5) %}
+      {%- if more.length %}
+      <h2 class="label">More process posts</h2>
+      <ol class="rows rows--stacked">
+        {%- for post in more %}
+        {% include "post-row.njk" %}
+        {%- endfor %}
+      </ol>
+      {%- endif %}
+      {% include "brand-panel.njk" %}
+    </aside>
+  </div>
+</article>
+{% include "share-script.njk" %}

@@ -1,0 +1,17 @@
+---
+layout: layouts/base.njk
+title: Films
+description: Films from Global Mayhem, a Canadian film and content studio.
+permalink: /films/
+---
+<div class="wrap feed">
+  <h1 class="section-title">Films</h1>
+  {%- if collections.films.length == 0 %}
+  <p class="empty">Nothing here yet.</p>
+  {%- endif %}
+  <ul class="films">
+    {%- for film in collections.films %}
+    {% include "film-card.njk" %}
+    {%- endfor %}
+  </ul>
+</div>

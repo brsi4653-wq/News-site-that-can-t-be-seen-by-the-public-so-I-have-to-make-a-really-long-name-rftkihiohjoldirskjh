@@ -1,80 +1,53 @@
 ---
 layout: layouts/base.njk
-pagination:
-  data: collections.articles
-  size: 30
-  alias: stories
-  generatePageOnEmptyData: true
-permalink: "{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber + 1 }}/{% else %}/{% endif %}"
 ---
-{%- set first = pagination.pageNumber == 0 %}
-{%- set breakingStory = collections.breaking | first %}
-{%- set showSection = true %}
-
-{%- if stories.length == 0 %}
-<section class="wrap hero">
-  {% set markClass = "mark--pinktext" %}{% include "mark.njk" %}
-  <h1 class="hero__headline">{{ site.tagline }}</h1>
-  <p class="hero__text">{{ site.name }} covers tech, AI, gaming, Canada and culture. The first stories are on the way.</p>
+{%- set feature = collections.films | first %}
+<h1 class="visually-hidden">{{ site.name }}: film and content studio</h1>
+{%- if feature %}
+<section class="stage stage--home">
+  <div class="wrap stage__inner">
+    <p class="stage__tag">{% if feature.data.status %}<span class="stage__status">{{ feature.data.status }}</span> / {% endif %}{{ feature.data.kind or "Film" }}</p>
+    <h2 class="stage__title"><a href="{{ feature.url | url }}">{{ feature.data.title }}</a></h2>
+    {%- if feature.data.summary %}<p class="stage__summary">{{ feature.data.summary }}</p>{% endif %}
+    <a class="button button--onDark" href="{{ feature.url | url }}">Follow the film</a>
+  </div>
 </section>
 {%- else %}
+<section class="stage stage--home">
+  <div class="wrap stage__inner">
+    <p class="stage__tag">Film and content studio</p>
+    <p class="stage__title">{{ site.tagline }}</p>
+  </div>
+</section>
+{%- endif %}
 <div class="wrap feed">
-  <h1 class="visually-hidden">{{ site.name }}: latest news</h1>
-
-  {%- if first and breakingStory %}
-  <a class="bar bar--breaking bar--link" data-until="{{ breakingStory.data.breakingUntil | iso }}" href="{{ breakingStory.url | url }}">Breaking / {{ breakingStory.data.title }}</a>
-  {%- endif %}
-
-  {%- set rest = stories %}
-  {%- if first %}
-  {%- set top = stories[0] %}
-  {%- set side = stories.slice(1, 5) %}
-  {%- set rest = stories.slice(5) %}
-  <div class="front{% if side.length == 0 %} front--solo{% endif %}">
-    <article class="top{% if not top.data.image %} top--noimage{% endif %}">
-      <a class="top__link" href="{{ top.url | url }}">
-        {%- if top.data.image %}
-        <img class="top__image" style="--vt: i-{{ top.fileSlug }}" src="{{ top.data.image | url }}" alt="{{ top.data.imageAlt or '' }}" width="1200" height="675">
-        {%- endif %}
-        <div class="top__text">
-          {%- if not top.data.image %}{% set markClass = "mark--pink" %}{% include "mark.njk" %}{% endif %}
-          <span class="top__tag">{% if top.data.isLive %}<span class="live-wrap" data-until="{{ top.data.liveUntil | iso }}"><span class="live live--dark"><span class="dot"></span>Live</span> / </span>{% endif %}{{ top.data.section | sectionName }} / {{ top.date | shortDate }}, {{ top.date | time }}</span>
-          <h2 class="top__headline" style="--vt: s-{{ top.fileSlug }}">{{ top.data.title }}</h2>
-          {%- if top.data.summary %}<p class="top__summary">{{ top.data.summary }}</p>{% endif %}
-        </div>
-      </a>
-    </article>
-
-    {%- if side.length %}
-    <section class="latest">
-      <h2 class="label">Latest</h2>
-      <ol class="rows rows--stacked">
-        {%- for story in side %}
-        {% include "story-row.njk" %}
+  <div class="front">
+    <section>
+      <h2 class="label">Process</h2>
+      {%- if collections.posts.length %}
+      <ol class="rows">
+        {%- for post in collections.posts.slice(0, 6) %}
+        {% include "post-row.njk" %}
         {%- endfor %}
       </ol>
-      {% include "tips-box.njk" %}
+      {%- if collections.posts.length > 6 %}<p class="morelink"><a class="button" href="{{ '/process/' | url }}">All process posts</a></p>{% endif %}
+      {%- else %}
+      <p class="empty empty--box">Nothing here yet.</p>
+      {%- endif %}
     </section>
-    {%- endif %}
+    <section class="latest">
+      <h2 class="label">The studio</h2>
+      {% include "brand-panel.njk" %}
+    </section>
   </div>
-  {%- endif %}
-
-  {%- if rest.length %}
-  <section class="more">
-    <h2 class="label">{% if first %}More stories{% else %}Older stories{% endif %}</h2>
-    <ol class="rows rows--grid">
-      {%- for story in rest %}
-      {% include "story-row.njk" %}
+  {%- if collections.films.length > 1 %}
+  <section>
+    <h2 class="label">Films</h2>
+    <ul class="films">
+      {%- for film in collections.films.slice(1) %}
+      {% include "film-card.njk" %}
       {%- endfor %}
-    </ol>
+    </ul>
   </section>
   {%- endif %}
-
-  {%- if pagination.href.previous or pagination.href.next %}
-  <nav class="pager" aria-label="More stories">
-    {%- if pagination.href.previous %}<a class="button" href="{{ pagination.href.previous | url }}">Newer stories</a>{% endif %}
-    {%- if pagination.href.next %}<a class="button" href="{{ pagination.href.next | url }}">Older stories</a>{% endif %}
-  </nav>
-  {%- endif %}
 </div>
-{%- endif %}

@@ -1,16 +1,10 @@
-// Extra settings for the homepage and its "older stories" pages.
-const pageNumber = (data) => (data.pagination ? data.pagination.pageNumber : 0);
-
+// Extra settings for the homepage.
 export default {
   eleventyComputed: {
-    // Only the first page of the feed should show up in search results
-    noindex: (data) => pageNumber(data) > 0,
-    title: (data) =>
-      pageNumber(data) > 0 ? `Latest stories, page ${pageNumber(data) + 1}` : "",
     // Tells Google who publishes this site
     schema: (data) => {
       const site = data.site;
-      if (!site || pageNumber(data) > 0) return null;
+      if (!site) return null;
       return {
         "@context": "https://schema.org",
         "@graph": [
@@ -25,7 +19,7 @@ export default {
             publisher: { "@id": site.url + "/#organization" },
           },
           {
-            "@type": "NewsMediaOrganization",
+            "@type": "Organization",
             "@id": site.url + "/#organization",
             name: site.name,
             alternateName: site.displayName,
@@ -37,7 +31,6 @@ export default {
               width: 512,
               height: 512,
             },
-            correctionsPolicy: site.url + "/corrections/",
           },
         ],
       };

@@ -1,0 +1,45 @@
+---
+layout: layouts/base.njk
+---
+{%- set filmPosts = collections.posts | forFilm(page.fileSlug) %}
+<section class="stage">
+  <div class="wrap stage__inner">
+    <p class="stage__tag">{% if status %}<span class="stage__status">{{ status }}</span> / {% endif %}{{ kind or "Film" }}</p>
+    <h1 class="stage__title">{{ title }}</h1>
+    {%- if summary %}<p class="stage__summary">{{ summary }}</p>{% endif %}
+    <ul class="stage__facts">
+      {%- if length %}<li>{{ length }}</li>{% endif %}
+      {%- for fact in facts %}<li>{{ fact }}</li>{% endfor %}
+    </ul>
+  </div>
+</section>
+<div class="wrap article">
+  <div class="article__cols">
+    <div class="article__main">
+      {% include "video.njk" %}
+      {%- if not video and poster %}
+      <figure class="article__figure"><img src="{{ poster | url }}" alt="{{ posterAlt or '' }}" width="1280" height="720"></figure>
+      {%- endif %}
+      <div class="article__body">
+{{ content | safe }}
+      </div>
+      <section class="filmposts">
+        <h2 class="label">Making it</h2>
+        {%- if filmPosts.length %}
+        <ol class="rows">
+          {%- for post in filmPosts %}
+          {% include "post-row.njk" %}
+          {%- endfor %}
+        </ol>
+        {%- else %}
+        <p class="empty">Nothing here yet.</p>
+        {%- endif %}
+      </section>
+      {% include "share.njk" %}
+    </div>
+    <aside class="article__aside">
+      {% include "brand-panel.njk" %}
+    </aside>
+  </div>
+</div>
+{% include "share-script.njk" %}

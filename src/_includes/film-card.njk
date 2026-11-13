@@ -1,0 +1,14 @@
+<li class="film">
+  <a class="film__link" href="{{ film.url | url }}">
+    <span class="film__frame">
+      {%- if film.data.poster %}
+      <img src="{{ film.data.poster | url }}" alt="{{ film.data.posterAlt or '' }}" width="1280" height="720" loading="lazy">
+      {%- else %}
+      {% set markClass = "mark--pink" %}{% include "mark.njk" %}
+      {%- endif %}
+    </span>
+    <span class="film__meta">{% if film.data.status %}<span class="film__status">{{ film.data.status }}</span> / {% endif %}{{ film.data.kind or "Film" }}{% if film.data.length %} / {{ film.data.length }}{% endif %}</span>
+    <span class="film__title">{{ film.data.title }}</span>
+    {%- if film.data.summary %}<span class="film__summary">{{ film.data.summary }}</span>{% endif %}
+  </a>
+</li>

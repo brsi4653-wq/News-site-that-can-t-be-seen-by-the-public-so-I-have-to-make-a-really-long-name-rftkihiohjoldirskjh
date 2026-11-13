@@ -1,10 +1,65 @@
 # Global Mayhem
 
-The news site for Global Mayhem. The name shown on the site is MAYHEM. Tagline: "The chaos, explained."
+The site for Global Mayhem, a film and content studio. The name shown on the site is MAYHEM. Tagline: "The chaos, explained."
+
+Global Mayhem started as a news site on November 11, 2026 and became a studio on November 13, 2026. The news stories are kept at `/archive/`.
 
 ## How it works
 
-Every story is a plain text file in `src/articles/`. A tool called Eleventy turns each file into its own finished web page, so search engines can read every story on its own. GitHub builds and publishes the site automatically every time something is pushed to the `main` branch.
+Every film, process post and old news story is a plain text file. A tool called Eleventy turns each file into its own finished web page. The site is published to Cloudflare Pages with `scripts/deploy.sh` (see Publishing at the end). GitHub only stores the files.
+
+## Adding a film
+
+Add a file to `src/films/`. The file name becomes the web address, so `src/films/my-film.md` becomes `/films/my-film/`.
+
+```markdown
+---
+title: "My Film"
+summary: "One line about the film."
+status: "In production"
+kind: "Short film"
+length: "About 2 minutes"
+facts:
+  - "No dialogue"
+order: 1
+date: 2026-11-13T12:00:00-04:00
+---
+Anything written here shows on the film page. It can be left empty.
+```
+
+| Setting | Needed? | What it does |
+|---|---|---|
+| `title` | Yes | The film's name. |
+| `summary` | No | One line shown under the title. |
+| `status` | No | For example "In production" or "Out now". Shown in pink. |
+| `kind` | No | For example "Short film" or "One-minute film". |
+| `length` | No | The running time. |
+| `facts` | No | Short labels shown under the summary. |
+| `video` | No | A YouTube link. The film then plays on its page. |
+| `poster` | No | A picture, for example `/assets/images/my-poster.jpg`. Add `posterAlt` to describe it. |
+| `order` | Yes | Lowest number is shown first. The first film is the big one on the homepage. |
+| `date` | Yes | Used by the RSS feed. |
+
+## Adding a process post
+
+Add a file to `src/posts/`. `src/posts/first-day.md` becomes `/process/first-day/`. New posts show on the homepage, on the Process page, and on the page of the film they belong to.
+
+```markdown
+---
+title: "First day of shooting"
+summary: "Optional one line shown in lists."
+film: my-film
+date: 2026-11-14T15:00:00-04:00
+video: https://www.youtube.com/watch?v=XXXXXXXXXXX
+---
+The post goes here.
+```
+
+`film` is the file name of the film, without `.md`. `video` (a YouTube link) and `image` are optional.
+
+## News archive
+
+The sections below describe the news stories in `src/articles/`. They still work, but no new stories are planned.
 
 ## Writing a new story
 
@@ -61,7 +116,7 @@ Pink means Breaking: a one-off big story. Red means Live: ongoing coverage. Do n
 
 - One page per story with its own title, description, share card tags and `NewsArticle` data for Google.
 - A branded share image per story (`/og/file-name.png`), plus a default one.
-- The homepage, which shows the top story, the latest stories beside it and the rest in a grid on a computer, and one simple column on a phone.
+- The news archive page at `/archive/`.
 - `sitemap.xml`, `news-sitemap.xml` (stories from the last two days, for Google News), `robots.txt` and `feed.xml` (RSS).
 - A ping to IndexNow after each publish, so Bing and others hear about new stories right away.
 
@@ -85,7 +140,9 @@ Then open the address it prints, usually `http://localhost:8080`.
 
 ## Folder guide
 
-- `src/articles/`: the stories.
+- `src/films/`: the films.
+- `src/posts/`: the process posts.
+- `src/articles/`: the old news stories.
 - `src/_includes/`: the page templates.
 - `src/assets/`: styles, logo files and pictures.
 - `src/_data/site.js`: site-wide settings.

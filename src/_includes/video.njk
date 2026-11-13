@@ -1,0 +1,5 @@
+{%- if video and (video | youtubeEmbed) %}
+<div class="player">
+  <iframe src="{{ video | youtubeEmbed }}" title="{{ title }}" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+</div>
+{%- endif %}

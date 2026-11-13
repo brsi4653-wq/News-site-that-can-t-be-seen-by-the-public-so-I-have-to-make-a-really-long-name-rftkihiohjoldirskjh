@@ -1,0 +1,15 @@
+<li class="row">
+  <div class="row__time">
+    <time datetime="{{ post.date | iso }}"><span>{{ post.date | shortDate }}</span> <span>{{ post.date | time }}</span></time>
+  </div>
+  <div class="row__main">
+    {%- if post.data.film and (post.data.film | filmTitle) %}
+    <div class="row__tags"><span class="tag">{{ post.data.film | filmTitle }}</span></div>
+    {%- endif %}
+    <a class="row__link{% if post.data.image %} row__link--thumb{% endif %}" href="{{ post.url | url }}">
+      {%- if post.data.image %}<img class="row__thumb" src="{{ post.data.image | url }}" alt="" width="140" height="94" loading="lazy">{% endif %}
+      <span class="row__headline">{{ post.data.title }}{% if post.data.video %} <span class="row__video">Video</span>{% endif %}</span>
+    </a>
+    {%- if post.data.summary %}<p class="row__summary">{{ post.data.summary }}</p>{% endif %}
+  </div>
+</li>

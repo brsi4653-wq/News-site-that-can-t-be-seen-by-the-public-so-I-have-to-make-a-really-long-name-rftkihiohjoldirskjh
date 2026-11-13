@@ -1,28 +1,22 @@
 ---
 layout: layouts/page.njk
 title: About
-description: Global Mayhem is free Canadian news about tech, AI, gaming and Canada, written for readers anywhere.
+description: Global Mayhem is a Canadian film and content studio. We make short films and share how they get made.
 permalink: /about/
 showContact: true
 ---
-Global Mayhem is a Canadian news site. We cover tech, AI, gaming and Canada.
+Global Mayhem is a Canadian film and content studio. We make short films and video.
 
-It's free. There's no paywall and there are no ads. We don't make money from it.
+## How we work
 
-## Why we do this
+We make our films in public. While a film is being made, we post short notes and clips from the work on the [process page](/process/).
 
-A lot of people get their news from American sources, which means they mostly see things the way the US sees them. That's one side of the story.
+## Where we started
 
-We're Canadian, and from here some of it looks different. So we write about what we see. You don't need to live in Canada to read it. Much of what we publish is written for people who don't.
-
-We're not asking you to take our word over anyone else's. Read our side, read theirs, and make up your own mind.
-
-## The name
-
-The news is chaotic enough. We're not here to add to it. We're here to explain it.
+Global Mayhem launched in November 2026 as a news site. The stories from that time are still here, in the [news archive](/archive/).
 
 ## Talk to us
 
-We're on X. Tag us or send us a message there. That's the fastest way to reach us, whether it's a tip, a question or a mistake you've spotted.
+We're on X. Tag us or send us a message there. That's the fastest way to reach us.
 
-You can also email us. For general questions, write to [contact@globalmayhem.org](mailto:contact@globalmayhem.org). To send us a tip, write to [tips@globalmayhem.org](mailto:tips@globalmayhem.org).
+You can also email us at [contact@globalmayhem.org](mailto:contact@globalmayhem.org).
