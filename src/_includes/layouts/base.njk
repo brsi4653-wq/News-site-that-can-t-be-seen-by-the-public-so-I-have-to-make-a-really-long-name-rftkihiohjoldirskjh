@@ -97,7 +97,7 @@ addEventListener("pagereveal", function (e) {
 {%- set wireStories = collections.posts.slice(0, 8) %}
 {%- set wireReps = (8 / wireStories.length) | round(0, "ceil") %}
 <div class="wire" style="--wire-time: {{ wireStories.length * wireReps * 9 }}s">
-  <span class="wire__label">Process</span>
+  <span class="wire__label">New</span>
   <div class="wire__window">
     <div class="wire__track">
       {%- for half in range(0, 2) %}
@@ -125,9 +125,10 @@ addEventListener("pagereveal", function (e) {
       <span class="footer__tagline">{{ site.tagline }}</span>
     </div>
     <nav class="footer__nav" aria-label="Site">
-      <a href="{{ '/films/' | url }}">Films</a>
-      <a href="{{ '/process/' | url }}">Process</a>
+      <a href="{{ '/work/' | url }}">Work</a>
+      <a href="{{ '/process/' | url }}">Behind the scenes</a>
       <a href="{{ '/about/' | url }}">About</a>
+      <a href="{{ '/contact/' | url }}">Contact</a>
       <a href="{{ '/archive/' | url }}">News archive</a>
       <a href="{{ '/feed.xml' | url }}">RSS</a>
       {%- if site.xHandle %}

@@ -3,7 +3,7 @@ layout: layouts/base.njk
 ---
 <article class="wrap article">
   <header class="article__header">
-    <span class="tag">Process{% if film and (film | filmTitle) %} / <a href="{{ ('/films/' + film + '/') | url }}">{{ film | filmTitle }}</a>{% endif %}</span>
+    <span class="tag">Behind the scenes{% if film and (film | filmTitle) %} / <a href="{{ ('/work/' + film + '/') | url }}">{{ film | filmTitle }}</a>{% endif %}</span>
     <h1 class="article__headline">{{ title }}</h1>
     {%- if summary %}<p class="article__summary">{{ summary }}</p>{% endif %}
     <div class="article__meta">
@@ -24,7 +24,7 @@ layout: layouts/base.njk
     <aside class="article__aside">
       {%- set more = collections.posts | others(page.url, 5) %}
       {%- if more.length %}
-      <h2 class="label">More process posts</h2>
+      <h2 class="label">More behind the scenes</h2>
       <ol class="rows rows--stacked">
         {%- for post in more %}
         {% include "post-row.njk" %}

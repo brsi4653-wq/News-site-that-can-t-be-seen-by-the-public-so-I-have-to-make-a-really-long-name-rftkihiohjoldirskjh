@@ -23,18 +23,16 @@ layout: layouts/base.njk
       <div class="article__body">
 {{ content | safe }}
       </div>
+      {%- if filmPosts.length %}
       <section class="filmposts">
-        <h2 class="label">Making it</h2>
-        {%- if filmPosts.length %}
+        <h2 class="label">Behind the scenes</h2>
         <ol class="rows">
           {%- for post in filmPosts %}
           {% include "post-row.njk" %}
           {%- endfor %}
         </ol>
-        {%- else %}
-        <p class="empty">Nothing here yet.</p>
-        {%- endif %}
       </section>
+      {%- endif %}
       {% include "share.njk" %}
     </div>
     <aside class="article__aside">

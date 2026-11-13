@@ -11,9 +11,9 @@ export default {
   defaultAuthor: "Global Mayhem Staff",
   // The menu in the header.
   nav: [
-    { name: "Films", url: "/films/" },
-    { name: "Process", url: "/process/" },
+    { name: "Work", url: "/work/" },
     { name: "About", url: "/about/" },
+    { name: "Contact", url: "/contact/" },
   ],
   // News section pages (from when this was a news site) are switched off for now.
   // Change this to true to bring them back.

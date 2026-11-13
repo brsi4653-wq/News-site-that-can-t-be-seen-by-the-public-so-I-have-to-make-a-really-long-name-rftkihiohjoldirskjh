@@ -1,53 +1,63 @@
 ---
 layout: layouts/base.njk
 ---
-{%- set feature = collections.films | first %}
+{%- set feature = collections.work | first %}
 <h1 class="visually-hidden">{{ site.name }}: film and content studio</h1>
-{%- if feature %}
 <section class="stage stage--home">
   <div class="wrap stage__inner">
+    {%- if feature %}
     <p class="stage__tag">{% if feature.data.status %}<span class="stage__status">{{ feature.data.status }}</span> / {% endif %}{{ feature.data.kind or "Film" }}</p>
     <h2 class="stage__title"><a href="{{ feature.url | url }}">{{ feature.data.title }}</a></h2>
     {%- if feature.data.summary %}<p class="stage__summary">{{ feature.data.summary }}</p>{% endif %}
-    <a class="button button--onDark" href="{{ feature.url | url }}">Follow the film</a>
-  </div>
-</section>
-{%- else %}
-<section class="stage stage--home">
-  <div class="wrap stage__inner">
+    <a class="button button--onDark" href="{{ feature.url | url }}">Watch</a>
+    {%- else %}
     <p class="stage__tag">Film and content studio</p>
     <p class="stage__title">{{ site.tagline }}</p>
+    {%- endif %}
   </div>
 </section>
-{%- endif %}
+
 <div class="wrap feed">
-  <div class="front">
-    <section>
-      <h2 class="label">Process</h2>
-      {%- if collections.posts.length %}
-      <ol class="rows">
-        {%- for post in collections.posts.slice(0, 6) %}
-        {% include "post-row.njk" %}
-        {%- endfor %}
-      </ol>
-      {%- if collections.posts.length > 6 %}<p class="morelink"><a class="button" href="{{ '/process/' | url }}">All process posts</a></p>{% endif %}
-      {%- else %}
-      <p class="empty empty--box">Nothing here yet.</p>
-      {%- endif %}
-    </section>
-    <section class="latest">
-      <h2 class="label">The studio</h2>
-      {% include "brand-panel.njk" %}
-    </section>
-  </div>
-  {%- if collections.films.length > 1 %}
   <section>
-    <h2 class="label">Films</h2>
+    <div class="sechead">
+      <h2 class="label">Work</h2>
+      {%- if collections.work.length > 1 %}<a class="sechead__link" href="{{ '/work/' | url }}">All work</a>{% endif %}
+    </div>
+    {%- if collections.work.length > 1 %}
     <ul class="films">
-      {%- for film in collections.films.slice(1) %}
-      {% include "film-card.njk" %}
+      {%- for film in collections.work.slice(1, 7) %}
+      {% include "work-card.njk" %}
       {%- endfor %}
     </ul>
+    {%- elif collections.work.length == 0 %}
+    <p class="empty empty--box">Nothing here yet.</p>
+    {%- endif %}
+  </section>
+
+  {%- if collections.posts.length %}
+  <section>
+    <div class="sechead">
+      <h2 class="label">Behind the scenes</h2>
+      <a class="sechead__link" href="{{ '/process/' | url }}">All posts</a>
+    </div>
+    <ol class="rows rows--grid">
+      {%- for post in collections.posts.slice(0, 4) %}
+      {% include "post-row.njk" %}
+      {%- endfor %}
+    </ol>
   </section>
   {%- endif %}
 </div>
+
+<section class="studio">
+  <div class="wrap studio__inner">
+    <div class="studio__text">
+      <h2 class="label">The studio</h2>
+      <p class="studio__line">{{ site.name }} is a Canadian film and content studio.</p>
+      <a class="button" href="{{ '/about/' | url }}">About</a>
+    </div>
+    <div class="studio__contact">
+      {% include "x-link.njk" %}
+    </div>
+  </div>
+</section>

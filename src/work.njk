@@ -1,0 +1,18 @@
+---
+layout: layouts/base.njk
+title: Work
+description: Films and video from Global Mayhem, a Canadian film and content studio.
+permalink: /work/
+---
+<div class="wrap feed">
+  <h1 class="section-title">Work</h1>
+  {%- if collections.work.length == 0 %}
+  <p class="empty">Nothing here yet.</p>
+  {%- else %}
+  <ul class="films">
+    {%- for film in collections.work %}
+    {% include "work-card.njk" %}
+    {%- endfor %}
+  </ul>
+  {%- endif %}
+</div>

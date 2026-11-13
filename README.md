@@ -8,9 +8,9 @@ Global Mayhem started as a news site on November 11, 2026 and became a studio on
 
 Every film, process post and old news story is a plain text file. A tool called Eleventy turns each file into its own finished web page. The site is published to Cloudflare Pages with `scripts/deploy.sh` (see Publishing at the end). GitHub only stores the files.
 
-## Adding a film
+## Adding a film or video
 
-Add a file to `src/films/`. The file name becomes the web address, so `src/films/my-film.md` becomes `/films/my-film/`.
+Add a file to `src/work/`. The file name becomes the web address, so `src/work/my-film.md` becomes `/work/my-film/`. Everything in this folder shows on the Work page.
 
 ```markdown
 ---
@@ -40,9 +40,9 @@ Anything written here shows on the film page. It can be left empty.
 | `order` | Yes | Lowest number is shown first. The first film is the big one on the homepage. |
 | `date` | Yes | Used by the RSS feed. |
 
-## Adding a process post
+## Adding a behind the scenes post
 
-Add a file to `src/posts/`. `src/posts/first-day.md` becomes `/process/first-day/`. New posts show on the homepage, on the Process page, and on the page of the film they belong to.
+Add a file to `src/posts/`. `src/posts/first-day.md` becomes `/process/first-day/`. New posts show on the homepage, on the Behind the scenes page (`/process/`), and on the page of the film they belong to.
 
 ```markdown
 ---
@@ -140,8 +140,8 @@ Then open the address it prints, usually `http://localhost:8080`.
 
 ## Folder guide
 
-- `src/films/`: the films.
-- `src/posts/`: the process posts.
+- `src/work/`: the films and videos.
+- `src/posts/`: the behind the scenes posts.
 - `src/articles/`: the old news stories.
 - `src/_includes/`: the page templates.
 - `src/assets/`: styles, logo files and pictures.

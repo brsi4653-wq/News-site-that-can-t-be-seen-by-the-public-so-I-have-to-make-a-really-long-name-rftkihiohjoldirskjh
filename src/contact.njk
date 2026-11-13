@@ -1,0 +1,20 @@
+---
+layout: layouts/base.njk
+title: Contact
+description: How to reach Global Mayhem, a Canadian film and content studio.
+permalink: /contact/
+---
+<div class="wrap feed">
+  <h1 class="section-title">Contact</h1>
+  <div class="contact">
+    {% include "x-link.njk" %}
+    <a class="xlink" href="mailto:{{ site.emails.contact }}">
+      {% set markClass = "" %}{% include "mark.njk" %}
+      <span class="xlink__text">
+        <span class="xlink__label">Email us</span>
+        <span class="xlink__handle xlink__handle--email">{{ site.emails.contact }}</span>
+      </span>
+      <span class="xlink__arrow" aria-hidden="true">&rarr;</span>
+    </a>
+  </div>
+</div>

@@ -52,9 +52,9 @@ export default function (eleventyConfig) {
   );
 
   // Films, in the order set by "order" in each file (lowest first)
-  eleventyConfig.addCollection("films", (api) =>
+  eleventyConfig.addCollection("work", (api) =>
     api
-      .getFilteredByGlob("src/films/*.md")
+      .getFilteredByGlob("src/work/*.md")
       .sort((a, b) => (a.data.order || 0) - (b.data.order || 0) || b.date - a.date)
   );
 
@@ -68,7 +68,7 @@ export default function (eleventyConfig) {
     (items || []).filter((p) => p.data.film === slug)
   );
   eleventyConfig.addFilter("filmTitle", function (slug) {
-    const films = this.ctx?.collections?.films || [];
+    const films = this.ctx?.collections?.work || [];
     const f = films.find((x) => x.fileSlug === slug);
     return f ? f.data.title : "";
   });

@@ -1,10 +1,10 @@
 // Settings shared by every film in this folder.
-// The address of a film is /films/file-name/
+// The address of a film is /work/file-name/
 export default {
-  layout: "layouts/film.njk",
+  layout: "layouts/work.njk",
   isFilm: true,
   eleventyComputed: {
-    permalink: (data) => `/films/${data.page.fileSlug}/`,
+    permalink: (data) => `/work/${data.page.fileSlug}/`,
     description: (data) => data.summary,
     ogImage: (data) => `/og/film-${data.page.fileSlug}.png`,
   },

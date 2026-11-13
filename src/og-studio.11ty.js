@@ -20,7 +20,7 @@ export default class {
     const { item, site } = data;
     return ogCard({
       headline: item.data.title,
-      label: item.data.isFilm ? item.data.kind || "Film" : "Process",
+      label: item.data.isFilm ? item.data.kind || "Film" : "Behind the scenes",
       footer: site.url.replace(/^https?:\/\//, ""),
     });
   }
