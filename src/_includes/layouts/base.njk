@@ -165,16 +165,16 @@ addEventListener("pagereveal", function (e) {
       <span class="footer__tagline">{{ site.name }}</span>
     </div>
     <nav class="footer__nav" aria-label="Site">
-      <a href="{{ '/work/' | url }}">Work</a>
-      <a href="{{ '/process/' | url }}">Behind the scenes</a>
-      <a href="{{ '/about/' | url }}">About</a>
-      <a href="{{ '/contact/' | url }}">Contact</a>
-      <a href="{{ '/archive/' | url }}">News archive</a>
-      <a href="{{ '/feed.xml' | url }}">RSS</a>
-      {%- if site.xHandle %}
-      <a href="https://x.com/{{ site.xHandle | xUser }}" rel="noopener">X</a>
-      {%- endif %}
+      {%- for item in site.nav %}
+      <a href="{{ item.url | url }}">{{ item.name }}</a>
+      {%- endfor %}
     </nav>
+    <div class="socials">
+      <h2 class="socials__title">Socials</h2>
+      {%- for social in site.socials %}
+      <a class="socials__btn" href="{{ social.url }}" rel="noopener">{{ social.name }} <span>{{ social.handle }}</span></a>
+      {%- endfor %}
+    </div>
     <p class="footer__legal">&copy; {{ buildTime | year }} {{ site.name }}. Made in Canada.</p>
   </div>
 </footer>

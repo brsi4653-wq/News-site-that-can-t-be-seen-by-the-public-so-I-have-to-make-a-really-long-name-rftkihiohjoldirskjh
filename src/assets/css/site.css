@@ -428,6 +428,43 @@ img { max-width: 100%; height: auto; display: block; }
 .footer__nav a:hover { color: var(--riot-pink); }
 .footer__legal { margin: 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-on-dark); }
 
+.socials { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding-top: 18px; border-top: 1px solid #2c2c2c; }
+.socials__title { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-on-dark); margin: 0 6px 0 0; }
+.socials__btn {
+  display: inline-flex; align-items: baseline; gap: 10px; border: 2px solid var(--bone); padding: 10px 16px; text-decoration: none; color: var(--bone);
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.socials__btn span { font-weight: 400; letter-spacing: 0.04em; text-transform: none; color: var(--muted-on-dark); transition: color 0.15s; }
+.socials__btn:hover { background: var(--riot-pink); border-color: var(--riot-pink); color: var(--blackout); }
+.socials__btn:hover span { color: var(--blackout); }
+
+/* Creators page: one card per person, filled in from their X profile */
+.creators { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+.creator { background: var(--blackout); color: var(--bone); max-width: 760px; }
+.creator__banner { aspect-ratio: 3 / 1; background: #1c1c1c; display: flex; align-items: center; justify-content: flex-end; overflow: hidden; }
+.creator__banner img { width: 100%; height: 100%; object-fit: cover; }
+.creator__banner .mark { height: 120%; width: auto; aspect-ratio: 92 / 64; margin-right: 4%; }
+.creator__body { padding: 0 20px 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.creator__avatar {
+  width: 104px; height: 104px; border-radius: 50%; border: 5px solid var(--blackout); background: var(--riot-pink); color: var(--blackout); margin-top: -52px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden; font-family: var(--font-display); font-size: 52px; line-height: 1;
+}
+.creator__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.creator__name { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: clamp(40px, 7vw, 64px); line-height: 1; margin: 4px 0 0; }
+.creator__role { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--riot-pink); margin: 0; }
+.creator__handle { font-family: var(--font-mono); font-size: 13px; color: var(--muted-on-dark); margin: 0; }
+.creator__bio { font-family: var(--font-body); font-size: 18px; line-height: 1.5; color: var(--summary-on-dark); margin: 0; overflow-wrap: anywhere; }
+.creator__post { width: 100%; border-left: 5px solid var(--riot-pink); padding: 4px 0 4px 16px; margin-top: 8px; display: flex; flex-direction: column; gap: 8px; }
+.creator__postlabel { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-on-dark); margin: 0; }
+.creator__posttext { font-family: var(--font-body); font-size: 18px; line-height: 1.5; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.creator__postlink { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--riot-pink); text-decoration: none; }
+.creator__postlink:hover { color: var(--bone); }
+.creator .button { margin-top: 10px; }
+@media (min-width: 640px) {
+  .creator__body { padding: 0 32px 32px; }
+  .creator__avatar { width: 136px; height: 136px; margin-top: -68px; font-size: 68px; }
+}
+
 /* Tablets and small laptops */
 @media (min-width: 640px) {
   :root { --gutter: 28px; }

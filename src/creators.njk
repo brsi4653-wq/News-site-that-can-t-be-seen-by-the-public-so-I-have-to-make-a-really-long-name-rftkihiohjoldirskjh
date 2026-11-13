@@ -1,0 +1,51 @@
+---
+layout: layouts/base.njk
+title: Creators
+description: The people behind Global Mayhem.
+permalink: /creators/
+---
+<div class="wrap feed">
+  <h1 class="section-title" data-rise>Creators</h1>
+  <div class="creators">
+    {%- for person in site.creators %}
+    <article class="creator" data-creator="{{ person.x }}">
+      <div class="creator__banner" data-creator-banner>{% set markClass = "mark--pink" %}{% include "mark.njk" %}</div>
+      <div class="creator__body">
+        <div class="creator__avatar" data-creator-avatar>{{ person.name | first }}</div>
+        <h2 class="creator__name">{{ person.name }}</h2>
+        <p class="creator__role">{{ person.role }}</p>
+        <p class="creator__handle">@{{ person.x }}</p>
+        <p class="creator__bio" data-creator-bio hidden></p>
+        <div class="creator__post" data-creator-post hidden>
+          <p class="creator__postlabel">Latest post on X<span data-creator-postdate></span></p>
+          <p class="creator__posttext" data-creator-posttext></p>
+          <a class="creator__postlink" data-creator-postlink href="https://x.com/{{ person.x }}" rel="noopener">Open on X</a>
+        </div>
+        <a class="button button--onDark" href="https://x.com/{{ person.x }}" rel="noopener">Follow on X</a>
+      </div>
+    </article>
+    {%- endfor %}
+  </div>
+</div>
+<script>
+// Fill each card from the person's X profile: banner, photo, bio and
+// latest post. The site checks X once a day. If X cannot be reached the
+// card simply keeps its plain look.
+fetch("/api/creators").then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+  if (!data || !data.creators) return;
+  document.querySelectorAll("[data-creator]").forEach(function (card) {
+    var p = data.creators[card.getAttribute("data-creator").toLowerCase()];
+    if (!p) return;
+    var img = function (src, alt) { var i = new Image(); i.src = src; i.alt = alt; return i; };
+    if (p.banner) card.querySelector("[data-creator-banner]").replaceChildren(img(p.banner, ""));
+    if (p.avatar) card.querySelector("[data-creator-avatar]").replaceChildren(img(p.avatar, p.name || ""));
+    if (p.bio) { var bio = card.querySelector("[data-creator-bio]"); bio.textContent = p.bio; bio.hidden = false; }
+    if (p.post && p.post.text) {
+      card.querySelector("[data-creator-posttext]").textContent = p.post.text;
+      card.querySelector("[data-creator-postlink]").href = p.post.url;
+      if (p.post.date) card.querySelector("[data-creator-postdate]").textContent = " / " + new Date(p.post.date).toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" });
+      card.querySelector("[data-creator-post]").hidden = false;
+    }
+  });
+}).catch(function () {});
+</script>

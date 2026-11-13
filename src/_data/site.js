@@ -14,7 +14,14 @@ export default {
     { name: "Work", url: "/work/" },
     { name: "About", url: "/about/" },
     { name: "Contact", url: "/contact/" },
+    { name: "Creators", url: "/creators/" },
   ],
+  // Social accounts shown in the Socials block at the bottom of every page.
+  socials: [{ name: "X", handle: "@GlobalMayhemCA", url: "https://x.com/GlobalMayhemCA" }],
+  // People shown on the Creators page. "x" is their X username, without the @.
+  // If a username is added or changed here, also change the list at the top
+  // of functions/api/creators.js.
+  creators: [{ name: "Simon", role: "CEO and Founder", x: "SimonofGM" }],
   // News section pages (from when this was a news site) are switched off for now.
   // Change this to true to bring them back.
   showSections: false,

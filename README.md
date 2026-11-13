@@ -153,6 +153,10 @@ Then open the address it prints, usually `http://localhost:8080`.
 
 Every story still needs a `section`, because it is part of the web address. The section menu and the section pages themselves are switched off for now. To bring them back, change `showSections` to `true` in `src/_data/site.js`.
 
+## Creators page
+
+`/creators/` shows one card per person listed under `creators` in `src/_data/site.js`. `functions/api/creators.js` reads each person's X profile (photo, banner, bio, latest post) and keeps the answer for one day, so the page follows X on its own. It needs a secret named `X_BEARER_TOKEN` on the Cloudflare Pages project (a Bearer Token from the X developer console). Without it the cards show the name, role and a Follow button only. The X usernames are listed in both files and must match.
+
 ## Comments
 
 Readers can comment under every story. Comments are stored on Cloudflare and are hidden until they are approved.
