@@ -2,13 +2,17 @@
 //   GET  /api/posts?creator=simon     lists that creator's posts, newest first
 //   GET  /api/posts?creator=simon&check=1   checks the password (used by the login)
 //   POST /api/posts   { creator, action: "post", body }  or  { creator, action: "delete", id }
-// Writing needs the creator's own password. Each creator has one, stored as
-// a secret on the Cloudflare Pages project and named CREATOR_PASSWORD_ plus
-// their page name in capitals, for example CREATOR_PASSWORD_SIMON.
+// Writing needs the creator's own password, stored as a secret on the
+// Cloudflare Pages project. See PASSWORD_SECRETS below.
 
 // Only these page names can have posts. Keep in step with "creators" in
 // src/_data/site.js.
 const CREATORS = ["simon"];
+
+// Which secret holds each creator's password. Simon uses the same password
+// as the comments review page. Anyone not listed here uses a secret named
+// CREATOR_PASSWORD_ plus their page name in capitals.
+const PASSWORD_SECRETS = { simon: "ADMIN_PASSWORD" };
 
 const MIN_PASSWORD = 7;
 const MAX_WRONG = 8; // wrong passwords allowed before that creator's login locks
@@ -53,7 +57,7 @@ async function guard(request, env, creator) {
   if (wrong && wrong.n >= MAX_WRONG) {
     return json({ error: `Too many wrong passwords. This login is locked for up to ${LOCK_MINUTES} minutes.` }, 429);
   }
-  const expected = env[`CREATOR_PASSWORD_${creator.toUpperCase()}`] || "";
+  const expected = env[PASSWORD_SECRETS[creator] || `CREATOR_PASSWORD_${creator.toUpperCase()}`] || "";
   if (expected.length < MIN_PASSWORD) return json({ error: "The password for this page has not been set up yet." }, 503);
   const given = (request.headers.get("authorization") || "").replace(/^Bearer\s+/i, "");
   const [a, b] = await Promise.all([digest(given), digest(expected)]);

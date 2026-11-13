@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ site.language }}"{% if site.effects.length and not site.preview %} class="{% for fx in site.effects %}fx-{{ fx }} {% endfor %}"{% endif %}>
+<html lang="{{ site.language }}"{% if site.effects.length and not site.preview and not bare %} class="{% for fx in site.effects %}fx-{{ fx }} {% endfor %}"{% endif %}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,16 +42,20 @@
 <link rel="icon" href="{{ '/assets/logo/mayhem-favicon.svg' | url }}" type="image/svg+xml">
 <link rel="icon" href="{{ '/assets/logo/mayhem-favicon-32.png' | url }}" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{{ '/assets/logo/mayhem-favicon-180.png' | url }}">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="{% if bare %}#000000{% else %}#111111{% endif %}">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@500;600;700&display=swap">
+{%- if bare %}
+<link rel="stylesheet" href="{{ '/assets/css/profile.css' | url }}?v={{ buildTime | version }}">
+{%- else %}
 <link rel="stylesheet" href="{{ '/assets/css/site.css' | url }}?v={{ buildTime | version }}">
+{%- endif %}
 {%- if schema %}
 <script type="application/ld+json">{{ schema | jsonld | safe }}</script>
 {%- endif %}
-{%- if site.preview %}
+{%- if site.preview and not bare %}
 <script>
 // Preview only: switch effects on from the choices saved by the panel
 (function () {
@@ -65,7 +69,7 @@
 {%- elif "transitions" in site.effects %}
 <style>@view-transition { navigation: auto; }</style>
 {%- endif %}
-{%- if site.preview or "intro" in site.effects %}
+{%- if (site.preview or "intro" in site.effects) and not bare %}
 <script>
 // The opening sequence plays once per visit, on the first page opened.
 (function () {
@@ -80,7 +84,7 @@
 })();
 </script>
 {%- endif %}
-{%- if site.preview or site.effects.length %}
+{%- if (site.preview or site.effects.length) and not bare %}
 <script>
 // Note when a page arrives through a page-to-page transition, so the
 // headline entrance does not play on top of it
@@ -92,6 +96,7 @@ addEventListener("pagereveal", function (e) {
 {%- endif %}
 </head>
 <body>
+{%- if not bare %}
 <a class="skip" href="#main">Skip to content</a>
 {%- if site.preview or "intro" in site.effects %}
 <div class="intro" aria-hidden="true" data-intro>
@@ -154,10 +159,12 @@ addEventListener("pagereveal", function (e) {
 </div>
 {%- endif %}
 
+{%- endif %}
 <main id="main">
 {{ content | safe }}
 </main>
 
+{%- if not bare %}
 <footer class="footer">
   <div class="wrap footer__inner">
     <div class="footer__brand">
@@ -186,5 +193,6 @@ document.querySelectorAll("[data-until]").forEach(function (el) {
 });
 </script>
 {%- if site.preview %}{% include "fx-panel.njk" %}{% endif %}
+{%- endif %}
 </body>
 </html>

@@ -160,7 +160,8 @@ Every story still needs a `section`, because it is part of the web address. The 
 Each creator also gets their own page at `/their-slug/` (for example `/simon/`) with their posts, and a private page at `/their-slug/admin/` where they log in and write or delete posts.
 
 - `functions/api/posts.js`: lists, adds and deletes posts. Posts are stored in the same D1 database as comments.
-- Each creator has their own password, set as a secret on the Cloudflare Pages project. The name is `CREATOR_PASSWORD_` plus the slug in capitals, for example `CREATOR_PASSWORD_SIMON`. At least 7 characters. After 8 wrong tries that creator's login locks for 15 minutes. Publish again after setting or changing a password.
+- Creator pages have no site header or footer. They use their own style file, `src/assets/css/profile.css` (black, like a social profile).
+- Each creator has their own password, set as a secret on the Cloudflare Pages project. Simon's is `ADMIN_PASSWORD`, the same one as the comments review page. Any other creator uses `CREATOR_PASSWORD_` plus their slug in capitals, for example `CREATOR_PASSWORD_ALEX`. At least 7 characters. After 8 wrong tries that creator's login locks for 15 minutes. Publish again after setting or changing a password.
 - To add a creator: add them to `creators` in `src/_data/site.js`, add their slug to the list at the top of `functions/api/posts.js`, set their password secret, and publish.
 
 ## Comments

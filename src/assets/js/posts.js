@@ -29,6 +29,9 @@ var mayhemPosts = (function () {
         list.textContent = "";
         message.textContent = posts.length ? "" : "No posts yet.";
         message.hidden = posts.length > 0;
+        document.querySelectorAll("[data-posts-count]").forEach(function (el) {
+          el.textContent = posts.length + (posts.length === 1 ? " post" : " posts");
+        });
         posts.forEach(function (post) {
           var item = document.createElement("li");
           item.className = "post";
@@ -43,6 +46,7 @@ var mayhemPosts = (function () {
           name.className = "post__name";
           name.textContent = box.getAttribute("data-name");
           var handle = document.createElement("span");
+          handle.className = "post__handle";
           handle.textContent = box.getAttribute("data-handle");
           var time = document.createElement("time");
           time.dateTime = post.created_at;
@@ -54,7 +58,7 @@ var mayhemPosts = (function () {
           main.append(head, body);
           if (onDelete) {
             var del = document.createElement("button");
-            del.className = "share__btn";
+            del.className = "post__delete";
             del.type = "button";
             del.textContent = "Delete";
             del.addEventListener("click", function () { onDelete(post); });

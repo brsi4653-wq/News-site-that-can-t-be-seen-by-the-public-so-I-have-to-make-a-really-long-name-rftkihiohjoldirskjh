@@ -1,5 +1,6 @@
 ---
 layout: layouts/base.njk
+bare: true
 pagination:
   data: site.creators
   size: 1
@@ -10,39 +11,37 @@ eleventyExcludeFromCollections: true
 eleventyComputed:
   title: "{{ person.name }}: post"
 ---
-<div class="wrap article review">
-  <header class="article__header">
-    <span class="tag"><a href="{{ ('/' + person.slug + '/') | url }}">{{ person.name }}</a> / Admin</span>
-    <h1 class="article__headline">Post</h1>
-  </header>
+<div class="x">
+  {% set backUrl = "/" + person.slug + "/" %}{% include "profile-top.njk" %}
 
-  <form class="comments__form" data-login>
-    <label class="comments__field">
+  <form class="xform" data-login>
+    <h1 class="xname">Log in</h1>
+    <label class="xfield">
       <span>Password</span>
       <input type="password" name="password" autocomplete="current-password" required>
     </label>
-    <button class="button" type="submit">Log in</button>
+    <button class="xpost" type="submit">Log in</button>
   </form>
 
   <div data-panel hidden>
-    <form class="comments__form" data-compose>
-      <label class="comments__field">
-        <span>New post</span>
-        <textarea name="body" rows="5" maxlength="1000" required></textarea>
-      </label>
-      <p class="comments__note"><span data-count>0</span> / 1000</p>
-      <div class="share">
-        <button class="button" type="submit">Post</button>
-        <button class="share__btn" type="button" data-logout>Log out</button>
+    <form class="xcompose" data-compose>
+      <div class="xcompose__avatar">{% if person.avatar %}<img src="{{ person.avatar | url }}" alt="">{% endif %}</div>
+      <div class="xcompose__main">
+        <textarea name="body" rows="4" maxlength="1000" placeholder="Write a post" aria-label="New post" required></textarea>
+        <div class="xcompose__row">
+          <span class="xcompose__count"><span data-count>0</span> / 1000</span>
+          <button class="xghost" type="button" data-logout>Log out</button>
+          <button class="xpost" type="submit">Post</button>
+        </div>
       </div>
     </form>
-    <section class="posts" data-posts="{{ person.slug }}" data-name="{{ person.name }}" data-handle="@{{ person.x }}" data-avatar="{{ person.avatar | url if person.avatar else '' }}">
-      <h2 class="label">Your posts</h2>
-      <ol class="posts__list" data-posts-list></ol>
-      <p class="empty" data-posts-message></p>
+    <section data-posts="{{ person.slug }}" data-name="{{ person.name }}" data-handle="@{{ person.x }}" data-avatar="{{ person.avatar | url if person.avatar else '' }}">
+      <h2 class="visually-hidden">Your posts</h2>
+      <ol class="xposts" data-posts-list></ol>
+      <p class="xempty" data-posts-message></p>
     </section>
   </div>
-  <p class="comments__message" data-message role="status"></p>
+  <p class="xmessage" data-message role="status"></p>
 </div>
 <script src="{{ '/assets/js/posts.js' | url }}?v={{ buildTime | version }}"></script>
 <script>
