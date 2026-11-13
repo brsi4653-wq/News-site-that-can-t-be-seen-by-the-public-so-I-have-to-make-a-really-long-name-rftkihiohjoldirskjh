@@ -35,7 +35,7 @@ export default {
   // Motion and visual effects. Each name here switches one effect on.
   // Choices: ticker, scramble, wipe, reveal, hover, progress, transitions, live, grain,
   // intro (opening sequence), hero (big titles rise in), marquee (moving band), cursor (pink pointer)
-  effects: ["ticker", "scramble", "wipe", "reveal", "hover", "progress", "transitions", "live", "grain", "intro", "hero", "marquee", "cursor"],
+  effects: ["ticker", "scramble", "wipe", "reveal", "hover", "progress", "transitions", "live", "grain", "intro", "hero", "marquee"],
   allEffects: ["ticker", "scramble", "wipe", "reveal", "hover", "progress", "transitions", "live", "grain", "intro", "hero", "marquee", "cursor"],
   // Preview builds show every effect with an on/off panel. Never used on the real site.
   preview: process.env.PREVIEW_FX === "1",
