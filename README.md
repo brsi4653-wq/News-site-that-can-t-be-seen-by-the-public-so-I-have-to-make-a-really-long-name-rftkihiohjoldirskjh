@@ -153,9 +153,15 @@ Then open the address it prints, usually `http://localhost:8080`.
 
 Every story still needs a `section`, because it is part of the web address. The section menu and the section pages themselves are switched off for now. To bring them back, change `showSections` to `true` in `src/_data/site.js`.
 
-## Creators page
+## Creators and their pages
 
-`/creators/` shows one card per person listed under `creators` in `src/_data/site.js`: name, role, X username, photo and banner. The pictures are files in `src/assets/images/`. To change one, replace the file and publish.
+`/creators/` shows one card per person listed under `creators` in `src/_data/site.js`: name, role, X username, photo and banner. The pictures are files in `src/assets/images/`.
+
+Each creator also gets their own page at `/their-slug/` (for example `/simon/`) with their posts, and a private page at `/their-slug/admin/` where they log in and write or delete posts.
+
+- `functions/api/posts.js`: lists, adds and deletes posts. Posts are stored in the same D1 database as comments.
+- Each creator has their own password, set as a secret on the Cloudflare Pages project. The name is `CREATOR_PASSWORD_` plus the slug in capitals, for example `CREATOR_PASSWORD_SIMON`. At least 7 characters. After 8 wrong tries that creator's login locks for 15 minutes. Publish again after setting or changing a password.
+- To add a creator: add them to `creators` in `src/_data/site.js`, add their slug to the list at the top of `functions/api/posts.js`, set their password secret, and publish.
 
 ## Comments
 

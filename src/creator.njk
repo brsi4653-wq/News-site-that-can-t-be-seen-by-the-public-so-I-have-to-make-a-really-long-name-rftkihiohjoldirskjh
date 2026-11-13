@@ -1,0 +1,25 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: site.creators
+  size: 1
+  alias: person
+permalink: "/{{ person.slug }}/"
+eleventyComputed:
+  title: "{{ person.name }}"
+  description: "{{ person.name }}, {{ person.role }} of Global Mayhem."
+---
+<div class="wrap feed profile">
+  <article class="creator creator--page">
+    {% set linked = false %}{% include "creator-head.njk" %}
+  </article>
+  <section class="posts" data-posts="{{ person.slug }}" data-name="{{ person.name }}" data-handle="@{{ person.x }}" data-avatar="{{ person.avatar | url if person.avatar else '' }}">
+    <h2 class="label">Posts</h2>
+    <ol class="posts__list" data-posts-list></ol>
+    <p class="empty" data-posts-message>Loading.</p>
+  </section>
+</div>
+<script src="{{ '/assets/js/posts.js' | url }}?v={{ buildTime | version }}"></script>
+<script>
+mayhemPosts.show(document.querySelector("[data-posts]"));
+</script>

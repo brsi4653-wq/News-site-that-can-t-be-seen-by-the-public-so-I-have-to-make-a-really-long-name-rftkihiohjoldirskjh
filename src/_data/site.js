@@ -20,8 +20,11 @@ export default {
   socials: [{ name: "X", handle: "@GlobalMayhemCA", url: "https://x.com/GlobalMayhemCA" }],
   // People shown on the Creators page. "x" is their X username, without the @.
   // "avatar" and "banner" are pictures in src/assets/images/.
+  // "slug" is their page address: "simon" gives globalmayhem.org/simon/.
+  // A new slug must also be added to the list at the top of functions/api/posts.js.
   creators: [
     {
+      slug: "simon",
       name: "Simon",
       role: "CEO and Founder",
       x: "SimonofGM",
