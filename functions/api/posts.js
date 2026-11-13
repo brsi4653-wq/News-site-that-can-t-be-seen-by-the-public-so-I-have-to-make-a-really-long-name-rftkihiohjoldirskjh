@@ -1,9 +1,12 @@
-// Posts on a creator's own page (for example /simon/).
-//   GET  /api/posts?creator=simon     lists that creator's posts, newest first
+// Posts and replies on a creator's own page (for example /simon/).
+//   GET  /api/posts?creator=simon           lists the posts and their replies
 //   GET  /api/posts?creator=simon&check=1   checks the password (used by the login)
-//   POST /api/posts   { creator, action: "post", body }  or  { creator, action: "delete", id }
-// Writing needs the creator's own password, stored as a secret on the
-// Cloudflare Pages project. See PASSWORD_SECRETS below.
+//   POST /api/posts   { creator, action, ... }
+//     "post"          { body }               needs the password
+//     "delete"        { id }                 needs the password, removes a post and its replies
+//     "delete-reply"  { id }                 needs the password
+//     "reply"         { post, name, body, token }   open to everyone, with a spam check
+// The password is a secret on the Cloudflare Pages project. See PASSWORD_SECRETS below.
 
 // Only these page names can have posts. Keep in step with "creators" in
 // src/_data/site.js.
@@ -18,6 +21,9 @@ const MIN_PASSWORD = 7;
 const MAX_WRONG = 8; // wrong passwords allowed before that creator's login locks
 const LOCK_MINUTES = 15;
 const MAX_BODY = 1000;
+const MAX_NAME = 40;
+const MAX_REPLIES_PER_HOUR = 8; // from one sender
+const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
 const json = (data, status = 200) =>
   new Response(JSON.stringify(data), {
@@ -40,7 +46,58 @@ async function ready(env) {
     ),
     env.DB.prepare("CREATE INDEX IF NOT EXISTS creator_posts_creator ON creator_posts (creator, created_at)"),
     env.DB.prepare("CREATE TABLE IF NOT EXISTS creator_attempts (creator TEXT NOT NULL, at TEXT NOT NULL)"),
+    env.DB.prepare(
+      "CREATE TABLE IF NOT EXISTS creator_replies (id INTEGER PRIMARY KEY AUTOINCREMENT, post_id INTEGER NOT NULL, name TEXT NOT NULL, body TEXT NOT NULL, created_at TEXT NOT NULL, sender TEXT NOT NULL)"
+    ),
+    env.DB.prepare("CREATE INDEX IF NOT EXISTS creator_replies_post ON creator_replies (post_id, created_at)"),
   ]);
+}
+
+async function sha256(text) {
+  return [...(await digest(text))].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+// A reply from a reader. No password, but it has to pass the spam check
+// and one sender can only send a few per hour.
+async function reply(request, env, creator, data) {
+  if (!env.TURNSTILE_SECRET) return json({ error: "Replies are not switched on yet." }, 503);
+  const origin = request.headers.get("origin");
+  if (origin && new URL(origin).host !== new URL(request.url).host) return json({ error: "Not allowed." }, 403);
+  if (data.website) return json({ ok: true }); // hidden box only spam robots fill in
+
+  const postId = Number(data.post);
+  const name = clean(data.name).replace(/\s+/g, " ");
+  const body = clean(data.body);
+  if (!Number.isInteger(postId)) return json({ error: "Unknown post." }, 400);
+  if (!name || name.length > MAX_NAME) return json({ error: `Please enter a name of up to ${MAX_NAME} characters.` }, 400);
+  if (!body || body.length > MAX_BODY) return json({ error: `Replies can be up to ${MAX_BODY} characters.` }, 400);
+
+  const post = await env.DB.prepare("SELECT id FROM creator_posts WHERE id = ?1 AND creator = ?2").bind(postId, creator).first();
+  if (!post) return json({ error: "That post is gone." }, 404);
+
+  const ip = request.headers.get("cf-connecting-ip") || "";
+  const form = new FormData();
+  form.append("secret", env.TURNSTILE_SECRET);
+  form.append("response", String(data.token || ""));
+  if (ip) form.append("remoteip", ip);
+  const check = await fetch(env.TURNSTILE_VERIFY_URL || VERIFY_URL, { method: "POST", body: form });
+  const verdict = await check.json().catch(() => ({}));
+  if (!verdict.success) return json({ error: "The spam check did not pass. Please try again." }, 403);
+
+  // A scrambled code stands in for the address the reply came from, so
+  // floods can be limited without storing who the reader is.
+  const sender = await sha256(`${env.TURNSTILE_SECRET}|${ip}`);
+  const hourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const recent = await env.DB.prepare("SELECT COUNT(*) AS n FROM creator_replies WHERE sender = ?1 AND created_at > ?2")
+    .bind(sender, hourAgo)
+    .first();
+  if (recent && recent.n >= MAX_REPLIES_PER_HOUR) {
+    return json({ error: "You have sent several replies in a short time. Please try again later." }, 429);
+  }
+  await env.DB.prepare("INSERT INTO creator_replies (post_id, name, body, created_at, sender) VALUES (?1, ?2, ?3, ?4, ?5)")
+    .bind(postId, name, body, new Date().toISOString(), sender)
+    .run();
+  return json({ ok: true });
 }
 
 async function digest(text) {
@@ -88,7 +145,14 @@ export async function onRequestGet({ request, env }) {
   )
     .bind(creator)
     .all();
-  return json({ posts: results });
+  const replies = await env.DB.prepare(
+    "SELECT r.id, r.post_id, r.name, r.body, r.created_at FROM creator_replies r JOIN creator_posts p ON p.id = r.post_id WHERE p.creator = ?1 ORDER BY r.created_at ASC, r.id ASC LIMIT 2000"
+  )
+    .bind(creator)
+    .all();
+  const byPost = {};
+  for (const r of replies.results) (byPost[r.post_id] = byPost[r.post_id] || []).push(r);
+  return json({ posts: results.map((p) => ({ ...p, replies: byPost[p.id] || [] })) });
 }
 
 export async function onRequestPost({ request, env }) {
@@ -101,6 +165,7 @@ export async function onRequestPost({ request, env }) {
   const creator = String(data.creator || "").toLowerCase();
   if (!CREATORS.includes(creator)) return json({ error: "Unknown page." }, 400);
   await ready(env);
+  if (data.action === "reply") return reply(request, env, creator, data);
   const blocked = await guard(request, env, creator);
   if (blocked) return blocked;
 
@@ -114,7 +179,16 @@ export async function onRequestPost({ request, env }) {
   } else if (data.action === "delete") {
     const id = Number(data.id);
     if (!Number.isInteger(id)) return json({ error: "Unknown post." }, 400);
-    await env.DB.prepare("DELETE FROM creator_posts WHERE id = ?1 AND creator = ?2").bind(id, creator).run();
+    const gone = await env.DB.prepare("DELETE FROM creator_posts WHERE id = ?1 AND creator = ?2").bind(id, creator).run();
+    if (gone.meta && gone.meta.changes) await env.DB.prepare("DELETE FROM creator_replies WHERE post_id = ?1").bind(id).run();
+  } else if (data.action === "delete-reply") {
+    const id = Number(data.id);
+    if (!Number.isInteger(id)) return json({ error: "Unknown reply." }, 400);
+    await env.DB.prepare(
+      "DELETE FROM creator_replies WHERE id = ?1 AND post_id IN (SELECT id FROM creator_posts WHERE creator = ?2)"
+    )
+      .bind(id, creator)
+      .run();
   } else {
     return json({ error: "Unknown action." }, 400);
   }

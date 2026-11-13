@@ -27,15 +27,16 @@ eleventyComputed:
     <form class="xcompose" data-compose>
       <div class="xcompose__avatar">{% if person.avatar %}<img src="{{ person.avatar | url }}" alt="">{% endif %}</div>
       <div class="xcompose__main">
-        <textarea name="body" rows="4" maxlength="1000" placeholder="Write a post" aria-label="New post" required></textarea>
+        <textarea name="body" rows="4" maxlength="900" placeholder="Write a post" aria-label="New post" required></textarea>
+        <input class="xcompose__video" type="url" name="video" placeholder="Video link (YouTube or an X post), optional" aria-label="Video link">
         <div class="xcompose__row">
-          <span class="xcompose__count"><span data-count>0</span> / 1000</span>
+          <span class="xcompose__count"><span data-count>0</span> / 900</span>
           <button class="xghost" type="button" data-logout>Log out</button>
           <button class="xpost" type="submit">Post</button>
         </div>
       </div>
     </form>
-    <section data-posts="{{ person.slug }}" data-name="{{ person.name }}" data-handle="@{{ person.x }}" data-avatar="{{ person.avatar | url if person.avatar else '' }}">
+    <section data-posts="{{ person.slug }}" data-sitekey="{{ site.comments.turnstileSiteKey }}" data-name="{{ person.name }}" data-handle="@{{ person.x }}" data-avatar="{{ person.avatar | url if person.avatar else '' }}">
       <h2 class="visually-hidden">Your posts</h2>
       <ol class="xposts" data-posts-list></ol>
       <p class="xempty" data-posts-message></p>
@@ -73,12 +74,18 @@ eleventyComputed:
     message.textContent = text || "";
   }
   function refresh() {
-    mayhemPosts.show(feed, function (post) {
-      if (!window.confirm("Delete this post for good?")) return;
-      call("POST", "/api/posts", { creator: creator, action: "delete", id: post.id }).then(function (res) {
-        if (res.status === 401 || res.status === 429) return lock(res.data.error);
-        refresh();
-      });
+    var remove = function (action, question) {
+      return function (item) {
+        if (!window.confirm(question)) return;
+        call("POST", "/api/posts", { creator: creator, action: action, id: item.id }).then(function (res) {
+          if (res.status === 401 || res.status === 429) return lock(res.data.error);
+          refresh();
+        });
+      };
+    };
+    mayhemPosts.show(feed, {
+      deletePost: remove("delete", "Delete this post and its replies for good?"),
+      deleteReply: remove("delete-reply", "Delete this reply for good?"),
     });
   }
   function open() {
@@ -103,7 +110,10 @@ eleventyComputed:
     event.preventDefault();
     var button = compose.querySelector("button[type=submit]");
     button.disabled = true;
-    call("POST", "/api/posts", { creator: creator, action: "post", body: compose.elements.body.value }).then(function (res) {
+    var text = compose.elements.body.value.trim();
+    var video = compose.elements.video.value.trim();
+    if (video) text += "\n" + video;
+    call("POST", "/api/posts", { creator: creator, action: "post", body: text }).then(function (res) {
       button.disabled = false;
       if (res.status === 401 || res.status === 429) return lock(res.data.error);
       if (res.status !== 200) { message.textContent = res.data.error || "Could not post."; return; }

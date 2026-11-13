@@ -27,6 +27,7 @@ export default {
       slug: "simon",
       name: "Simon",
       role: "CEO and Founder",
+      bio: "This is the exclusive page for all my behind the scenes content.",
       x: "SimonofGM",
       avatar: "/assets/images/creator-simon.webp",
       banner: "/assets/images/creator-simon-banner.webp",

@@ -21,10 +21,12 @@ eleventyComputed:
     <h1 class="xname">{{ person.name }}</h1>
     <p class="xhandle">@{{ person.x }}</p>
     <p class="xbio">{{ person.role }} of <a href="{{ '/' | url }}">{{ site.name }}</a></p>
-    <p class="xmeta"><a href="{{ '/' | url }}">{{ site.url | replace("https://", "") }}</a></p>
+    {%- if person.bio %}
+    <p class="xbio">{{ person.bio }}</p>
+    {%- endif %}
   </div>
   <div class="xtabs"><span class="xtabs__on">Posts</span></div>
-  <section data-posts="{{ person.slug }}" data-name="{{ person.name }}" data-handle="@{{ person.x }}" data-avatar="{{ person.avatar | url if person.avatar else '' }}">
+  <section data-posts="{{ person.slug }}" data-sitekey="{{ site.comments.turnstileSiteKey }}" data-name="{{ person.name }}" data-handle="@{{ person.x }}" data-avatar="{{ person.avatar | url if person.avatar else '' }}">
     <h2 class="visually-hidden">Posts</h2>
     <ol class="xposts" data-posts-list></ol>
     <p class="xempty" data-posts-message>Loading.</p>
