@@ -155,7 +155,7 @@ Every story still needs a `section`, because it is part of the web address. The 
 
 ## Creators page
 
-`/creators/` shows one card per person listed under `creators` in `src/_data/site.js`. `functions/api/creators.js` reads each person's X profile (photo, banner, bio, latest post) and keeps the answer for one day, so the page follows X on its own. It needs a secret named `X_BEARER_TOKEN` on the Cloudflare Pages project (a Bearer Token from the X developer console). Without it the cards show the name, role and a Follow button only. The X usernames are listed in both files and must match.
+`/creators/` shows one card per person listed under `creators` in `src/_data/site.js`: name, role, X username, photo and banner. The pictures are files in `src/assets/images/`. To change one, replace the file and publish.
 
 ## Comments
 
