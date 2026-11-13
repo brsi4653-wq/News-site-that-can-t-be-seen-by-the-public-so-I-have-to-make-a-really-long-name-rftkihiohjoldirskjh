@@ -2,9 +2,9 @@
 export default {
   name: "Global Mayhem", // official and legal name: titles, footer, metadata
   displayName: "MAYHEM", // the name shown in the header and logo lockups
-  tagline: "The chaos, explained.",
+  tagline: "Film and content studio", // the short line under the name
   description:
-    "Global Mayhem is a Canadian film and content studio. Short films, and the making of them, in public. The chaos, explained.",
+    "Global Mayhem is a Canadian film and content studio. Films and video, made in Canada.",
   url: (process.env.SITE_URL || "https://globalmayhem.org").replace(/\/$/, ""),
   language: "en-CA",
   timezone: "America/Halifax", // Atlantic time, shown as AST or ADT
@@ -33,9 +33,10 @@ export default {
     turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || "0x4AAAAAAF9e08NmikhIxWmt",
   },
   // Motion and visual effects. Each name here switches one effect on.
-  // Choices: ticker, scramble, wipe, reveal, hover, progress, transitions, live, grain
-  effects: ["ticker", "scramble", "reveal", "progress", "live", "grain"],
-  allEffects: ["ticker", "scramble", "wipe", "reveal", "hover", "progress", "transitions", "live", "grain"],
+  // Choices: ticker, scramble, wipe, reveal, hover, progress, transitions, live, grain,
+  // intro (opening sequence), hero (big titles rise in), marquee (moving band), cursor (pink pointer)
+  effects: ["ticker", "scramble", "wipe", "reveal", "hover", "progress", "transitions", "live", "grain", "intro", "hero", "marquee", "cursor"],
+  allEffects: ["ticker", "scramble", "wipe", "reveal", "hover", "progress", "transitions", "live", "grain", "intro", "hero", "marquee", "cursor"],
   // Preview builds show every effect with an on/off panel. Never used on the real site.
   preview: process.env.PREVIEW_FX === "1",
   sections: [

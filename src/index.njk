@@ -4,18 +4,31 @@ layout: layouts/base.njk
 {%- set feature = collections.work | first %}
 <h1 class="visually-hidden">{{ site.name }}: film and content studio</h1>
 <section class="stage stage--home">
+  <div class="stage__mark" aria-hidden="true">{% set markClass = "" %}{% include "mark.njk" %}</div>
   <div class="wrap stage__inner">
     {%- if feature %}
     <p class="stage__tag">{% if feature.data.status %}<span class="stage__status">{{ feature.data.status }}</span> / {% endif %}{{ feature.data.kind or "Film" }}</p>
-    <h2 class="stage__title"><a href="{{ feature.url | url }}">{{ feature.data.title }}</a></h2>
+    <h2 class="stage__title" data-rise><a href="{{ feature.url | url }}">{{ feature.data.title }}</a></h2>
     {%- if feature.data.summary %}<p class="stage__summary">{{ feature.data.summary }}</p>{% endif %}
     <a class="button button--onDark" href="{{ feature.url | url }}">Watch</a>
     {%- else %}
-    <p class="stage__tag">Film and content studio</p>
-    <p class="stage__title">{{ site.tagline }}</p>
+    <p class="stage__tag" data-scramble>{{ site.tagline }}</p>
+    <p class="stage__title" data-rise>{{ site.name }}</p>
     {%- endif %}
   </div>
 </section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {%- for half in range(0, 2) %}
+    <div class="marquee__half">
+      {%- for rep in range(0, 4) %}
+      <span>Film</span>{% set markClass = "mark--black" %}{% include "mark.njk" %}<span>Content</span>{% include "mark.njk" %}<span>{{ site.name }}</span>{% include "mark.njk" %}
+      {%- endfor %}
+    </div>
+    {%- endfor %}
+  </div>
+</div>
 
 <div class="wrap feed">
   <section>
@@ -53,7 +66,7 @@ layout: layouts/base.njk
   <div class="wrap studio__inner">
     <div class="studio__text">
       <h2 class="label">The studio</h2>
-      <p class="studio__line">{{ site.name }} is a Canadian film and content studio.</p>
+      <p class="studio__line" data-rise>A Canadian film and content studio.</p>
       <a class="button" href="{{ '/about/' | url }}">About</a>
     </div>
     <div class="studio__contact">

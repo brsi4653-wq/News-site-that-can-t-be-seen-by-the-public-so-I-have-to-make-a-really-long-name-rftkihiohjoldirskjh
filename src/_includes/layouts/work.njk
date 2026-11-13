@@ -5,7 +5,7 @@ layout: layouts/base.njk
 <section class="stage">
   <div class="wrap stage__inner">
     <p class="stage__tag">{% if status %}<span class="stage__status">{{ status }}</span> / {% endif %}{{ kind or "Film" }}</p>
-    <h1 class="stage__title">{{ title }}</h1>
+    <h1 class="stage__title" data-rise>{{ title }}</h1>
     {%- if summary %}<p class="stage__summary">{{ summary }}</p>{% endif %}
     <ul class="stage__facts">
       {%- if length %}<li>{{ length }}</li>{% endif %}

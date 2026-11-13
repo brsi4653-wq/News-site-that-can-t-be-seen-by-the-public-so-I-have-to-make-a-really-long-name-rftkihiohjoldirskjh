@@ -65,6 +65,21 @@
 {%- elif "transitions" in site.effects %}
 <style>@view-transition { navigation: auto; }</style>
 {%- endif %}
+{%- if site.preview or "intro" in site.effects %}
+<script>
+// The opening sequence plays once per visit, on the first page opened.
+(function () {
+  var root = document.documentElement;
+  if (!root.classList.contains("fx-intro")) return;
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  try {
+    if (sessionStorage.getItem("mayhem-intro")) return;
+    sessionStorage.setItem("mayhem-intro", "1");
+  } catch (e) {}
+  root.classList.add("intro-play");
+})();
+</script>
+{%- endif %}
 {%- if site.preview or site.effects.length %}
 <script>
 // Note when a page arrives through a page-to-page transition, so the
@@ -78,6 +93,32 @@ addEventListener("pagereveal", function (e) {
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+{%- if site.preview or "intro" in site.effects %}
+<div class="intro" aria-hidden="true" data-intro>
+  <div class="intro__half intro__half--top"></div>
+  <div class="intro__half intro__half--bottom"></div>
+  <div class="intro__center">
+    <div class="intro__lock">
+      {% set markClass = "mark--pink" %}{% include "mark.njk" %}
+      <span class="intro__word">{% for letter in site.displayName %}<span style="--i: {{ loop.index0 }}">{{ letter }}</span>{% endfor %}</span>
+    </div>
+    <span class="intro__rule"></span>
+    <span class="intro__line">{{ site.tagline }}</span>
+  </div>
+  <div class="intro__flash"></div>
+</div>
+<script>
+(function () {
+  var root = document.documentElement;
+  var intro = document.querySelector("[data-intro]");
+  if (!root.classList.contains("intro-play")) return;
+  var done = function () { root.classList.add("intro-done"); };
+  setTimeout(done, 2500);
+  intro.addEventListener("click", done);
+  addEventListener("keydown", done, { once: true });
+})();
+</script>
+{%- endif %}
 
 <header class="masthead">
   <div class="wrap masthead__inner masthead__inner--nav">
@@ -122,7 +163,7 @@ addEventListener("pagereveal", function (e) {
   <div class="wrap footer__inner">
     <div class="footer__brand">
       {% set markClass = "mark--pink" %}{% include "mark.njk" %}
-      <span class="footer__tagline">{{ site.tagline }}</span>
+      <span class="footer__tagline">{{ site.name }}</span>
     </div>
     <nav class="footer__nav" aria-label="Site">
       <a href="{{ '/work/' | url }}">Work</a>

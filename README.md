@@ -1,6 +1,6 @@
 # Global Mayhem
 
-The site for Global Mayhem, a film and content studio. The name shown on the site is MAYHEM. Tagline: "The chaos, explained."
+The site for Global Mayhem, a film and content studio. The name shown on the site is MAYHEM.
 
 Global Mayhem started as a news site on November 11, 2026 and became a studio on November 13, 2026. The news stories are kept at `/archive/`.
 

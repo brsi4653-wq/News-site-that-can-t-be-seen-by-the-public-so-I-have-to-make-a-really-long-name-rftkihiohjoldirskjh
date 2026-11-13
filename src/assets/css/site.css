@@ -582,11 +582,99 @@ html.fx-grain body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* 10. Opening sequence: the mark drops in, the name rises, a pink flash,
+   then the black screen splits open. Plays once per visit. Click to skip. */
+.intro { display: none; }
+html.intro-play:not(.intro-done) { overflow: hidden; }
+html.intro-play:not(.intro-done) .intro { display: block; position: fixed; inset: 0; z-index: 100; cursor: pointer; }
+.intro__half { position: absolute; left: 0; right: 0; height: 50.5%; background: var(--blackout); animation: fx-intro-up 0.7s cubic-bezier(0.7, 0, 0.2, 1) 1.75s forwards; }
+.intro__half--top { top: 0; }
+.intro__half--bottom { bottom: 0; animation-name: fx-intro-down; }
+.intro__center {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.4vh;
+  color: var(--bone); animation: fx-intro-out 0.4s cubic-bezier(0.7, 0, 0.2, 1) 1.68s forwards;
+}
+.intro__lock { display: flex; align-items: center; gap: 2.5vw; }
+.intro .mark { width: clamp(60px, 14vw, 190px); height: auto; aspect-ratio: 92 / 64; overflow: visible; }
+.intro .mark polygon { transform-box: fill-box; transform-origin: center; animation: fx-intro-drop 0.55s cubic-bezier(0.2, 1.35, 0.3, 1) 0.1s both; }
+.intro .mark polygon:last-child { animation-delay: 0.22s; }
+.intro__word { display: flex; overflow: hidden; font-family: var(--font-display); font-size: clamp(64px, 17vw, 240px); line-height: 0.95; text-transform: uppercase; padding-top: 0.06em; }
+.intro__word span { display: inline-block; animation: fx-intro-letter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(0.45s + var(--i) * 0.06s); }
+.intro__rule { width: min(72vw, 980px); height: 6px; background: var(--riot-pink); transform: scaleX(0); transform-origin: left center; animation: fx-intro-rule 0.5s cubic-bezier(0.7, 0, 0.2, 1) 0.95s forwards; }
+.intro__line {
+  font-family: var(--font-mono); font-size: clamp(11px, 1.4vw, 17px); font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--muted-on-dark); clip-path: inset(0 100% 0 0); animation: fx-intro-type 0.45s steps(18) 1.05s forwards;
+}
+.intro__flash { position: absolute; inset: 0; background: var(--riot-pink); opacity: 0; animation: fx-intro-flash 0.2s steps(1) 1.52s; }
+@keyframes fx-intro-drop { from { transform: translateY(-110vh) rotate(-28deg); } to { transform: none; } }
+@keyframes fx-intro-letter { from { transform: translateY(110%); } to { transform: none; } }
+@keyframes fx-intro-rule { to { transform: scaleX(1); } }
+@keyframes fx-intro-type { to { clip-path: inset(0 0 0 0); } }
+@keyframes fx-intro-flash { 0% { opacity: 1; } 35% { opacity: 0; } 60% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes fx-intro-out { to { opacity: 0; transform: scale(1.3); } }
+@keyframes fx-intro-up { to { transform: translateY(-101%); } }
+@keyframes fx-intro-down { to { transform: translateY(101%); } }
+html.intro-play .stage { --fx-delay: 1.95s; }
+
+/* 11. Big titles rise in, and the outlined mark in the hero draws itself */
+.stage { position: relative; overflow: hidden; }
+.stage__inner { position: relative; }
+.stage__mark { position: absolute; right: -4vw; top: 8%; width: min(58vw, 760px); pointer-events: none; transform: translate(calc(var(--mx, 0) * -34px), calc(var(--my, 0) * -24px)); transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.stage__mark .mark { width: 100%; height: auto; overflow: visible; fill: none; stroke: var(--riot-pink); stroke-width: 0.4; stroke-linejoin: miter; opacity: 0.45; }
+html.fx-hero .stage__mark .mark { animation: fx-float 9s ease-in-out infinite alternate; }
+html.fx-hero .stage__mark polygon { stroke-dasharray: 260; stroke-dashoffset: 260; animation: fx-draw 1.8s cubic-bezier(0.6, 0, 0.2, 1) calc(var(--fx-delay, 0.1s) + 0.2s) forwards; }
+html.fx-hero .stage__mark polygon:last-child { animation-delay: calc(var(--fx-delay, 0.1s) + 0.45s); }
+@keyframes fx-draw { to { stroke-dashoffset: 0; } }
+@keyframes fx-float { from { transform: translateY(-10px) rotate(-1.5deg); } to { transform: translateY(14px) rotate(1.5deg); } }
+.rise-w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.1em 0.04em 0.16em; margin: -0.1em -0.04em -0.16em; }
+.rise-w > span { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  html.fx-hero [data-rise] { opacity: 0; animation: fx-show 0s 4s forwards; }
+  html.fx-hero [data-rise].is-split { opacity: 1; animation: none; }
+  html.fx-hero .rise-w > span { transform: translateY(125%); }
+  html.fx-hero .is-in .rise-w > span { animation: fx-rise-word 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(var(--fx-delay, 0.1s) + var(--i) * 0.08s); }
+  html.fx-hero .stage--home .stage__tag, html.fx-hero .stage--home .stage__summary, html.fx-hero .stage--home .button { animation: fx-fade-up 0.7s ease both; animation-delay: calc(var(--fx-delay, 0.1s) + 0.5s); }
+}
+@keyframes fx-show { to { opacity: 1; } }
+@keyframes fx-rise-word { from { transform: translateY(125%) rotate(6deg); } to { transform: none; } }
+@keyframes fx-fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* 12. Moving band under the hero */
+.marquee { display: none; }
+html.fx-marquee .marquee { display: block; overflow: hidden; background: var(--riot-pink); color: var(--blackout); border-top: 2px solid var(--blackout); border-bottom: 2px solid var(--blackout); }
+.marquee__track { display: flex; width: max-content; animation: fx-wire 38s linear infinite; }
+.marquee__half { display: flex; align-items: center; flex-shrink: 0; gap: clamp(18px, 3vw, 44px); padding: clamp(10px, 1.6vw, 20px) clamp(9px, 1.5vw, 22px); transform: skewX(var(--lean, 0deg)); }
+.marquee__half span { font-family: var(--font-display); text-transform: uppercase; font-size: clamp(30px, 5.4vw, 76px); line-height: 1; white-space: nowrap; }
+.marquee__half .mark { width: clamp(26px, 4vw, 56px); height: auto; aspect-ratio: 92 / 64; }
+
+/* 13. Pink pointer */
+.fxcursor {
+  position: fixed; left: -9px; top: -9px; width: 18px; height: 18px; border-radius: 50%; background: var(--riot-pink);
+  pointer-events: none; z-index: 90; opacity: 0; mix-blend-mode: difference;
+  transition: width 0.2s, height 0.2s, left 0.2s, top 0.2s, opacity 0.2s;
+}
+.fxcursor.is-on { opacity: 1; }
+.fxcursor.is-big { width: 64px; height: 64px; left: -32px; top: -32px; }
+
+/* More hover energy for the studio pages */
+html.fx-hover .nav a { transition: color 0.15s, border-color 0.2s, transform 0.2s; }
+html.fx-hover .nav a:hover { border-bottom-color: var(--riot-pink); transform: translateY(-2px); }
+html.fx-hover .film__frame img, html.fx-hover .film__frame .mark { transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
+html.fx-hover .film__link:hover .film__frame img { transform: scale(1.06); }
+html.fx-hover .film__link:hover .film__frame .mark { transform: scale(1.25) rotate(-6deg); }
+html.fx-hover .film__frame { transition: box-shadow 0.2s, transform 0.2s; }
+html.fx-hover .film__link:hover .film__frame { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--riot-pink); }
+html.fx-hover .stage__title a { transition: color 0.2s, text-shadow 0.2s; }
+html.fx-hover .stage__title a:hover { color: var(--bone); text-shadow: 5px 5px 0 var(--riot-pink); }
+html.fx-hover .footer__nav a { transition: color 0.15s, transform 0.2s; display: inline-block; }
+html.fx-hover .footer__nav a:hover { transform: translateY(-2px); }
+
 /* Readers who ask their device for less motion get none of the movement */
 @media (prefers-reduced-motion: reduce) {
   .wire__track, html[class*="fx-"] * , html[class*="fx-"] *::after { animation: none !important; transition: none !important; }
   html.fx-wipe .top__headline::after, html.fx-wipe .article__headline::after { display: none; }
   html.fx-reveal .fx-wait { opacity: 1; transform: none; }
+  html.fx-hero .stage__mark polygon { stroke-dashoffset: 0; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
 

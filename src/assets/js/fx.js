@@ -50,12 +50,98 @@
         watcher.unobserve(entry.target);
       });
     }, { rootMargin: "0px 0px -8% 0px" });
-    var targets = ".row, .article__figure, .pullquote, .article__body > h2, .tips, .panel, .comments, .xlink";
+    var targets = ".row, .article__figure, .pullquote, .article__body > h2, .tips, .panel, .comments, .xlink, .film, .sechead, .empty, .studio .button, .player";
     document.querySelectorAll(targets).forEach(function (el) {
       if (el.getBoundingClientRect().top < window.innerHeight) return; // already on screen
       el.classList.add("fx-wait");
       watcher.observe(el);
     });
+  }
+
+  // 11. Big titles rise in: each word slides up from behind a mask, one
+  // after the other, when the title comes into view.
+  if (has("hero")) {
+    var count;
+    var split = function (node) {
+      [].slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 1) return split(child);
+        if (child.nodeType !== 3 || !child.textContent.trim()) return;
+        var piece = document.createDocumentFragment();
+        child.textContent.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { piece.append(" "); return; }
+          var outer = document.createElement("span");
+          var inner = document.createElement("span");
+          outer.className = "rise-w";
+          inner.style.setProperty("--i", count++);
+          inner.textContent = part;
+          outer.append(inner);
+          piece.append(outer);
+        });
+        child.replaceWith(piece);
+      });
+    };
+    var riseWatcher = "IntersectionObserver" in window ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        riseWatcher.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -6% 0px" }) : null;
+    document.querySelectorAll("[data-rise]").forEach(function (el) {
+      el.setAttribute("aria-label", el.textContent.trim());
+      count = 0;
+      split(el);
+      el.classList.add("is-split");
+      if (riseWatcher) riseWatcher.observe(el); else el.classList.add("is-in");
+    });
+
+    // The big mark in the hero drifts a little against the pointer
+    var stageMark = document.querySelector(".stage__mark");
+    if (stageMark && matchMedia("(pointer: fine)").matches) {
+      addEventListener("mousemove", function (e) {
+        stageMark.style.setProperty("--mx", (e.clientX / innerWidth - 0.5).toFixed(3));
+        stageMark.style.setProperty("--my", (e.clientY / innerHeight - 0.5).toFixed(3));
+      }, { passive: true });
+    }
+  }
+
+  // 12. Moving band: leans in the direction of the scroll
+  var band = document.querySelector(".marquee__track");
+  if (has("marquee") && band) {
+    var lastY = scrollY, lean = 0, leaning = false;
+    var settle = function () {
+      lean *= 0.88;
+      band.style.setProperty("--lean", lean.toFixed(2) + "deg");
+      if (Math.abs(lean) > 0.05) requestAnimationFrame(settle);
+      else { leaning = false; band.style.setProperty("--lean", "0deg"); }
+    };
+    addEventListener("scroll", function () {
+      lean = Math.max(-14, Math.min(14, lean + (scrollY - lastY) * 0.12));
+      lastY = scrollY;
+      if (!leaning) { leaning = true; requestAnimationFrame(settle); }
+    }, { passive: true });
+  }
+
+  // 13. Pink pointer: a dot that trails the mouse and swells over links
+  if (has("cursor") && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    var dot = document.createElement("div");
+    dot.className = "fxcursor";
+    document.body.append(dot);
+    var tx = 0, ty = 0, x = 0, y = 0, shown = false;
+    var follow = function () {
+      x += (tx - x) * 0.22;
+      y += (ty - y) * 0.22;
+      dot.style.transform = "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px)";
+      requestAnimationFrame(follow);
+    };
+    addEventListener("mousemove", function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (!shown) { shown = true; x = tx; y = ty; dot.classList.add("is-on"); follow(); }
+      var over = e.target.closest && e.target.closest("a, button, label, input, textarea");
+      dot.classList.toggle("is-big", Boolean(over));
+    }, { passive: true });
+    document.addEventListener("mouseleave", function () { dot.classList.remove("is-on"); shown = false; });
   }
 
   // 6. Reading progress bar: a pink line across the top of a story that

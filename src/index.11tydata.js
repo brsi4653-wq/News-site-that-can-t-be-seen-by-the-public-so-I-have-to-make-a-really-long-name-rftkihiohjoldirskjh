@@ -24,7 +24,6 @@ export default {
             name: site.name,
             alternateName: site.displayName,
             url: site.url + "/",
-            slogan: site.tagline,
             logo: {
               "@type": "ImageObject",
               url: `${site.url}/assets/logo/mayhem-favicon-512.png`,
