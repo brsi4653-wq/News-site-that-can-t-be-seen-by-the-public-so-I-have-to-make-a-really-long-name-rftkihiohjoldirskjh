@@ -20,14 +20,19 @@ export default {
   socials: [{ name: "X", handle: "@GlobalMayhemCA", url: "https://x.com/GlobalMayhemCA" }],
   // People shown on the Creators page. "x" is their X username, without the @.
   // "avatar" and "banner" are pictures in src/assets/images/.
-  // "slug" is their page address: "simon" gives globalmayhem.org/simon/.
-  // A new slug must also be added to the list at the top of functions/api/posts.js.
+  // "slug" is their page address: "simon" gives globalmayhem.org/simon/. That page is a list of link buttons.
   creators: [
     {
       slug: "simon",
       name: "Simon",
       role: "CEO and Founder",
-      bio: "This is the exclusive page for all my behind the scenes content.",
+      // The buttons on their page, top to bottom. "note" is the small text on the right.
+      links: [
+        { name: "X", note: "@SimonofGM", url: "https://x.com/SimonofGM" },
+        { name: "Global Mayhem on X", note: "@GlobalMayhemCA", url: "https://x.com/GlobalMayhemCA" },
+        { name: "Global Mayhem", note: "globalmayhem.org", url: "/" },
+        { name: "Email", note: "contact@globalmayhem.org", url: "mailto:contact@globalmayhem.org" },
+      ],
       x: "SimonofGM",
       avatar: "/assets/images/creator-simon.webp",
       banner: "/assets/images/creator-simon-banner.webp",

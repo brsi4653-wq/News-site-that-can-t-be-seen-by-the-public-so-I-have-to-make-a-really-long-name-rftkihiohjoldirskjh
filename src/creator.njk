@@ -10,29 +10,21 @@ eleventyComputed:
   title: "{{ person.name }}"
   description: "{{ person.name }}, {{ person.role }} of Global Mayhem."
 ---
-<div class="x">
-  {% set backUrl = "/creators/" %}{% include "profile-top.njk" %}
-  <div class="xbanner">{% if person.banner %}<img src="{{ person.banner | url }}" alt="" width="1500" height="500">{% endif %}</div>
-  <div class="xhead">
-    <div class="xhead__row">
-      <div class="xavatar">{% if person.avatar %}<img src="{{ person.avatar | url }}" alt="{{ person.name }}" width="400" height="400">{% else %}{{ person.name | first }}{% endif %}</div>
-      <a class="xfollow" href="https://x.com/{{ person.x }}" rel="noopener">Follow on X</a>
-    </div>
-    <h1 class="xname">{{ person.name }}</h1>
-    <p class="xhandle">@{{ person.x }}</p>
-    <p class="xbio">{{ person.role }} of <a href="{{ '/' | url }}">{{ site.name }}</a></p>
-    {%- if person.bio %}
-    <p class="xbio">{{ person.bio }}</p>
-    {%- endif %}
-  </div>
-  <div class="xtabs"><span class="xtabs__on">Posts</span></div>
-  <section data-posts="{{ person.slug }}" data-sitekey="{{ site.comments.turnstileSiteKey }}" data-name="{{ person.name }}" data-handle="@{{ person.x }}" data-avatar="{{ person.avatar | url if person.avatar else '' }}">
-    <h2 class="visually-hidden">Posts</h2>
-    <ol class="xposts" data-posts-list></ol>
-    <p class="xempty" data-posts-message>Loading.</p>
-  </section>
+<div class="tree">
+  <a class="tree__back" href="{{ '/creators/' | url }}" aria-label="Back to Creators">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.4l5.3-5.3-1.4-1.4L3.6 12l7.7 7.7 1.4-1.4L7.4 13H20z"/></svg>
+  </a>
+  <div class="tree__avatar">{% if person.avatar %}<img src="{{ person.avatar | url }}" alt="{{ person.name }}" width="400" height="400">{% else %}{{ person.name | first }}{% endif %}</div>
+  <h1 class="tree__name">{{ person.name }}</h1>
+  <p class="tree__role">{{ person.role }} of {{ site.name }}</p>
+  <ul class="tree__links">
+    {%- for link in person.links %}
+    <li><a class="tree__link" href="{% if link.url.indexOf('/') == 0 %}{{ link.url | url }}{% else %}{{ link.url }}{% endif %}"{% if link.url.indexOf('http') == 0 %} rel="noopener"{% endif %}>
+      <span class="tree__linkname">{{ link.name }}</span>
+      {%- if link.note %}<span class="tree__linknote">{{ link.note }}</span>{% endif %}
+      <svg class="tree__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h12.6l-5.3-5.3 1.4-1.4L20.4 12l-7.7 7.7-1.4-1.4 5.3-5.3H4z"/></svg>
+    </a></li>
+    {%- endfor %}
+  </ul>
+  <a class="tree__home" href="{{ '/' | url }}">{% set markClass = "mark--pink" %}{% include "mark.njk" %}<span>{{ site.name }}</span></a>
 </div>
-<script src="{{ '/assets/js/posts.js' | url }}?v={{ buildTime | version }}"></script>
-<script>
-mayhemPosts.show(document.querySelector("[data-posts]"));
-</script>
