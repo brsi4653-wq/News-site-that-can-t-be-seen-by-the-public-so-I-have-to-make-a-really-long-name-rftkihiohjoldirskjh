@@ -34,8 +34,8 @@ export default {
         { name: "Email", note: "contact@globalmayhem.org", url: "mailto:contact@globalmayhem.org" },
       ],
       x: "SimonofGM",
-      avatar: "/assets/images/creator-simon.webp",
-      banner: "/assets/images/creator-simon-banner.webp",
+      avatar: "/assets/images/creator-simon-2.webp",
+      banner: "/assets/images/creator-simon-banner-2.webp",
     },
   ],
   // News section pages (from when this was a news site) are switched off for now.
