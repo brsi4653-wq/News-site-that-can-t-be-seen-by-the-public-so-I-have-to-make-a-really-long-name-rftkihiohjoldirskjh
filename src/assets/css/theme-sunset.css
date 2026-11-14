@@ -4,9 +4,8 @@
 
    TO GO BACK TO THE NORMAL LOOK:
    1. Delete this file.
-   2. Delete the folder src/assets/images/theme/ (the cut-outs from the supplied pictures).
-   3. Delete the one "theme-sunset.css" line in src/_includes/layouts/base.njk.
-   4. Publish. */
+   2. Delete the one "theme-sunset.css" line in src/_includes/layouts/base.njk.
+   3. Publish. */
 
 :root {
   --blackout: #231a3d;        /* night indigo, in place of black */
@@ -26,23 +25,31 @@ body { background: #fbeef0; }
 /* Header: night sky with a thin sunset line under it */
 .masthead { background: var(--sunset-night); border-bottom: 3px solid transparent; border-image: var(--sunset-band) 1; }
 
-/* Hero: sunset sky. The home page also gets the gas station cut out of the supplied pictures. */
+/* Hero: sunset sky. The home page gets a slow flowing sunset made only of
+   colour: soft drifting glows and rolling waves. No pictures are used. */
 .stage { background: var(--sunset-sky); color: #ffffff; }
-.stage--home {
+.stage--home { background: linear-gradient(180deg, #2e2260 0%, #5a3a8f 20%, #a04fa6 40%, #e8609a 56%, #ff8a6b 72%, #ffb86b 88%, #ffd59a 100%); }
+.stage--home .stage__inner { min-height: 72vh; z-index: 2; }
+.stage--home::before {
+  content: ""; position: absolute; inset: -25%; pointer-events: none;
   background:
-    url("/assets/images/theme/sunset-station.webp") right bottom / auto 84% no-repeat,
-    linear-gradient(0deg, #8a90d9 0, #8a90d9 5.5%, transparent 5.5%),
-    var(--sunset-sky);
+    radial-gradient(34% 30% at 68% 70%, rgba(255, 220, 150, 0.95), transparent 70%),
+    radial-gradient(42% 38% at 22% 58%, rgba(255, 94, 150, 0.75), transparent 70%),
+    radial-gradient(46% 42% at 82% 30%, rgba(150, 90, 225, 0.7), transparent 70%),
+    radial-gradient(40% 40% at 38% 22%, rgba(60, 44, 140, 0.8), transparent 70%);
+  filter: blur(40px); animation: sunset-flow 28s ease-in-out infinite alternate;
 }
-.stage--home .stage__inner { min-height: 72vh; }
-@media (max-width: 700px) {
-  .stage--home {
-    background:
-      url("/assets/images/theme/sunset-station.webp") right -150px bottom / auto 46% no-repeat,
-      linear-gradient(0deg, #8a90d9 0, #8a90d9 3%, transparent 3%),
-      var(--sunset-sky);
-  }
+.stage--home::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46%; z-index: 1; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 200' preserveAspectRatio='none'%3E%3Cpath fill='rgba(46,34,96,0.92)' d='M0 80C100 30 200 30 300 80S500 130 600 80S800 30 900 80S1100 130 1200 80V200H0Z'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 200' preserveAspectRatio='none'%3E%3Cpath fill='rgba(176,58,140,0.6)' d='M0 80C100 30 200 30 300 80S500 130 600 80S800 30 900 80S1100 130 1200 80V200H0Z'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 200' preserveAspectRatio='none'%3E%3Cpath fill='rgba(255,122,120,0.5)' d='M0 80C100 30 200 30 300 80S500 130 600 80S800 30 900 80S1100 130 1200 80V200H0Z'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 900px 46%, 1300px 70%, 1700px 100%;
+  background-position: 0 100%, 0 100%, 0 100%;
+  animation: sunset-waves 60s linear infinite;
 }
+@keyframes sunset-flow { from { transform: translate3d(-3%, -2%, 0) rotate(-3deg) scale(1); } to { transform: translate3d(3%, 3%, 0) rotate(4deg) scale(1.12); } }
+@keyframes sunset-waves { to { background-position: -900px 100%, 1300px 100%, -1700px 100%; } }
+@media (prefers-reduced-motion: reduce) { .stage--home::before, .stage--home::after { animation: none; } }
 .stage__title, .stage__title a { color: #ffffff; text-shadow: 0 3px 0 rgba(35, 26, 61, 0.4); }
 .stage__tag { color: #ffffff; text-shadow: 0 1px 10px rgba(35, 26, 61, 0.6); }
 .stage__status { color: #ffe1c7; }
