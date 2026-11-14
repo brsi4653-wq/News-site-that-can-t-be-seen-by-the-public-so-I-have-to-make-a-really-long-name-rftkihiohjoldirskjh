@@ -119,7 +119,8 @@ addEventListener("pagereveal", function (e) {
   var intro = document.querySelector("[data-intro]");
   if (!root.classList.contains("intro-play")) return;
   var done = function () { root.classList.add("intro-done"); };
-  setTimeout(done, 2500);
+  // Length of the sequence. A theme can lengthen it by setting --intro-time (in milliseconds).
+  setTimeout(done, parseInt(getComputedStyle(root).getPropertyValue("--intro-time"), 10) || 2500);
   intro.addEventListener("click", done);
   addEventListener("keydown", done, { once: true });
 })();
