@@ -1,0 +1,50 @@
+/* TEMPORARY THEME: sunset.
+   Sits on top of site.css and changes colours and backgrounds only.
+   The normal look is untouched underneath (last normal commit: 4932131).
+
+   TO GO BACK TO THE NORMAL LOOK:
+   1. Delete this file.
+   2. Delete the folder src/assets/images/theme/.
+   3. Delete the one "theme-sunset.css" line in src/_includes/layouts/base.njk.
+   4. Publish. */
+
+:root {
+  --blackout: #231a3d;        /* night indigo, in place of black */
+  --bone: #fdf1ea;            /* pale peach, in place of bone */
+  --rule: #e6cfd8;
+  --muted: #5f5370;
+  --muted-on-dark: #cbc0e6;
+  --summary-on-dark: #ece3f7;
+  --sunset-sky: linear-gradient(180deg, #3b2f6e 0%, #725d9f 26%, #b986cc 50%, #de96ca 68%, #f8a392 86%, #ffc39a 100%);
+  --sunset-band: linear-gradient(90deg, #ff2e88 0%, #ff6f8b 45%, #ff9273 100%);
+  --sunset-night: linear-gradient(180deg, #231a3d 0%, #3b2f6e 100%);
+  --sunset-water: linear-gradient(180deg, #d3ece1 0%, #a9d2cf 55%, #75a9c6 100%);
+}
+
+body { background: #fbeef0; }
+
+/* Header: night sky with a thin sunset line under it */
+.masthead { background: var(--sunset-night); border-bottom: 3px solid transparent; border-image: var(--sunset-band) 1; }
+
+/* Hero: sunset sky. The home page also gets the skyline and palms. */
+.stage { background: var(--sunset-sky); color: #ffffff; }
+.stage--home { background: url("/assets/images/theme/sunset-scene.svg") center bottom / cover no-repeat, var(--sunset-sky); }
+.stage--home .stage__inner { min-height: 70vh; }
+.stage__title, .stage__title a { color: #ffffff; text-shadow: 0 3px 0 rgba(35, 26, 61, 0.35), 0 0 34px rgba(35, 26, 61, 0.45); }
+.stage__tag { color: #ffffff; text-shadow: 0 1px 10px rgba(35, 26, 61, 0.6); }
+.stage__status { color: #ffe1c7; }
+.stage__summary { color: #ffffff; }
+.stage__mark .mark { stroke: #ffffff; opacity: 0.4; }
+
+/* Moving band: pink into sunset orange */
+html.fx-marquee .marquee { background: var(--sunset-band); }
+
+/* Studio block: the teal water */
+.studio { background: var(--sunset-water); border-top: 0; }
+
+/* Footer: night sky */
+.footer { background: var(--sunset-night); border-top: 3px solid transparent; border-image: var(--sunset-band) 1; }
+.socials { border-top-color: rgba(203, 192, 230, 0.3); }
+
+/* Dark cards pick up the night colour */
+.creator__banner { background: #3b2f6e; }

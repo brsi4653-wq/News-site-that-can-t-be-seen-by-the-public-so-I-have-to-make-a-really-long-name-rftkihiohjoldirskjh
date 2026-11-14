@@ -51,6 +51,8 @@
 <link rel="stylesheet" href="{{ '/assets/css/profile.css' | url }}?v={{ buildTime | version }}">
 {%- else %}
 <link rel="stylesheet" href="{{ '/assets/css/site.css' | url }}?v={{ buildTime | version }}">
+{# Temporary sunset theme. Delete this one line (and the theme files) to go back to the normal look. #}
+<link rel="stylesheet" href="{{ '/assets/css/theme-sunset.css' | url }}?v={{ buildTime | version }}">
 {%- endif %}
 {%- if schema %}
 <script type="application/ld+json">{{ schema | jsonld | safe }}</script>
