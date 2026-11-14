@@ -380,6 +380,9 @@ img { max-width: 100%; height: auto; display: block; }
 .studio__contact .xlink, .contact .xlink { margin-top: 0; }
 .contact { display: flex; flex-direction: column; gap: 16px; }
 .xlink__handle--email { font-size: clamp(20px, 4.4vw, 40px); }
+.contact__intro { font-family: var(--font-body); font-size: clamp(19px, 2vw, 24px); line-height: 1.45; margin: 0; max-width: 30em; }
+.contact__note { font-family: var(--font-body); font-size: 17px; color: var(--muted); margin: -6px 0 14px; }
+.contact .xlink { max-width: 720px; }
 @media (min-width: 1000px) {
   .studio__inner { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 72px; align-items: end; padding-top: 64px; padding-bottom: 88px; }
 }
