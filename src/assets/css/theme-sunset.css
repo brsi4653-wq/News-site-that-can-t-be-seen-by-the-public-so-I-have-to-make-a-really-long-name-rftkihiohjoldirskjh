@@ -68,26 +68,3 @@ html.fx-marquee .marquee { background: var(--sunset-band); }
 
 /* Dark cards pick up the night colour */
 .creator__banner { background: #3b2f6e; }
-
-/* Neon logo. The header logo turns into a neon sign while the pointer is on it.
-   Steady glow only: it fades on and off, it never flickers or flashes. */
-.lockup { transition: filter 0.3s ease; }
-.lockup .mark { overflow: visible; stroke: transparent; stroke-width: 3.2; stroke-linejoin: round; transition: fill 0.3s ease, stroke 0.3s ease; }
-.lockup__word { -webkit-text-stroke: 1.3px transparent; transition: color 0.3s ease, -webkit-text-stroke-color 0.3s ease; }
-.lockup:hover, .lockup:focus-visible { filter: drop-shadow(0 0 2px #ff5aa2) drop-shadow(0 0 7px #ff2e88) drop-shadow(0 0 18px rgba(255, 46, 136, 0.8)); }
-.lockup:hover .mark, .lockup:focus-visible .mark { fill: transparent; stroke: #fff5fa; }
-.lockup:hover .lockup__word, .lockup:focus-visible .lockup__word { color: transparent; -webkit-text-stroke-color: #fff5fa; }
-
-/* Neon logo in the opening sequence: once the name has landed it fades into
-   the neon sign, holds for about a second, then the screen splits as usual. */
-:root { --intro-time: 3500; }
-.intro__half { animation-delay: 2.75s; }
-.intro__center { animation-delay: 2.68s; }
-.intro__lock { animation: sunset-neon-glow 0.45s ease 1.35s forwards; }
-.intro .mark { stroke: transparent; stroke-width: 1.5; stroke-linejoin: round; }
-.intro .mark polygon { animation: fx-intro-drop 0.55s cubic-bezier(0.2, 1.35, 0.3, 1) 0.1s both, sunset-neon-shape 0.45s ease 1.35s forwards; }
-.intro .mark polygon:last-child { animation-delay: 0.22s, 1.35s; }
-.intro__word span { -webkit-text-stroke: 0.014em transparent; animation: fx-intro-letter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both, sunset-neon-text 0.45s ease forwards; animation-delay: calc(0.45s + var(--i) * 0.06s), 1.35s; }
-@keyframes sunset-neon-glow { to { filter: drop-shadow(0 0 4px #ff5aa2) drop-shadow(0 0 16px #ff2e88) drop-shadow(0 0 44px rgba(255, 46, 136, 0.75)); } }
-@keyframes sunset-neon-shape { to { fill: transparent; stroke: #fff5fa; } }
-@keyframes sunset-neon-text { to { color: transparent; -webkit-text-stroke-color: #fff5fa; } }
