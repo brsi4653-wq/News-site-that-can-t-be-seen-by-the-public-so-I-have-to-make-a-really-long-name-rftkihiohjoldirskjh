@@ -26,13 +26,12 @@ body { background: #fbeef0; }
 /* Header: night sky with a thin sunset line under it */
 .masthead { background: var(--sunset-night); border-bottom: 3px solid transparent; border-image: var(--sunset-band) 1; }
 
-/* Hero: sunset sky. The home page also gets the palms and gas station cut out of the supplied pictures. */
+/* Hero: sunset sky. The home page also gets the gas station cut out of the supplied pictures. */
 .stage { background: var(--sunset-sky); color: #ffffff; }
 .stage--home {
   background:
     url("/assets/images/theme/sunset-station.webp") right bottom / auto 84% no-repeat,
     linear-gradient(0deg, #8a90d9 0, #8a90d9 5.5%, transparent 5.5%),
-    url("/assets/images/theme/sunset-palms.webp") left bottom / auto 88% no-repeat,
     var(--sunset-sky);
 }
 .stage--home .stage__inner { min-height: 72vh; }
@@ -41,7 +40,6 @@ body { background: #fbeef0; }
     background:
       url("/assets/images/theme/sunset-station.webp") right -150px bottom / auto 46% no-repeat,
       linear-gradient(0deg, #8a90d9 0, #8a90d9 3%, transparent 3%),
-      url("/assets/images/theme/sunset-palms.webp") left -60px bottom 20% / auto 46% no-repeat,
       var(--sunset-sky);
   }
 }
